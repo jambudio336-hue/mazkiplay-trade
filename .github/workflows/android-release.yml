@@ -1,0 +1,143 @@
+name: Android Release
+
+# Builds the Mazkiplay Trade release APK and attaches it to a GitHub Release.
+#
+# Design notes:
+#  * Gradle is downloaded directly instead of using the wrapper, so the repository
+#    carries no binary blob at all - everything committed is human-readable text.
+#  * Launcher icons and splash artwork are rasterised during the build from the
+#    vector source in app/src/main/assets, which keeps all bitmap sizes consistent
+#    and removes ~800 KB of binaries from the repository.
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build & Release APK
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install SDK packages
+        run: |
+          sdkmanager --install "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+          yes | sdkmanager --licenses || true
+
+      - name: Install Gradle 8.9
+        run: |
+          set -euo pipefail
+          curl -sSL -o /tmp/gradle.zip https://services.gradle.org/distributions/gradle-8.9-bin.zip
+          unzip -q /tmp/gradle.zip -d /opt
+          echo "/opt/gradle-8.9/bin" >> "$GITHUB_PATH"
+          /opt/gradle-8.9/bin/gradle --version
+
+      - name: Install image tooling
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq librsvg2-bin
+
+      - name: Generate launcher icons and splash art
+        run: |
+          chmod +x tools/generate-icons.sh
+          ./tools/generate-icons.sh
+
+      - name: Prepare release keystore
+        run: |
+          set -euo pipefail
+          mkdir -p keystore
+          if [ -n "${{ secrets.KEYSTORE_BASE64 }}" ]; then
+            echo "Using keystore from repository secrets."
+            printf '%s' "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > keystore/release.jks
+          else
+            echo "No KEYSTORE_BASE64 secret found - generating a self-signed demo keystore."
+            keytool -genkeypair -v \
+              -keystore keystore/release.jks \
+              -alias mazkiplay \
+              -keyalg RSA -keysize 2048 -validity 10950 \
+              -storepass mazkiplay123 -keypass mazkiplay123 \
+              -dname "CN=Mazkiplay Trade, OU=Mobile, O=Nusantara Forex, L=Jakarta, ST=DKI Jakarta, C=ID"
+          fi
+
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle.kts', 'gradle.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
+      - name: Build debug APK (sanity check)
+        run: gradle :app:assembleDebug --no-daemon --stacktrace
+
+      - name: Build release APK
+        run: gradle :app:assembleRelease --no-daemon --stacktrace
+
+      - name: Locate build output
+        id: apk
+        run: |
+          set -euo pipefail
+          APK=$(find app/build/outputs/apk/release -name "*.apk" -type f | head -n 1)
+          if [ -z "$APK" ]; then
+            echo "::error::Release APK not found"
+            ls -R app/build/outputs || true
+            exit 1
+          fi
+          NAME="mazkiplay-trade-${GITHUB_REF_NAME//\//-}.apk"
+          cp "$APK" "app/build/outputs/apk/release/$NAME"
+          echo "apk_path=app/build/outputs/apk/release/$NAME" >> "$GITHUB_OUTPUT"
+          echo "apk_name=$NAME" >> "$GITHUB_OUTPUT"
+          ls -lh app/build/outputs/apk/release/
+
+      - name: Upload release APK as workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mazkiplay-trade-apk
+          path: app/build/outputs/apk/release/*.apk
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload debug APK as workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mazkiplay-trade-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Publish GitHub Release (tags only)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Mazkiplay Trade ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          files: |
+            app/build/outputs/apk/release/${{ steps.apk.outputs.apk_name }}

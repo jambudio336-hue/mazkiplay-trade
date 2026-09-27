@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mazkiplay Trade</string>
+    <string name="app_brand">Nusantara Forex</string>
+    <string name="app_tagline">Trading cerdas, analisa otomatis</string>
+    <string name="app_signature">By.mazkiplayTrade</string>
+    <string name="notification_channel_price">Pergerakan Harga</string>
+    <string name="notification_channel_news">Berita Ekonomi</string>
+    <string name="notification_channel_alarm">Alarm Entry</string>
+    <string name="notification_channel_desc">Notifikasi real-time Mazkiplay Trade</string>
+</resources>

@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#071523"/>
+      <stop offset="0.42" stop-color="#0E2C40"/>
+      <stop offset="0.72" stop-color="#12485C"/>
+      <stop offset="1" stop-color="#061019"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.34" r="0.55">
+      <stop offset="0" stop-color="#F2C230" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#F2C230" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFE9A3"/>
+      <stop offset="0.5" stop-color="#F2C230"/>
+      <stop offset="1" stop-color="#B8860B"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1080" height="1920" fill="url(#sky)"/>
+  <rect width="1080" height="1920" fill="url(#glow)"/>
+
+  <!-- distant islands silhouettes -->
+  <g fill="#04101A" opacity="0.85">
+    <path d="M0 1230 q120 -74 240 -6 q96 54 190 -12 q110 -78 226 -10 q104 62 224 6 q90 -42 200 -8 v230 H0 Z"/>
+    <path d="M0 1320 q150 -50 300 6 q140 52 286 4 q150 -50 300 8 q100 38 194 4 v190 H0 Z" opacity="0.7"/>
+  </g>
+
+  <!-- sea waves -->
+  <g opacity="0.6" fill="none" stroke-width="7" stroke-linecap="round">
+    <path d="M0 1420 q135 -46 270 0 t270 0 t270 0 t270 0" stroke="#22D3EE" opacity="0.55"/>
+    <path d="M0 1490 q135 -46 270 0 t270 0 t270 0 t270 0" stroke="#22C55E" opacity="0.45"/>
+    <path d="M0 1560 q135 -46 270 0 t270 0 t270 0 t270 0" stroke="#22D3EE" opacity="0.3"/>
+  </g>
+
+  <!-- candlestick chart rising across the sky -->
+  <g opacity="0.9">
+    <g stroke="#22C55E" stroke-width="7" opacity="0.85">
+      <line x1="150" y1="880" x2="150" y2="1040"/>
+      <line x1="290" y1="820" x2="290" y2="1000"/>
+      <line x1="430" y1="760" x2="430" y2="950"/>
+      <line x1="570" y1="690" x2="570" y2="900"/>
+      <line x1="710" y1="620" x2="710" y2="840"/>
+      <line x1="850" y1="540" x2="850" y2="790"/>
+      <line x1="960" y1="470" x2="960" y2="740"/>
+    </g>
+    <g fill="#22C55E">
+      <rect x="122" y="930" width="56" height="86" rx="8"/>
+      <rect x="262" y="870" width="56" height="94" rx="8"/>
+      <rect x="402" y="812" width="56" height="102" rx="8"/>
+      <rect x="542" y="748" width="56" height="110" rx="8"/>
+      <rect x="682" y="676" width="56" height="120" rx="8"/>
+      <rect x="822" y="600" width="56" height="130" rx="8"/>
+      <rect x="936" y="520" width="56" height="146" rx="8" fill="url(#gold)"/>
+    </g>
+    <polyline points="150,1010 290,960 430,910 570,860 710,800 850,740 960,660"
+              fill="none" stroke="#F2C230" stroke-width="9"
+              stroke-dasharray="24 18" opacity="0.95"/>
+  </g>
+
+  <!-- centre emblem -->
+  <circle cx="540" cy="380" r="168" fill="none" stroke="url(#gold)" stroke-width="5" opacity="0.5"/>
+  <circle cx="540" cy="380" r="132" fill="url(#gold)" opacity="0.95"/>
+  <polyline points="470,420 512,364 552,392 600,318 630,336"
+            fill="none" stroke="#071523" stroke-width="18"
+            stroke-linecap="round" stroke-linejoin="round"/>
+  <polygon points="600,318 642,306 630,350" fill="#071523"/>
+  <text x="540" y="668" font-family="DejaVu Sans, Helvetica, Arial, sans-serif"
+        font-size="62" font-weight="bold" fill="#F2C230" text-anchor="middle"
+        letter-spacing="10">NUSANTARA FOREX</text>
+</svg>
