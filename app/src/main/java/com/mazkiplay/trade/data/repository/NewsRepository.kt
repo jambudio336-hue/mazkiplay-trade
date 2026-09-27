@@ -57,7 +57,7 @@ class NewsRepository(
         if (fetched.isNotEmpty()) {
             val fresh = fetched.filter { it.id !in knownIds }
             knownIds = knownIds + fetched.map { it.id }
-            if (knownIds.size > 400) knownIds = knownIds.takeLast(400).toSet()
+            if (knownIds.size > 400) knownIds = knownIds.toList().takeLast(400).toSet()
             _news.value = fetched
             _newIds.value = fresh.map { it.id }.toSet()
             _lastUpdated.value = System.currentTimeMillis()
