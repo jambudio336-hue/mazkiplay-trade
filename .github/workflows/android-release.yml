@@ -3,6 +3,11 @@ name: Android Release
 # Builds the Mazkiplay Trade release APK and attaches it to a GitHub Release.
 #
 # Design notes:
+#  * The Android SDK is used straight from the runner image (and, if absent, is
+#    bootstrapped explicitly). The previous revision leaned on
+#    android-actions/setup-android@v3, whose entry point crashes while probing for
+#    a "tools" package and aborted every run before the build even started.
+#    Nothing here depends on that action any more.
 #  * Gradle is downloaded directly instead of using the wrapper, so the repository
 #    carries no binary blob at all - everything committed is human-readable text.
 #  * Launcher icons and splash artwork are rasterised during the build from the
@@ -41,12 +46,35 @@ jobs:
           java-version: '17'
 
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+        run: |
+          set -euo pipefail
+          SDK="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          if [ ! -d "$SDK" ]; then
+            SDK="$HOME/android-sdk"
+          fi
+          mkdir -p "$SDK/cmdline-tools"
+          CMDLINE=$(find "$SDK/cmdline-tools" -maxdepth 3 -name sdkmanager -type f 2>/dev/null | head -n1 || true)
+          if [ -z "$CMDLINE" ]; then
+            echo "sdkmanager not found - downloading the Android command line tools."
+            curl -sSL -o /tmp/cmdline-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
+            rm -rf /tmp/cmdline-tmp
+            unzip -q /tmp/cmdline-tools.zip -d /tmp/cmdline-tmp
+            rm -rf "$SDK/cmdline-tools/latest"
+            mv /tmp/cmdline-tmp/cmdline-tools "$SDK/cmdline-tools/latest"
+            CMDLINE="$SDK/cmdline-tools/latest/bin/sdkmanager"
+          fi
+          echo "Using sdkmanager: $CMDLINE"
+          echo "ANDROID_SDK_ROOT=$SDK" >> "$GITHUB_ENV"
+          echo "ANDROID_HOME=$SDK" >> "$GITHUB_ENV"
+          echo "$(dirname "$CMDLINE")" >> "$GITHUB_PATH"
 
       - name: Install SDK packages
         run: |
+          set +e
           sdkmanager --install "platform-tools" "platforms;android-35" "build-tools;35.0.0"
-          yes | sdkmanager --licenses || true
+          yes | sdkmanager --licenses > /dev/null 2>&1
+          sdkmanager --list_installed | head -n 40
+          exit 0
 
       - name: Install Gradle 8.9
         run: |
