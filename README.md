@@ -12,12 +12,17 @@ copy trade, dan notifikasi. Ditulis dengan **Kotlin + Jetpack Compose (Material 
 
 ## ⬇️ Unduh APK Release
 
-| Versi | Berkas | Tautan |
-|-------|--------|--------|
-| v1.0.0 | `mazkiplay-trade-v1.0.0.apk` | **[Unduh dari GitHub Releases](https://github.com/jambudio336-hue/mazkiplay-trade/releases/tag/v1.0.0)** |
+| Versi | Berkas | Ukuran | Unduh langsung |
+|-------|--------|--------|----------------|
+| **v1.0.0** | `mazkiplay-trade-v1.0.0.apk` | 13,5 MB | **[⬇️ Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v1.0.0/mazkiplay-trade-v1.0.0.apk)** |
 
-Semua rilis tersedia di halaman **[Releases](https://github.com/jambudio336-hue/mazkiplay-trade/releases)**.
-APK juga diunggah sebagai *workflow artifact* pada setiap build.
+- Halaman rilis: **[Releases v1.0.0](https://github.com/jambudio336-hue/mazkiplay-trade/releases/tag/v1.0.0)**
+- Semua rilis: **[github.com/jambudio336-hue/mazkiplay-trade/releases](https://github.com/jambudio336-hue/mazkiplay-trade/releases)**
+- APK ditandatangani dengan `CN=Mazkiplay Trade, OU=Mobile, O=Nusantara Forex, C=ID` (RSA 2048)
+- SHA-256 APK: `d415ef271494d513f23f3d974c3b311ae99578929975ebbf9349db2b1b4535b8`
+
+APK juga diunggah sebagai *workflow artifact* pada setiap build
+(**Actions → Android Release → run terbaru → Artifacts**).
 
 ---
 
