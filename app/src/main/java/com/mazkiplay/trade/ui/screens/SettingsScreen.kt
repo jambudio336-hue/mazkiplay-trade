@@ -1,6 +1,7 @@
 package com.mazkiplay.trade.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,20 +11,31 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
+import com.mazkiplay.trade.R
 import com.mazkiplay.trade.MazkiplayApp
 import com.mazkiplay.trade.data.repository.UserPreferences
 import com.mazkiplay.trade.ui.components.Pill
@@ -42,6 +54,8 @@ fun SettingsScreen(app: MazkiplayApp, prefs: UserPreferences) {
     val s = stringsOf(prefs)
     val vm = settingsViewModel(app)
     val current by vm.preferences.collectAsState()
+    var showDonation by remember { mutableStateOf(false) }
+    val clipboard = LocalClipboardManager.current
 
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
@@ -239,6 +253,27 @@ fun SettingsScreen(app: MazkiplayApp, prefs: UserPreferences) {
         }
 
         item {
+            SectionCard(
+                title = "Donasi untuk Pengembangan APK",
+                subtitle = "Dukung server, data pasar, dan pembaruan fitur",
+                modifier = Modifier.clickable { showDonation = true }
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(
+                        painter = painterResource(R.drawable.dana_logo),
+                        contentDescription = "Logo DANA",
+                        modifier = Modifier.size(64.dp)
+                    )
+                    Spacer(Modifier.height(1.dp))
+                    Column(Modifier.padding(start = 12.dp).weight(1f)) {
+                        Text("Bantu Mazkiplay Trade tetap aktif", fontWeight = FontWeight.Bold)
+                        Text("Ketuk untuk melihat cara donasi dan kontak developer.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                }
+            }
+        }
+
+        item {
             SectionCard(title = s.about, subtitle = AppConstants.TAGLINE) {
                 Column {
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -256,6 +291,40 @@ fun SettingsScreen(app: MazkiplayApp, prefs: UserPreferences) {
         }
 
         item { Spacer(Modifier.height(16.dp)) }
+    }
+
+    if (showDonation) {
+        AlertDialog(
+            onDismissRequest = { showDonation = false },
+            icon = {
+                Image(
+                    painter = painterResource(R.drawable.dana_logo),
+                    contentDescription = "Logo DANA",
+                    modifier = Modifier.size(82.dp)
+                )
+            },
+            title = { Text("Donasi untuk Pengembangan") },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text("Dukungan Anda membantu biaya server, pemeliharaan koneksi data pasar real-time, keamanan, dan pengembangan fitur baru Mazkiplay Trade.")
+                    Text("Cara donasi", fontWeight = FontWeight.Bold)
+                    Text("1. Buka aplikasi DANA.\n2. Pilih Kirim.\n3. Masukkan nomor DANA di bawah.\n4. Periksa nama penerima sebelum mengonfirmasi transaksi.")
+                    Text("Nomor DANA", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(AppConstants.DONATION_DANA, style = MaterialTheme.typography.headlineSmall, color = Gold, fontWeight = FontWeight.Bold)
+                    Text("Developer: ${AppConstants.DEVELOPER_NAME}", style = MaterialTheme.typography.bodySmall)
+                    Text("Email: ${AppConstants.DEVELOPER_EMAIL}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text("Pastikan nama penerima dan nominal sudah benar. Donasi bersifat sukarela dan tidak memengaruhi akses fitur aplikasi.", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+            },
+            confirmButton = {
+                Button(onClick = { clipboard.setText(AnnotatedString(AppConstants.DONATION_DANA)) }) {
+                    Text("Salin nomor")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDonation = false }) { Text("Tutup") }
+            }
+        )
     }
 }
 

@@ -14,6 +14,7 @@ RES="$ROOT/app/src/main/res"
 ASSETS="$ROOT/app/src/main/assets"
 LOGO="$ASSETS/nusantara_logo.svg"
 SPLASH="$ASSETS/nusantara_splash.svg"
+SPLASH_PHOTO="$ASSETS/splash_photo.png"
 
 if [ ! -f "$LOGO" ]; then
   echo "Logo vector not found at $LOGO" >&2
@@ -46,7 +47,11 @@ rsvg-convert -w 512 -h 512 "$LOGO" -o "$RES/drawable-nodpi/logo_nusantara.png"
 echo "generated drawable-nodpi/logo_nusantara.png"
 
 # Splash hero banner, rendered straight to a portrait bitmap.
-if [ -f "$SPLASH" ]; then
+if [ -f "$SPLASH_PHOTO" ]; then
+  # The supplied portrait is the first-launch artwork requested by the product owner.
+  cp "$SPLASH_PHOTO" "$RES/drawable-nodpi/splash_hero.png"
+  echo "copied supplied splash photo to drawable-nodpi/splash_hero.png"
+elif [ -f "$SPLASH" ]; then
   rsvg-convert -w 1080 -h 1920 "$SPLASH" -o "$RES/drawable-nodpi/splash_hero.png"
   echo "generated drawable-nodpi/splash_hero.png"
 fi

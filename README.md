@@ -14,10 +14,10 @@ copy trade, dan notifikasi. Ditulis dengan **Kotlin + Jetpack Compose (Material 
 
 | Versi | Berkas | Ukuran | Unduh langsung |
 |-------|--------|--------|----------------|
-| **v1.1.0** | `mazkiplay-trade-v1.1.0.apk` | ~14 MB | **(lihat halaman rilis v1.1.0 di bawah)** |
+| **v1.2.0** | `mazkiplay-trade-v1.2.0.apk` | ~17 MB | **(lihat halaman rilis v1.2.0 setelah tag dipublikasikan)** |
 | v1.0.0 (sebelumnya) | `mazkiplay-trade-v1.0.0.apk` | 13,5 MB | **[\u2b07\ufe0f Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v1.0.0/mazkiplay-trade-v1.0.0.apk)** |
 
-- Halaman rilis: **[Releases v1.1.0](https://github.com/jambudio336-hue/mazkiplay-trade/releases/tag/v1.1.0)**
+- Halaman rilis sebelumnya: **[Releases v1.1.0](https://github.com/jambudio336-hue/mazkiplay-trade/releases/tag/v1.1.0)**
 - Rilis sebelumnya: **[Releases v1.0.0](https://github.com/jambudio336-hue/mazkiplay-trade/releases/tag/v1.0.0)**
 - Semua rilis: **[github.com/jambudio336-hue/mazkiplay-trade/releases](https://github.com/jambudio336-hue/mazkiplay-trade/releases)**
 - APK ditandatangani dengan `CN=Mazkiplay Trade, OU=Mobile, O=Nusantara Forex, C=ID` (RSA 2048)

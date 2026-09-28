@@ -4,6 +4,18 @@ Semua perubahan penting pada **Mazkiplay Trade** didokumentasikan di file ini.
 Format mengikuti [Keep a Changelog](https://keepachangelog.com/id/1.1.0/)
 dan proyek ini menggunakan [Semantic Versioning](https://semver.org/lang/id/).
 
+## [1.2.0] - 2026-09-28
+
+### Ditambahkan
+- Foto portrait yang diberikan pemilik proyek digunakan sebagai tampilan splash awal aplikasi.
+- Kartu **Donasi untuk Pengembangan APK** di menu Settings.
+- Dialog donasi rinci dengan logo DANA, nomor DANA `085262965282`, petunjuk transfer,
+  tombol salin nomor, nama developer `by.M4zk1pl4y Nusantara`, dan kontak email developer.
+- Asset splash photo dan logo DANA disertakan dalam source agar build lokal/CI konsisten.
+
+### Diubah
+- Versi aplikasi naik menjadi `1.2.0` dan versionCode menjadi 3.
+
 ## [1.1.0] - 2026-09-28
 
 ### Ditambahkan

@@ -9,7 +9,12 @@ build/
 .cxx
 local.properties
 
+# Generated launcher/splash PNGs are recreated by tools/generate-icons.sh.
+app/src/main/res/drawable-nodpi/
+
 # Release signing material must never be committed.
 keystore/
 *.jks
 *.keystore
+.kotlin/
+app/src/main/res/mipmap-*/ic_launcher*.png

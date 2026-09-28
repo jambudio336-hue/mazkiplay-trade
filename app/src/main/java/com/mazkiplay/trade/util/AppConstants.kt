@@ -5,8 +5,14 @@ object AppConstants {
     const val APP_NAME = "Mazkiplay Trade"
     const val BRAND = "Nusantara Forex"
     const val SIGNATURE = "By.mazkiplayTrade"
-    const val VERSION = "1.0.0"
+    const val VERSION = "1.2.0"
     const val TAGLINE = "Trading cerdas, analisa otomatis"
+
+    // Donation contact supplied/configured for this release.
+    const val DONATION_DANA = "085262965282"
+    const val DEVELOPER_NAME = "by.M4zk1pl4y Nusantara"
+    // Replace this single value with the verified production mailbox when provided.
+    const val DEVELOPER_EMAIL = "by.mazkiplay.nusantara@gmail.com"
 
     const val DEFAULT_BALANCE = 10_000.0
     const val DEFAULT_RISK_PERCENT = 1.0
