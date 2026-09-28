@@ -7,6 +7,7 @@ import com.mazkiplay.trade.data.repository.MarketRepository
 import com.mazkiplay.trade.data.repository.NewsRepository
 import com.mazkiplay.trade.data.repository.SettingsRepository
 import com.mazkiplay.trade.data.repository.TradeRepository
+import com.mazkiplay.trade.data.tradingview.TvRepository
 import com.mazkiplay.trade.service.NotificationHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +30,13 @@ class MazkiplayApp : Application() {
     val newsRepository: NewsRepository by lazy { NewsRepository() }
     val tradeRepository: TradeRepository by lazy { TradeRepository(database) }
     val copyTradeRepository: CopyTradeRepository by lazy { CopyTradeRepository() }
+
+    /**
+     * The primary live feed. Every screen reads its own state, so one poll serves the
+     * dashboard ticker, watchlist, screener, heatmap and signal panel at once.
+     */
+    val tvRepository: TvRepository by lazy { TvRepository() }
+
     val notifications: NotificationHelper by lazy { NotificationHelper(this) }
 
     override fun onCreate() {
@@ -59,5 +67,49 @@ class MazkiplayApp : Application() {
         marketRepository.startAutoRefresh(intervalMillis = 60_000L)
         newsRepository.startAutoRefresh(intervalMillis = 300_000L)
         copyTradeRepository.startAutoRefresh(intervalMillis = 120_000L)
+
+        // TradingView runs the fast lane: prices and technicals every 10s, calendar
+        // every 4 minutes, news every 2 minutes. The Yahoo-backed repositories above
+        // stay as the degraded fallback path.
+        appScope.launch {
+            val prefs = settings.current()
+            tvRepository.setSymbols(prefs.watchlist.toList())
+            tvRepository.setSignalPreferences(
+                tpRatio = prefs.tpRatio,
+                slPercent = prefs.slPercent,
+                timeframeLabel = prefs.defaultTimeframe
+            )
+            tvRepository.setAlertThreshold(prefs.priceAlertThreshold)
+        }
+        tvRepository.start(intervalMillis = 10_000L, newsIntervalMillis = 120_000L)
+
+        // Surface TradingView headlines and imminent high-impact releases through the
+        // same notification channel the Yahoo feed already uses.
+        tvRepository.onPriceAlert = { symbol, quote ->
+            appScope.launch {
+                val prefs = settings.current()
+                if (prefs.priceAlert) {
+                    val digits = com.mazkiplay.trade.data.tradingview.TvTickers
+                        .instrumentOf(symbol).digits
+                    notifications.notifyPrice(
+                        symbol = symbol,
+                        price = quote.close,
+                        changePercent = quote.changePercent,
+                        digits = digits
+                    )
+                }
+            }
+        }
+
+        appScope.launch {
+            tvRepository.news.collect { items ->
+                items.firstOrNull { it.isFresh && it.isBreaking }?.let { breaking ->
+                    val prefs = settings.current()
+                    if (prefs.newsAlert) {
+                        notifications.notifyNews(breaking.title, breaking.source, breaking.url)
+                    }
+                }
+            }
+        }
     }
 }

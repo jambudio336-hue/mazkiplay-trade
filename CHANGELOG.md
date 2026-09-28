@@ -4,6 +4,53 @@ Semua perubahan penting pada **Mazkiplay Trade** didokumentasikan di file ini.
 Format mengikuti [Keep a Changelog](https://keepachangelog.com/id/1.1.0/)
 dan proyek ini menggunakan [Semantic Versioning](https://semver.org/lang/id/).
 
+## [1.1.0] - 2026-09-28
+
+### Ditambahkan
+- **Integrasi penuh data real-time TradingView** sebagai sumber utama:
+  - **Advanced Real-Time Chart** resmi di dalam WebView \u2014 chart live tick-by-tick per
+    instrumen, bisa ganti simbol, ganti timeframe (M1, M5, M15, H1, H4, D1, W), indikator,
+    drawing tools, dan tombol Analisa Otomatis langsung dari chart.
+  - **Ticker tape** live di dashboard (harga bergerak terus) dan **Market Overview** widget.
+  - **Technical Analysis gauge** resmi TradingView \u2014 rekomendasi beli/netral/jual.
+  - **Economic Calendar widget** resmi + **News Timeline widget** resmi.
+  - **Endpoint publik TradingView** (scanner/quote) untuk angka numerik di dalam app:
+    watchlist, kalkulator, dan TP/SL memakai harga scanner yang di-poll **setiap 10 detik**,
+    lengkap dengan indikator status koneksi **LIVE / TERTUNDA / OFFLINE + waktu update terakhir**.
+  - Penanganan error/offline eksplisit: snapshot terakhir dipertahankan, banner peringatan
+    ditampilkan, dan panel pengganti muncul jika widget tidak dapat dimuat.
+
+- **Layar Live Market baru** dengan enam panel dalam satu layar:
+  - **Chart** \u2014 chart live + statistik OHLC live + gauge teknikal + aksi Analisa Otomatis.
+  - **Screener** \u2014 filter nyata: tren naik/turun, RSI overbought/oversold, volatilitas tinggi,
+    sinyal beli/jual; diurutkan menurut pergerakan terbesar.
+  - **Kekuatan** \u2014 **Currency Strength Meter + heatmap mata uang**, dihitung dari pergerakan
+    persen live seluruh pair (bukan tabel statis).
+  - **Kalender** \u2014 widget kalender TradingView + daftar **hitung mundur** ke setiap rilis
+    berdampak tinggi.
+  - **Berita** \u2014 headline dari news-flow TradingView, ditandai simbol terkait, plus timeline widget.
+  - **Sinyal** \u2014 **panel sinyal gabungan**: skor teknikal TradingView (bobot 65%) dipadukan
+    dengan skor fundamental otomatis (bobot 35%) yang dihitung dari agenda berdampak tinggi
+    pada mata uang di dalam pair, menghasilkan bias, level Entry/SL/TP, R:R, confidence, dan alasan.
+
+- **Notifikasi alert harga** berbasis ambang persentase (default 1%), hanya terpicu saat
+  harga **melewati** ambang \u2014 bukan berulang setiap poll.
+- **Preferensi baru**: timeframe default dan ambang alert harga.
+- **Deteksi ticker gagal resolve**: jumlah ticker yang tidak kembali dari scanner dipantau
+  agar pemetaan simbol yang bermasalah cepat terlihat.
+
+### Diubah
+- Repositori TradingView terintegrasi ke service locator aplikasi; feed Yahoo yang lama tetap
+  dipertahankan sebagai jalur cadangan (fallback) ketika TradingView tidak dapat dijangkau.
+- Versi naik dari `1.0.0` (versionCode 1) ke **`1.1.0`** (versionCode 2).
+
+### Catatan teknis
+- Semua ticker TradingView dipetakan pada satu tabel terverifikasi
+  (`TvTickers.kt`): `OANDA:XAUUSD`, `TVC:SILVER`, `NYMEX:CL1!`, `BITSTAMP:BTCUSD`,
+  `OANDA:US30USD`, `NASDAQ:NDX`, `TVC:DXY`, dan seluruh major/cross.
+- WebView dikonfigurasi dengan JavaScript + DOM storage aktif dan base URL https
+  agar widget live berjalan stabil di Android.
+
 ## [1.0.0] - 2026-09-27
 
 ### Ditambahkan

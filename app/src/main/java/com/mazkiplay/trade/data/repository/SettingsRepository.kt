@@ -34,7 +34,9 @@ data class UserPreferences(
     val entryAlert: Boolean = true,
     val autoRefresh: Boolean = true,
     val watchlist: Set<String> = setOf("XAUUSD", "EURUSD", "GBPUSD", "USDJPY", "AUDUSD"),
-    val copySubscriptions: Set<String> = emptySet()
+    val copySubscriptions: Set<String> = emptySet(),
+    val defaultTimeframe: String = "M15",
+    val priceAlertThreshold: Double = 1.0
 ) {
     /** SimpleDateFormat pattern matching the chosen time format. */
     val timePattern: String get() = if (timeFormat == "24h") "HH:mm" else "hh:mm a"
@@ -60,6 +62,8 @@ class SettingsRepository(private val context: Context) {
         val autoRefresh = booleanPreferencesKey("auto_refresh")
         val watchlist = stringSetPreferencesKey("watchlist")
         val copySubs = stringSetPreferencesKey("copy_subscriptions")
+        val defaultTimeframe = stringPreferencesKey("default_timeframe")
+        val priceAlertThreshold = floatPreferencesKey("price_alert_threshold")
     }
 
     val preferences: Flow<UserPreferences> = context.dataStore.data.map { prefs ->
@@ -79,7 +83,9 @@ class SettingsRepository(private val context: Context) {
             entryAlert = prefs[Keys.entryAlert] ?: true,
             autoRefresh = prefs[Keys.autoRefresh] ?: true,
             watchlist = prefs[Keys.watchlist] ?: UserPreferences().watchlist,
-            copySubscriptions = prefs[Keys.copySubs] ?: emptySet()
+            copySubscriptions = prefs[Keys.copySubs] ?: emptySet(),
+            defaultTimeframe = prefs[Keys.defaultTimeframe] ?: "M15",
+            priceAlertThreshold = (prefs[Keys.priceAlertThreshold] ?: 1.0f).toDouble()
         )
     }
 
@@ -99,6 +105,9 @@ class SettingsRepository(private val context: Context) {
     suspend fun setPriceAlert(value: Boolean) = edit { it[Keys.priceAlert] = value }
     suspend fun setEntryAlert(value: Boolean) = edit { it[Keys.entryAlert] = value }
     suspend fun setAutoRefresh(value: Boolean) = edit { it[Keys.autoRefresh] = value }
+    suspend fun setDefaultTimeframe(value: String) = edit { it[Keys.defaultTimeframe] = value }
+    suspend fun setPriceAlertThreshold(value: Double) =
+        edit { it[Keys.priceAlertThreshold] = value.toFloat() }
 
     suspend fun toggleWatchlist(symbol: String) = edit { prefs ->
         val current = prefs[Keys.watchlist]?.toMutableSet() ?: UserPreferences().watchlist.toMutableSet()

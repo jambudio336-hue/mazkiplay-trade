@@ -45,6 +45,10 @@ enum class Timeframe(
 
     companion object {
         val defaults: List<Timeframe> = listOf(M1, M5, M15, H1, H4, D1)
+
+        /** Resolves a stored label (the DataStore preference) back to a timeframe. */
+        fun fromLabel(label: String): Timeframe =
+            defaults.firstOrNull { it.label.equals(label, ignoreCase = true) } ?: M15
     }
 }
 

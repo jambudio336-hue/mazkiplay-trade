@@ -10,6 +10,7 @@ import com.mazkiplay.trade.MazkiplayApp
 import com.mazkiplay.trade.data.repository.UserPreferences
 import com.mazkiplay.trade.ui.viewmodel.AnalysisViewModel
 import com.mazkiplay.trade.ui.viewmodel.CopyTradeViewModel
+import com.mazkiplay.trade.ui.viewmodel.LiveViewModel
 import com.mazkiplay.trade.ui.viewmodel.MarketViewModel
 import com.mazkiplay.trade.ui.viewmodel.NewsViewModel
 import com.mazkiplay.trade.ui.viewmodel.SettingsViewModel
@@ -58,3 +59,6 @@ fun copyTradeViewModel(app: MazkiplayApp): CopyTradeViewModel = appViewModel(app
 
 @Composable
 fun settingsViewModel(app: MazkiplayApp): SettingsViewModel = appViewModel(app)
+
+@Composable
+fun liveViewModel(app: MazkiplayApp): LiveViewModel = appViewModel(app)
