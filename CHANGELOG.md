@@ -4,6 +4,22 @@ Semua perubahan penting pada **Mazkiplay Trade** didokumentasikan di file ini.
 Format mengikuti [Keep a Changelog](https://keepachangelog.com/id/1.1.0/)
 dan proyek ini menggunakan [Semantic Versioning](https://semver.org/lang/id/).
 
+## [1.4.0] - 2026-09-28
+
+### Ditambahkan
+- Model `MarketPulse` untuk merangkum breadth pasar dari quote live yang benar-benar berhasil diterima.
+- Kartu **Market Pulse** responsif di Live Market: jumlah naik/turun/datar, persentase breadth, rata-rata perubahan sesi, top gainer, top loser, dan coverage feed.
+- Top mover dapat diketuk untuk langsung berpindah ke simbol terkait di desk live.
+- Katalog crypto public CoinGecko top-100 berdasarkan market cap dengan refresh otomatis dan status LIVE/TERTUNDA/OFFLINE.
+- Journal trading lokal berbasis Room untuk simbol, setup, catatan analisis, mood, waktu, dan penghapusan catatan.
+- Reminder kalender publik berdampak tinggi diperiksa tiap 15 menit di background dengan waktu, impact, forecast, previous, dan actual.
+- Analisa otomatis tetap menggabungkan teknikal dan fundamental dari snapshot feed yang tersedia; indikator yang datanya tidak tersedia tidak diisi sintetis.
+
+### Diubah
+- Snapshot yang gagal resolve tidak masuk ke perhitungan breadth; jumlahnya ditampilkan sebagai coverage agar kualitas data transparan.
+- Versi aplikasi naik menjadi `1.4.0` dan versionCode menjadi 5.
+- Statistik copy-trade tidak lagi bergerak secara acak; katalog diberi label publik/non-real-time sampai provider resmi tersedia.
+
 ## [1.3.0] - 2026-09-28
 
 ### Ditambahkan

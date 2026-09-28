@@ -9,11 +9,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -34,6 +39,11 @@ fun HistoryScreen(app: MazkiplayApp, prefs: UserPreferences) {
     val s = stringsOf(prefs)
     val vm = tradeViewModel(app)
     val positions by vm.positions.collectAsState()
+    val journal by vm.journal.collectAsState()
+    var journalSymbol by rememberSaveable { mutableStateOf("XAUUSD") }
+    var journalTitle by rememberSaveable { mutableStateOf("") }
+    var journalBody by rememberSaveable { mutableStateOf("") }
+    var journalMood by rememberSaveable { mutableStateOf("Netral") }
 
     val open = positions.filter { it.isOpen }
     val closed = positions.filter { !it.isOpen }
@@ -56,6 +66,42 @@ fun HistoryScreen(app: MazkiplayApp, prefs: UserPreferences) {
                 com.mazkiplay.trade.ui.components.StatTile(label = "Realisasi", value = Formatters.money(realised), valueColor = if (realised >= 0) Bull else Bear, modifier = Modifier.weight(1f))
                 com.mazkiplay.trade.ui.components.StatTile(label = "Win Rate", value = String.format(java.util.Locale.US, "%.0f%%", winRate), valueColor = Bull, modifier = Modifier.weight(1f))
                 com.mazkiplay.trade.ui.components.StatTile(label = "Terbuka", value = "${open.size}", modifier = Modifier.weight(1f))
+            }
+        }
+
+        item {
+            SectionCard(title = "Jurnal Trading", subtitle = "Catat setup, alasan entry, emosi, dan evaluasi") {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    OutlinedTextField(value = journalSymbol, onValueChange = { value: String -> journalSymbol = value.uppercase() }, label = { Text("Simbol") }, singleLine = true, modifier = Modifier.fillMaxWidth())
+                    OutlinedTextField(value = journalTitle, onValueChange = { value: String -> journalTitle = value }, label = { Text("Judul / setup") }, singleLine = true, modifier = Modifier.fillMaxWidth())
+                    OutlinedTextField(value = journalBody, onValueChange = { value: String -> journalBody = value }, label = { Text("Catatan analisis dan evaluasi") }, minLines = 3, modifier = Modifier.fillMaxWidth())
+                    OutlinedTextField(value = journalMood, onValueChange = { value: String -> journalMood = value }, label = { Text("Mood / disiplin") }, singleLine = true, modifier = Modifier.fillMaxWidth())
+                    Button(onClick = {
+                        vm.addJournal(journalSymbol, journalTitle, journalBody, journalMood)
+                        journalTitle = ""
+                        journalBody = ""
+                    }, enabled = journalTitle.isNotBlank() || journalBody.isNotBlank(), modifier = Modifier.fillMaxWidth()) {
+                        Text("Simpan catatan")
+                    }
+                }
+            }
+        }
+
+        item {
+            SectionCard(title = "Catatan Jurnal", subtitle = "${journal.size} catatan tersimpan di perangkat") {
+                if (journal.isEmpty()) EmptyHint("Belum ada catatan jurnal.")
+                else Column {
+                    journal.take(20).forEach { entry ->
+                        Row(Modifier.fillMaxWidth().padding(vertical = 7.dp), verticalAlignment = Alignment.Top) {
+                            Column(Modifier.weight(1f)) {
+                                Text("${entry.symbol} • ${entry.title}", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onSurface)
+                                Text("${entry.mood} • ${Formatters.time(entry.createdAt, prefs.dateTimePattern)}", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                if (entry.body.isNotBlank()) Text(entry.body, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            }
+                            OutlinedButton(onClick = { vm.deleteJournal(entry.id) }) { Text("Hapus", style = MaterialTheme.typography.labelSmall) }
+                        }
+                    }
+                }
             }
         }
 

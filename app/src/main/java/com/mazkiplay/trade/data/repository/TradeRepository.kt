@@ -3,9 +3,11 @@ package com.mazkiplay.trade.data.repository
 import com.mazkiplay.trade.data.local.MazkiplayDatabase
 import com.mazkiplay.trade.data.local.AlarmEntity
 import com.mazkiplay.trade.data.local.PositionEntity
+import com.mazkiplay.trade.data.local.JournalEntity
 import com.mazkiplay.trade.data.model.EntryAlarm
 import com.mazkiplay.trade.data.model.Instruments
 import com.mazkiplay.trade.data.model.Position
+import com.mazkiplay.trade.data.model.JournalEntry
 import com.mazkiplay.trade.data.model.SizedTrade
 import com.mazkiplay.trade.data.model.TradeDirection
 import com.mazkiplay.trade.domain.trade.PositionCalculator
@@ -25,6 +27,9 @@ class TradeRepository(private val database: MazkiplayDatabase) {
 
     val openPositions: Flow<List<Position>> = database.positionDao().observeOpen()
         .map { rows -> rows.map { it.toModel() } }
+
+    val journal: Flow<List<JournalEntry>> = database.journalDao().observeAll()
+        .map { rows -> rows.map { JournalEntry(it.id, it.createdAt, it.symbol, it.title, it.body, it.mood) } }
 
     val alarms: Flow<List<EntryAlarm>> = database.alarmDao().observeAll()
         .map { rows ->
@@ -86,6 +91,18 @@ class TradeRepository(private val database: MazkiplayDatabase) {
     }
 
     suspend fun deletePosition(id: Long) = database.positionDao().delete(id)
+
+    suspend fun saveJournal(entry: JournalEntry): Long = database.journalDao().insert(
+        JournalEntity(
+            createdAt = entry.createdAt,
+            symbol = entry.symbol,
+            title = entry.title,
+            body = entry.body,
+            mood = entry.mood
+        )
+    )
+
+    suspend fun deleteJournal(id: Long) = database.journalDao().delete(id)
 
     suspend fun saveAlarm(alarm: EntryAlarm): Long = database.alarmDao().insert(
         AlarmEntity(

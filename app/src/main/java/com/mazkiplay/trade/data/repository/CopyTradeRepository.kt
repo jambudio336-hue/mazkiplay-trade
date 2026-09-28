@@ -10,16 +10,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import kotlin.math.abs
-import kotlin.random.Random
 
 /**
  * Copy-trade desk.
  *
- * The provider directory is seeded locally (so the screen always has content) and
- * then re-priced on every refresh: returns, drawdown and follower counts drift the
- * way a live desk would. A remote endpoint is used automatically when one is
- * configured, through the same DTO shape.
+ * The provider directory is seeded locally so the screen always has content. It is
+ * explicitly a public/educational catalog until a licensed provider is configured;
+ * refresh only updates the observation timestamp and never invents performance data.
  */
 class CopyTradeRepository {
 
@@ -40,32 +37,8 @@ class CopyTradeRepository {
         }
     }
 
-    /** Re-price the desk: small drift on returns, drawdown and follower counts. */
+    /** Refresh the catalog timestamp; no synthetic performance drift is generated. */
     fun refresh() {
-        val rnd = Random(System.nanoTime())
-        _traders.value = _traders.value.map { trader ->
-            val monthlyDrift = (rnd.nextDouble() - 0.42) * 2.4
-            val newMonthly = (trader.monthlyReturn + monthlyDrift).coerceIn(-4.5, 24.0)
-            val newTotal = (trader.totalReturn + newMonthly * 0.35).coerceIn(-30.0, 420.0)
-            val newDrawdown = (trader.maxDrawdown + (rnd.nextDouble() - 0.5) * 1.8).coerceIn(1.0, 45.0)
-            val newWinRate = (trader.winRate + (rnd.nextDouble() - 0.5) * 1.6).coerceIn(32.0, 92.0)
-            val newTrades = trader.trades + rnd.nextInt(0, 3)
-            val newFollowers = (trader.followers + rnd.nextInt(-40, 160)).coerceAtLeast(120)
-            val lastEquity = trader.equityCurve.lastOrNull() ?: 100.0
-            val nextEquity = (lastEquity * (1 + newMonthly / 100.0 / 12.0)).coerceAtLeast(20.0)
-            val curve = (trader.equityCurve + nextEquity).takeLast(30)
-
-            trader.copy(
-                monthlyReturn = round2(newMonthly),
-                totalReturn = round2(newTotal),
-                maxDrawdown = round2(newDrawdown),
-                winRate = round2(newWinRate),
-                trades = newTrades,
-                followers = newFollowers,
-                aum = round2((trader.aum * (1 + (rnd.nextDouble() - 0.35) * 0.02)).coerceAtLeast(25_000.0)),
-                equityCurve = curve
-            )
-        }
         _lastUpdated.value = System.currentTimeMillis()
     }
 
@@ -180,12 +153,12 @@ class CopyTradeRepository {
     )
 
     private fun curve(start: Double, points: Int, drift: Double): List<Double> {
-        val rnd = Random(start.toLong() * points)
         val out = ArrayList<Double>(points)
         var value = start
-        repeat(points) {
-            value *= 1 + (drift * 0.01) + (rnd.nextDouble() - 0.45) * 0.05
-            out.add(kotlin.math.round(abs(value) * 100.0) / 100.0)
+        repeat(points) { index ->
+            val wave = kotlin.math.sin((index + 1) * 1.7) * 0.012
+            value *= 1 + (drift * 0.01) + wave
+            out.add(kotlin.math.round(value * 100.0) / 100.0)
         }
         return out
     }

@@ -76,6 +76,16 @@ fun CopyTradeScreen(app: MazkiplayApp, prefs: UserPreferences) {
             }
         }
 
+        item {
+            SectionCard(title = "Status sumber copy-trade", subtitle = "Katalog publik transparan") {
+                Text(
+                    "Data di bawah adalah katalog lokal/edukasi, bukan feed trader real-time. Open position, SL, dan TP tidak ditampilkan sebelum provider resmi menyediakan data tersebut.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+
         if (message != null) {
             item { SectionCard { Text(message!!, style = MaterialTheme.typography.bodyMedium, color = Bull) } }
         }
@@ -84,10 +94,7 @@ fun CopyTradeScreen(app: MazkiplayApp, prefs: UserPreferences) {
             SectionCard(
                 title = "${trader.name} ${trader.flag}",
                 subtitle = "${trader.strategy} \u2022 ${trader.country}",
-                trailing = {
-                    if (trader.verified) Pill(text = "VERIFIED", color = Bull, filled = true)
-                    else Pill(text = trader.riskLevel, color = Gold)
-                }
+                trailing = { Pill(text = "KATALOG", color = Gold) }
             ) {
                 Column {
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -104,6 +111,7 @@ fun CopyTradeScreen(app: MazkiplayApp, prefs: UserPreferences) {
                     Spacer(Modifier.height(8.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Column(Modifier.weight(1f)) {
+                            Text("${trader.dataSource} \u2022 ${trader.dataStatus}", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                             Text("AUM ${Formatters.compactMoney(trader.aum)} \u2022 ${trader.trades} trade", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                             Text(trader.topSymbols.joinToString(" \u2022 "), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }

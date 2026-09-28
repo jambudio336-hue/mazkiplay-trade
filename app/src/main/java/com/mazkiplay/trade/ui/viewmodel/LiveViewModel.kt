@@ -4,8 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mazkiplay.trade.MazkiplayApp
 import com.mazkiplay.trade.data.model.CurrencyStrength
+import com.mazkiplay.trade.data.model.CryptoMarketCoin
 import com.mazkiplay.trade.data.model.FeedStatus
 import com.mazkiplay.trade.data.model.Instruments
+import com.mazkiplay.trade.data.model.MarketPulse
 import com.mazkiplay.trade.data.model.ScreenerFilter
 import com.mazkiplay.trade.data.model.ScreenerRow
 import com.mazkiplay.trade.data.model.Timeframe
@@ -15,6 +17,7 @@ import com.mazkiplay.trade.data.model.TvNewsItem
 import com.mazkiplay.trade.data.model.TvQuote
 import com.mazkiplay.trade.data.model.TvTechnical
 import com.mazkiplay.trade.data.tradingview.TvTickers
+import com.mazkiplay.trade.data.repository.CryptoFeedStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -45,6 +48,10 @@ class LiveViewModel(private val app: MazkiplayApp) : ViewModel() {
     val news: StateFlow<List<TvNewsItem>> = repo.news
     val signal: StateFlow<TradingSignal?> = repo.signal
     val signals: StateFlow<Map<String, TradingSignal>> = repo.signals
+    val pulse: StateFlow<MarketPulse> = repo.pulse
+    val cryptoCoins: StateFlow<List<CryptoMarketCoin>> = app.cryptoRepository.coins
+    val cryptoStatus: StateFlow<CryptoFeedStatus> = app.cryptoRepository.status
+    val cryptoLastUpdated: StateFlow<Long> = app.cryptoRepository.lastUpdated
 
     /** Surfaced in the debug strip when a ticker fails to resolve. */
     val unresolvedTickers: StateFlow<Int> = repo.unresolvedTickers
@@ -109,7 +116,10 @@ class LiveViewModel(private val app: MazkiplayApp) : ViewModel() {
 
     /** Manual refresh, shared by every live screen's pull affordance. */
     fun refresh() {
-        viewModelScope.launch { repo.refreshNow() }
+        viewModelScope.launch {
+            repo.refreshNow()
+            app.cryptoRepository.refresh()
+        }
     }
 
     /** Re-run the combined analysis for the selected symbol on demand. */

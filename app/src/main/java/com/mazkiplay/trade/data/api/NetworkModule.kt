@@ -22,6 +22,7 @@ object NetworkModule {
             "Chrome/122.0.0.0 Mobile Safari/537.36 MazkiplayTrade/1.0"
 
     const val YAHOO_BASE = "https://query1.finance.yahoo.com/"
+    const val COINGECKO_BASE = "https://api.coingecko.com/"
     const val CALENDAR_URL = "https://nfs.faireconomy.media/ff_calendar_thisweek.json"
 
     val client: OkHttpClient by lazy {
@@ -58,6 +59,16 @@ object NetworkModule {
     }
 
     val marketApi: MarketApi by lazy { retrofit.create(MarketApi::class.java) }
+
+    private val coinGeckoRetrofit: Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(COINGECKO_BASE)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+    }
+
+    val coinGeckoApi: CoinGeckoApi by lazy { coinGeckoRetrofit.create(CoinGeckoApi::class.java) }
 
     private val gsonPlain = com.google.gson.Gson()
 

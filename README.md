@@ -14,7 +14,7 @@ copy trade, dan notifikasi. Ditulis dengan **Kotlin + Jetpack Compose (Material 
 
 | Versi | Berkas | Ukuran | Unduh langsung |
 |-------|--------|--------|----------------|
-| **v1.3.0** | `mazkiplay-trade-v1.3.0.apk` | ~17 MB | **(lihat halaman rilis v1.3.0 setelah tag dipublikasikan)** |
+| **v1.4.0** | `mazkiplay-trade-v1.4.0.apk` | ~17 MB | **(lihat halaman rilis v1.4.0 setelah tag dipublikasikan)** |
 | v1.0.0 (sebelumnya) | `mazkiplay-trade-v1.0.0.apk` | 13,5 MB | **[\u2b07\ufe0f Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v1.0.0/mazkiplay-trade-v1.0.0.apk)** |
 
 - Halaman rilis sebelumnya: **[Releases v1.1.0](https://github.com/jambudio336-hue/mazkiplay-trade/releases/tag/v1.1.0)**
@@ -42,12 +42,13 @@ APK juga diunggah sebagai *workflow artifact* pada setiap build
     kalkulator, dan TP/SL memakai harga yang di-poll **setiap 10 detik**.
   - **Indikator status koneksi**: `LIVE` / `TERTUNDA` / `OFFLINE` + waktu update terakhir,
     dengan snapshot terakhir dipertahankan saat jaringan gagal.
-- **Layar Live Market** (enam panel): **Chart**, **Screener** (filter tren/RSI/volatilitas/sinyal),
+- **Layar Live Market** (tujuh panel): **Chart**, **Screener** (filter tren/RSI/volatilitas/sinyal),
   **Kekuatan** (currency strength meter + heatmap), **Kalender** (hitung mundur rilis),
-  **Berita** (news-flow TradingView), dan **Sinyal** (gabungan teknikal + fundamental).
+  **Berita** (news-flow TradingView), **Crypto** (CoinGecko public top-100), dan **Sinyal** (gabungan teknikal + fundamental).
 - **Panel sinyal gabungan**: skor teknikal TradingView (65%) + skor fundamental otomatis (35%)
   dari agenda berdampak tinggi pada mata uang pair \u2192 bias, Entry/SL/TP, R:R, confidence, alasan.
 - **Alert harga** otomatis saat harga melewati ambang persentase (default 1%).
+- **Market Pulse** dari quote live: breadth naik/turun/datar, rata-rata perubahan sesi, top gainer/top loser, dan jumlah ticker yang belum tersedia.
 
 ### Tampilan & Navigasi
 - **Splash screen** Nusantara Forex dengan ilustrasi, **sapaan acak yang berganti setiap app dibuka**, dan tanda tangan `By.mazkiplayTrade`.
@@ -56,12 +57,12 @@ APK juga diunggah sebagai *workflow artifact* pada setiap build
 - **Multi-bahasa ID/EN**, **tema dark/light/system**, pengaturan **kecerahan layar** dan **format waktu & tanggal**.
 
 ### Data Pasar Real-Time
-- Katalog live berisi **71 instrumen publik**: forex major/cross, IDX/BEI (IHSG, IDX30, LQ45 dan saham pilihan), saham US/global, crypto populer, gold/silver, komoditas, futures, index global, DXY, VIX, dan US Treasury yield.
+- Katalog live berisi **71 instrumen publik**: forex major/cross, IDX/BEI (IHSG, IDX30, LQ45 dan saham pilihan), saham US/global, crypto populer, gold/silver, komoditas, futures, index global, DXY, VIX, dan US Treasury yield. Panel Crypto menambahkan **hingga 100 coin teratas CoinGecko** secara dinamis.
 - **Chart candlestick** dengan overlay **EMA 20/50/200, Fibonacci retracement, Fair Value Gap, zona Supply & Demand, Support/Resistance**.
-- Auto-refresh berkala (TradingView sekitar 10 detik untuk feed live, Yahoo fallback 60 detik saat aktif, dan 30 menit di latar belakang lewat WorkManager).
+- Auto-refresh berkala (TradingView sekitar 10 detik untuk feed live, Yahoo fallback 60 detik saat aktif, dan 15 menit di latar belakang lewat WorkManager).
 - **Kalender ekonomi** dari feed publik (agenda fundamental, impact High/Medium/Low, actual vs forecast).
 - **Berita real-time** dari beberapa feed RSS/TradingView dengan filter kategori, penanda **BARU**, dan notifikasi.
-- Notifikasi event ekonomi berdampak tinggi dikirim ketika rilis memasuki jendela 15 menit, dengan deduplikasi agar tidak spam.
+- Notifikasi event ekonomi berdampak tinggi dikirim ketika rilis memasuki jendela sekitar 20 menit, dengan waktu, impact, forecast, previous, actual, dan deduplikasi agar tidak spam.
 
 ### Analisa Otomatis
 - **Analisa Otomatis** gabungan: mesin teknikal (6 sinyal berbobot) + mesin fundamental (kekuatan mata uang, tekanan kalender, sentimen headline).
@@ -75,7 +76,8 @@ APK juga diunggah sebagai *workflow artifact* pada setiap build
 - **Kalkulator Forex**: nilai pip, margin, dan estimasi profit/loss per instrumen dengan pengaturan leverage.
 - **Kalkulator Risiko**: titik impas (break-even win rate), ketahanan modal, saran money management.
 - **Riwayat posisi**: posisi terbuka dengan floating P/L, riwayat tertutup dengan hasil realisasi dan win rate.
-- **Copy Trade**: 10 trader publik dengan portofolio, return bulanan/total, drawdown, win rate, followers, AUM, kurva ekuitas, dan opsi **ikut copy trade**.
+- **Copy Trade**: katalog publik/edukasi dengan portofolio dan statistik tersimpan; diberi label **KATALOG / TIDAK_REALTIME**. Open position/SL/TP lintas platform tidak diklaim tersedia tanpa provider resmi.
+- **Journal Trading**: catatan lokal untuk setup, alasan entry, evaluasi, mood, dan waktu; tidak menghapus riwayat posisi lama.
 - **Alarm Entry**: alarm pada jam tertentu atau jeda cepat, opsi ulang harian, dijadwalkan lewat `AlarmManager` (exact alarm).
 - **Sesi Trading**: Sydney, Tokyo, London, New York dengan status buka/tutup real-time, progress, dan **skor likuiditas**.
 - **Watchlist** yang dapat dikelola, **notifikasi** berita baru / perubahan harga / alarm entry, dan **auto-refresh latar belakang**.

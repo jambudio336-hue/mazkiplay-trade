@@ -44,7 +44,29 @@ data class TvQuote(
             val span = high - low
             if (span <= 0.0) return 0.5f
             return ((close - low) / span).coerceIn(0.0, 1.0).toFloat()
-        }
+    }
+}
+
+/**
+ * A transparent market-wide snapshot derived only from quotes resolved by the live feed.
+ * It intentionally carries no synthetic prices: unavailable symbols are counted in
+ * [unresolved] and never included in the breadth calculations.
+ */
+data class MarketPulse(
+    val total: Int = 0,
+    val advancing: Int = 0,
+    val declining: Int = 0,
+    val unchanged: Int = 0,
+    val unresolved: Int = 0,
+    val averageChangePercent: Double = 0.0,
+    val topGainer: TvQuote? = null,
+    val topLoser: TvQuote? = null,
+    val mostVolatile: TvQuote? = null,
+    val updatedAt: Long = 0L
+) {
+    val breadthPercent: Int
+        get() = if (total == 0) 0 else ((advancing.toDouble() / total) * 100.0).toInt()
+    val hasData: Boolean get() = total > 0
 }
 
 /**

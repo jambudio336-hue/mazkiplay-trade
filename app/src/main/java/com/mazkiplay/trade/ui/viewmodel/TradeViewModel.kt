@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.mazkiplay.trade.MazkiplayApp
 import com.mazkiplay.trade.data.model.EntryAlarm
 import com.mazkiplay.trade.data.model.Instruments
+import com.mazkiplay.trade.data.model.JournalEntry
 import com.mazkiplay.trade.data.model.Position
 import com.mazkiplay.trade.data.model.SizedTrade
 import com.mazkiplay.trade.data.model.TradeDirection
@@ -35,6 +36,9 @@ class TradeViewModel(private val app: MazkiplayApp) : ViewModel() {
     private val settings = app.settings
 
     val positions: StateFlow<List<Position>> = trade.positions
+        .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+
+    val journal: StateFlow<List<JournalEntry>> = trade.journal
         .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
     val alarms: StateFlow<List<EntryAlarm>> = trade.alarms
@@ -154,6 +158,20 @@ class TradeViewModel(private val app: MazkiplayApp) : ViewModel() {
 
     fun deletePosition(id: Long) {
         viewModelScope.launch { runCatching { trade.deletePosition(id) } }
+    }
+
+    fun addJournal(symbol: String, title: String, body: String, mood: String) {
+        if (title.isBlank() && body.isBlank()) return
+        viewModelScope.launch {
+            runCatching {
+                trade.saveJournal(JournalEntry(symbol = symbol.ifBlank { "Umum" }, title = title.ifBlank { "Catatan trading" }, body = body, mood = mood))
+            }.onSuccess { _message.value = "Catatan jurnal tersimpan" }
+                .onFailure { _message.value = "Gagal menyimpan jurnal: ${it.message}" }
+        }
+    }
+
+    fun deleteJournal(id: Long) {
+        viewModelScope.launch { runCatching { trade.deleteJournal(id) } }
     }
 
     /** Floating P/L of an open position at the latest available price. */

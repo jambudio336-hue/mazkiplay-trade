@@ -49,6 +49,15 @@ data class EntryAlarm(
     val isPast: Boolean get() = triggerAt < System.currentTimeMillis()
 }
 
+data class JournalEntry(
+    val id: Long = 0L,
+    val createdAt: Long = System.currentTimeMillis(),
+    val symbol: String,
+    val title: String,
+    val body: String,
+    val mood: String = "Netral"
+)
+
 /** A public signal provider offered by the Copy Trade module. */
 data class CopyTrader(
     val id: String,
@@ -67,11 +76,24 @@ data class CopyTrader(
     val rewardPercent: Double,
     val equityCurve: List<Double>,
     val topSymbols: List<String>,
-    val verified: Boolean
+    val verified: Boolean,
+    val dataSource: String = "Katalog lokal",
+    val dataStatus: String = "TIDAK_REALTIME",
+    val lastVerifiedAt: Long = 0L,
+    val openPositions: List<CopyPosition> = emptyList()
 ) {
     val score: Double
         get() = (monthlyReturn * 0.4) + (winRate / 100.0 * 30.0) - (maxDrawdown * 0.6) + (if (verified) 6.0 else 0.0)
 }
+
+data class CopyPosition(
+    val symbol: String,
+    val direction: TradeDirection,
+    val entry: Double,
+    val stopLoss: Double? = null,
+    val takeProfit: Double? = null,
+    val openedAt: Long = 0L
+)
 
 /** Result of the position sizing engine. */
 data class SizedTrade(

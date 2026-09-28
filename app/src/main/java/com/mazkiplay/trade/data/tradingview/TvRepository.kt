@@ -3,6 +3,7 @@ package com.mazkiplay.trade.data.tradingview
 import com.mazkiplay.trade.data.model.CurrencyStrength
 import com.mazkiplay.trade.data.model.FeedStatus
 import com.mazkiplay.trade.data.model.Instruments
+import com.mazkiplay.trade.data.model.MarketPulse
 import com.mazkiplay.trade.data.model.ScreenerRow
 import com.mazkiplay.trade.data.model.TradingSignal
 import com.mazkiplay.trade.data.model.TvCalendarEvent
@@ -20,6 +21,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlin.math.abs
+import kotlin.math.max
 
 /**
  * The live TradingView feed for the whole app.
@@ -74,6 +76,9 @@ class TvRepository(
 
     private val _unresolved = MutableStateFlow(0)
     val unresolvedTickers: StateFlow<Int> = _unresolved.asStateFlow()
+
+    private val _pulse = MutableStateFlow(MarketPulse())
+    val pulse: StateFlow<MarketPulse> = _pulse.asStateFlow()
 
     private var symbols: List<String> = Instruments.all.map { it.symbol }
     private var quoteIntervalMillis: Long = 10_000L
@@ -156,12 +161,36 @@ class TvRepository(
         _lastUpdate.value = System.currentTimeMillis()
         _lastError.value = null
         _status.value = FeedStatus.LIVE
+        _pulse.value = buildPulse(snapshot.quotes, _unresolved.value, _lastUpdate.value)
 
         evaluateAlerts(snapshot.quotes)
 
         // Re-score every symbol the user is watching so the signal panel and the chart
         // strip always reflect the reading that just arrived.
         recomputeSignals()
+    }
+
+    private fun buildPulse(
+        quotes: Map<String, TvQuote>,
+        unresolved: Int,
+        updatedAt: Long
+    ): MarketPulse {
+        val valid = quotes.values.filter { it.hasData }
+        val advancing = valid.count { it.changePercent > 0.01 }
+        val declining = valid.count { it.changePercent < -0.01 }
+        val unchanged = max(0, valid.size - advancing - declining)
+        return MarketPulse(
+            total = valid.size,
+            advancing = advancing,
+            declining = declining,
+            unchanged = unchanged,
+            unresolved = unresolved,
+            averageChangePercent = valid.map { it.changePercent }.average().takeIf { it.isFinite() } ?: 0.0,
+            topGainer = valid.maxByOrNull { it.changePercent },
+            topLoser = valid.minByOrNull { it.changePercent },
+            mostVolatile = valid.maxByOrNull { kotlin.math.abs(it.changePercent) },
+            updatedAt = updatedAt
+        )
     }
 
     /**

@@ -144,6 +144,24 @@ data class MarketSession(
     val nextOpenUtcMinutes: Int
 )
 
+data class CryptoMarketCoin(
+    val id: String,
+    val symbol: String,
+    val name: String,
+    val imageUrl: String? = null,
+    val currentPrice: Double? = null,
+    val marketCap: Double? = null,
+    val marketCapRank: Int? = null,
+    val totalVolume: Double? = null,
+    val priceChange24h: Double? = null,
+    val priceChangePercentage24h: Double? = null,
+    val circulatingSupply: Double? = null,
+    val lastUpdated: Long = 0L
+) {
+    val hasPrice: Boolean get() = currentPrice != null
+    val isUp: Boolean get() = (priceChangePercentage24h ?: 0.0) >= 0.0
+}
+
 data class Zone(val lower: Double, val upper: Double, val strength: Int, val kind: String) {
     val mid: Double get() = (lower + upper) / 2.0
     val height: Double get() = kotlin.math.abs(upper - lower)

@@ -15,6 +15,9 @@ import androidx.core.content.ContextCompat
 import com.mazkiplay.trade.MainActivity
 import com.mazkiplay.trade.R
 import com.mazkiplay.trade.data.model.EconomicEvent
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 /**
  * Every notification the app can raise: price moves, fresh headlines and entry
@@ -126,14 +129,16 @@ class NotificationHelper(private val context: Context) {
         NotificationManagerCompat.from(context).notify(ID_ALARM, notification.build())
     }
 
-    /** Notify once when a high-impact calendar event enters the 15-minute window. */
+    /** Notify once when a high-impact calendar event enters the background reminder window. */
     fun notifyEconomicEvent(event: EconomicEvent) {
         if (!allowed()) return
         val prefs = context.getSharedPreferences("notification_state", Context.MODE_PRIVATE)
         val key = "calendar_${event.id}"
         if (prefs.getBoolean(key, false)) return
-        val body = "${event.currency.ifBlank { event.country }} • ${event.title}. " +
-            "Forecast: ${event.forecast.ifBlank { "--" }} • Previous: ${event.previous.ifBlank { "--" }}"
+        val at = SimpleDateFormat("dd MMM HH:mm", Locale.getDefault()).format(Date(event.dateMillis))
+        val body = "${event.currency.ifBlank { event.country }} • ${event.title} • $at • " +
+            "Impact: ${event.impact.label}. Forecast: ${event.forecast.ifBlank { "--" }} • " +
+            "Previous: ${event.previous.ifBlank { "--" }} • Actual: ${event.actual.ifBlank { "menunggu" }}"
         val notificationId = ID_ALARM + event.id.hashCode()
         NotificationManagerCompat.from(context).notify(
             notificationId,

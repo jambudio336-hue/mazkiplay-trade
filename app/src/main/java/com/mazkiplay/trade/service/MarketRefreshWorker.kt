@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit
  * Background auto-refresh.
  *
  * WorkManager keeps the app's data warm while it is not on screen: prices and the
- * calendar every 30 minutes (the platform minimum for periodic work), headlines and
+ * calendar every 15 minutes (the platform minimum for periodic work), headlines and
  * the copy-trade desk alongside them. Price alerts are raised here so they still
  * arrive while the app is backgrounded.
  */
@@ -34,7 +34,7 @@ class MarketRefreshWorker(
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
 
-            val request = PeriodicWorkRequestBuilder<MarketRefreshWorker>(30, TimeUnit.MINUTES)
+            val request = PeriodicWorkRequestBuilder<MarketRefreshWorker>(15, TimeUnit.MINUTES)
                 .setConstraints(constraints)
                 .build()
 
@@ -63,11 +63,11 @@ class MarketRefreshWorker(
             app.copyTradeRepository.refresh()
 
             // Calendar alerts use the same background refresh and are deduplicated
-            // locally by NotificationHelper, so a 30-minute worker does not spam.
+            // locally by NotificationHelper, so a 15-minute worker does not spam.
             if (prefs.newsAlert) {
                 val now = System.currentTimeMillis()
                 app.marketRepository.upcomingHighImpact(10)
-                    .filter { it.dateMillis in now..(now + 15 * 60_000L) }
+                    .filter { it.dateMillis in now..(now + 20 * 60_000L) }
                     .forEach(app.notifications::notifyEconomicEvent)
             }
 

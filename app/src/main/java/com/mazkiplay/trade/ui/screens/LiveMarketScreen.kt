@@ -42,9 +42,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.mazkiplay.trade.MazkiplayApp
 import com.mazkiplay.trade.data.model.FeedStatus
+import com.mazkiplay.trade.data.model.CryptoMarketCoin
+import com.mazkiplay.trade.data.model.MarketPulse
 import com.mazkiplay.trade.data.model.ScreenerFilter
 import com.mazkiplay.trade.data.model.Timeframe
 import com.mazkiplay.trade.data.repository.UserPreferences
+import com.mazkiplay.trade.data.repository.CryptoFeedStatus
 import com.mazkiplay.trade.data.tradingview.TvTickers
 import com.mazkiplay.trade.ui.components.ChangeChip
 import com.mazkiplay.trade.ui.components.EmptyHint
@@ -64,6 +67,7 @@ import com.mazkiplay.trade.ui.widgets.economicCalendarConfig
 import com.mazkiplay.trade.ui.widgets.newsTimelineConfig
 import com.mazkiplay.trade.ui.widgets.technicalGaugeConfig
 import com.mazkiplay.trade.ui.widgets.tickerTapeConfig
+import com.mazkiplay.trade.util.Formatters
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -95,12 +99,16 @@ fun LiveMarketScreen(app: MazkiplayApp, prefs: UserPreferences) {
     val calendar by vm.calendar.collectAsState()
     val news by vm.news.collectAsState()
     val signal by vm.signal.collectAsState()
+    val pulse by vm.pulse.collectAsState()
+    val cryptoCoins by vm.cryptoCoins.collectAsState()
+    val cryptoStatus by vm.cryptoStatus.collectAsState()
+    val cryptoLastUpdated by vm.cryptoLastUpdated.collectAsState()
     val symbol by vm.symbol.collectAsState()
     val timeframe by vm.timeframe.collectAsState()
 
     val dark = prefs.theme != "light"
     var pane by remember { mutableStateOf(0) }
-    val panes = listOf("Chart", "Screener", "Kekuatan", "Kalender", "Berita", "Sinyal")
+    val panes = listOf("Chart", "Screener", "Kekuatan", "Kalender", "Berita", "Crypto", "Sinyal")
 
     val quote = quotes[symbol]
     val technical = technicals[symbol]
@@ -135,6 +143,8 @@ fun LiveMarketScreen(app: MazkiplayApp, prefs: UserPreferences) {
             heightDp = 76
         )
 
+        MarketPulseCard(pulse = pulse, onSymbolClick = vm::selectSymbol)
+
         // ------------------------------------------------------------- pane selector
         LazyRow(
             contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp),
@@ -163,9 +173,176 @@ fun LiveMarketScreen(app: MazkiplayApp, prefs: UserPreferences) {
                 2 -> StrengthPane(strength = strength, dark = dark)
                 3 -> CalendarPane(calendar = calendar, dark = dark)
                 4 -> NewsPane(news = news, dark = dark)
+                5 -> CryptoPane(coins = cryptoCoins, status = cryptoStatus, lastUpdated = cryptoLastUpdated)
                 else -> SignalPane(vm = vm, signal = signal, digits = instrument.digits)
             }
         }
+    }
+}
+
+@Composable
+private fun CryptoPane(
+    coins: List<CryptoMarketCoin>,
+    status: CryptoFeedStatus,
+    lastUpdated: Long
+) {
+    LazyColumn(
+        contentPadding = PaddingValues(12.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        item {
+            SectionCard(
+                title = "Crypto Market",
+                subtitle = "CoinGecko public API • ${status.label} • Top ${coins.size} berdasarkan market cap"
+            ) {
+                Text(
+                    text = if (lastUpdated > 0) "Update ${Formatters.time(lastUpdated, "HH:mm:ss")}" else "Menunggu data publik",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    text = "Cakupan public/free terbatas dan dapat terkena rate limit. Ini bukan feed order book exchange.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+        if (coins.isEmpty()) {
+            item { EmptyHint("Belum ada data CoinGecko. Coba muat ulang saat koneksi tersedia.") }
+        } else {
+            items(coins, key = { it.id }) { coin ->
+                CryptoCoinRow(coin)
+            }
+        }
+    }
+}
+
+@Composable
+private fun CryptoCoinRow(coin: CryptoMarketCoin) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .padding(horizontal = 12.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = coin.marketCapRank?.toString() ?: "--",
+            modifier = Modifier.width(34.dp),
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Column(Modifier.weight(1f)) {
+            Text(coin.symbol, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelLarge)
+            Text(coin.name, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1)
+        }
+        Column(horizontalAlignment = Alignment.End) {
+            Text(
+                text = coin.currentPrice?.let { Formatters.money(it, if (it < 1.0) 6 else 2) } ?: "--",
+                style = MaterialTheme.typography.labelMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            Text(
+                text = coin.priceChangePercentage24h?.let { Formatters.percent(it) } ?: "--",
+                style = MaterialTheme.typography.labelSmall,
+                color = if (coin.isUp) MarketColors.Up else MarketColors.Down
+            )
+        }
+    }
+}
+
+@Composable
+private fun MarketPulseCard(
+    pulse: MarketPulse,
+    onSymbolClick: (String) -> Unit
+) {
+    SectionCard(
+        title = "Market Pulse",
+        subtitle = if (pulse.hasData) {
+            "Breadth dari ${pulse.total} quote live • ${pulse.unresolved} belum tersedia"
+        } else {
+            "Menunggu snapshot quote live"
+        }
+    ) {
+        if (!pulse.hasData) {
+            EmptyHint("Ringkasan muncul setelah feed mengirim data valid.")
+            return@SectionCard
+        }
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            StatTile(
+                label = "Naik",
+                value = pulse.advancing.toString(),
+                valueColor = MarketColors.Up,
+                modifier = Modifier.weight(1f),
+                caption = "${pulse.breadthPercent}% breadth"
+            )
+            StatTile(
+                label = "Turun",
+                value = pulse.declining.toString(),
+                valueColor = MarketColors.Down,
+                modifier = Modifier.weight(1f),
+                caption = "${pulse.unchanged} datar"
+            )
+            StatTile(
+                label = "Rata-rata",
+                value = Formatters.percent(pulse.averageChangePercent),
+                valueColor = if (pulse.averageChangePercent >= 0) MarketColors.Up else MarketColors.Down,
+                modifier = Modifier.weight(1f),
+                caption = "perubahan sesi"
+            )
+        }
+        Spacer(Modifier.height(10.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            MoverChip(
+                title = "Top gainer",
+                quote = pulse.topGainer,
+                color = MarketColors.Up,
+                modifier = Modifier.weight(1f),
+                onClick = onSymbolClick
+            )
+            MoverChip(
+                title = "Top loser",
+                quote = pulse.topLoser,
+                color = MarketColors.Down,
+                modifier = Modifier.weight(1f),
+                onClick = onSymbolClick
+            )
+        }
+    }
+}
+
+@Composable
+private fun MoverChip(
+    title: String,
+    quote: com.mazkiplay.trade.data.model.TvQuote?,
+    color: androidx.compose.ui.graphics.Color,
+    modifier: Modifier = Modifier,
+    onClick: (String) -> Unit
+) {
+    val symbol = quote?.symbol ?: "--"
+    Row(
+        modifier = modifier
+            .clip(RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .clickable(enabled = quote != null) { quote?.let { onClick(it.symbol) } }
+            .padding(horizontal = 10.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(Modifier.weight(1f)) {
+            Text(title, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(symbol, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+        }
+        Text(
+            text = quote?.let { Formatters.percent(it.changePercent) } ?: "--",
+            style = MaterialTheme.typography.labelMedium,
+            fontWeight = FontWeight.Bold,
+            color = color
+        )
     }
 }
 

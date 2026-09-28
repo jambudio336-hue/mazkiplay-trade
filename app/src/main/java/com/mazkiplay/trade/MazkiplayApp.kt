@@ -3,6 +3,7 @@ package com.mazkiplay.trade
 import android.app.Application
 import com.mazkiplay.trade.data.local.MazkiplayDatabase
 import com.mazkiplay.trade.data.repository.CopyTradeRepository
+import com.mazkiplay.trade.data.repository.CryptoRepository
 import com.mazkiplay.trade.data.repository.MarketRepository
 import com.mazkiplay.trade.data.repository.NewsRepository
 import com.mazkiplay.trade.data.repository.SettingsRepository
@@ -30,6 +31,7 @@ class MazkiplayApp : Application() {
     val newsRepository: NewsRepository by lazy { NewsRepository() }
     val tradeRepository: TradeRepository by lazy { TradeRepository(database) }
     val copyTradeRepository: CopyTradeRepository by lazy { CopyTradeRepository() }
+    val cryptoRepository: CryptoRepository by lazy { CryptoRepository() }
 
     /**
      * The primary live feed. Every screen reads its own state, so one poll serves the
@@ -67,6 +69,7 @@ class MazkiplayApp : Application() {
         marketRepository.startAutoRefresh(intervalMillis = 60_000L)
         newsRepository.startAutoRefresh(intervalMillis = 300_000L)
         copyTradeRepository.startAutoRefresh(intervalMillis = 120_000L)
+        cryptoRepository.startAutoRefresh(intervalMillis = 300_000L)
 
         // TradingView runs the fast lane: prices and technicals every 10s, calendar
         // every 4 minutes, news every 2 minutes. The Yahoo-backed repositories above
