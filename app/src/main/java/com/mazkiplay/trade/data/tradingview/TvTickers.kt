@@ -40,9 +40,38 @@ object TvTickers {
         // ------------------------------------------------------------------- crypto
         "BTCUSD" to "BITSTAMP:BTCUSD",
         "ETHUSD" to "BITSTAMP:ETHUSD",
+        "SOLUSD" to "COINBASE:SOLUSD",
+        "XRPUSD" to "BITSTAMP:XRPUSD",
+        "DOGEUSD" to "COINBASE:DOGEUSD",
+        "ADAUSD" to "COINBASE:ADAUSD",
+        "USDTUSD" to "COINBASE:USDTUSD",
         // ------------------------------------------------------------------ indices
         "US30" to "OANDA:US30USD",
-        "NAS100" to "NASDAQ:NDX"
+        "NAS100" to "NASDAQ:NDX",
+        "SP500" to "SP:SPX",
+        "DAX" to "XETR:DAX",
+        "FTSE" to "TVC:UKX",
+        "NIKKEI" to "TVC:NI225",
+        "HSI" to "TVC:HSI",
+        "IHSG" to "IDX:COMPOSITE",
+        "BBCA" to "IDX:BBCA",
+        "BBRI" to "IDX:BBRI",
+        "BMRI" to "IDX:BMRI",
+        "TLKM" to "IDX:TLKM",
+        "ASII" to "IDX:ASII",
+        "AAPL" to "NASDAQ:AAPL",
+        "MSFT" to "NASDAQ:MSFT",
+        "NVDA" to "NASDAQ:NVDA",
+        "TSLA" to "NASDAQ:TSLA",
+        "AMZN" to "NASDAQ:AMZN",
+        "TOYOTA" to "TSE:7203",
+        "TENCENT" to "HKEX:700",
+        "SAP" to "XETR:SAP",
+        "BHP" to "ASX:BHP",
+        "DXY" to "TVC:DXY",
+        "VIX" to "CBOE:VIX",
+        "US10Y" to "TVC:US10Y",
+        "US30Y" to "TVC:US30Y"
     )
 
     /** Extra series that are not tradable instruments but feed the heatmap. */
@@ -74,6 +103,8 @@ object TvTickers {
         Timeframe.H1 -> "60"
         Timeframe.H4 -> "240"
         Timeframe.D1 -> "D"
+        Timeframe.W1 -> "W"
+        Timeframe.MN1 -> "M"
     }
 
     /** Timeframes the embedded widget is told to offer, in display order. */

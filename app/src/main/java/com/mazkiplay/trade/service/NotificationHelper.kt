@@ -14,6 +14,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.mazkiplay.trade.MainActivity
 import com.mazkiplay.trade.R
+import com.mazkiplay.trade.data.model.EconomicEvent
 
 /**
  * Every notification the app can raise: price moves, fresh headlines and entry
@@ -123,5 +124,24 @@ class NotificationHelper(private val context: Context) {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setDefaults(NotificationCompat.DEFAULT_ALL)
         NotificationManagerCompat.from(context).notify(ID_ALARM, notification.build())
+    }
+
+    /** Notify once when a high-impact calendar event enters the 15-minute window. */
+    fun notifyEconomicEvent(event: EconomicEvent) {
+        if (!allowed()) return
+        val prefs = context.getSharedPreferences("notification_state", Context.MODE_PRIVATE)
+        val key = "calendar_${event.id}"
+        if (prefs.getBoolean(key, false)) return
+        val body = "${event.currency.ifBlank { event.country }} • ${event.title}. " +
+            "Forecast: ${event.forecast.ifBlank { "--" }} • Previous: ${event.previous.ifBlank { "--" }}"
+        val notificationId = ID_ALARM + event.id.hashCode()
+        NotificationManagerCompat.from(context).notify(
+            notificationId,
+            base("Event berdampak tinggi", body, CHANNEL_ALARM, notificationId)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .build()
+        )
+        prefs.edit().putBoolean(key, true).apply()
     }
 }

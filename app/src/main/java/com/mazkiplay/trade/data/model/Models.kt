@@ -1,7 +1,10 @@
 package com.mazkiplay.trade.data.model
 
 /** Broad grouping used for filtering and for picking the right pip maths. */
-enum class InstrumentClass { METAL, MAJOR, MINOR, CRYPTO, INDEX }
+enum class InstrumentClass {
+    METAL, MAJOR, MINOR, CRYPTO, INDEX,
+    EQUITY, COMMODITY, FUTURES, BOND, MACRO
+}
 
 /**
  * A tradable instrument. [yahooSymbol] is the public chart feed used for live
@@ -25,6 +28,11 @@ data class Instrument(
             InstrumentClass.METAL -> if (symbol.startsWith("XAU")) "GOLD" else "XAG"
             InstrumentClass.CRYPTO -> "CRYPTO"
             InstrumentClass.INDEX -> "INDEX"
+            InstrumentClass.EQUITY -> "EQUITY"
+            InstrumentClass.COMMODITY -> "COMMODITY"
+            InstrumentClass.FUTURES -> "FUTURES"
+            InstrumentClass.BOND -> "BOND"
+            InstrumentClass.MACRO -> "MACRO"
             InstrumentClass.MAJOR -> "MAJOR"
             InstrumentClass.MINOR -> "CROSS"
         }
@@ -41,10 +49,12 @@ enum class Timeframe(
     M15("M15", "15m", "1mo", 1),
     H1("H1", "1h", "3mo", 1),
     H4("H4", "1h", "6mo", 4),
-    D1("D1", "1d", "1y", 1);
+    D1("D1", "1d", "1y", 1),
+    W1("W1", "1wk", "5y", 1),
+    MN1("1M", "1mo", "10y", 1);
 
     companion object {
-        val defaults: List<Timeframe> = listOf(M1, M5, M15, H1, H4, D1)
+        val defaults: List<Timeframe> = listOf(M1, M5, M15, H1, H4, D1, W1, MN1)
 
         /** Resolves a stored label (the DataStore preference) back to a timeframe. */
         fun fromLabel(label: String): Timeframe =

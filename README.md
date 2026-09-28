@@ -14,7 +14,7 @@ copy trade, dan notifikasi. Ditulis dengan **Kotlin + Jetpack Compose (Material 
 
 | Versi | Berkas | Ukuran | Unduh langsung |
 |-------|--------|--------|----------------|
-| **v1.2.0** | `mazkiplay-trade-v1.2.0.apk` | ~17 MB | **(lihat halaman rilis v1.2.0 setelah tag dipublikasikan)** |
+| **v1.3.0** | `mazkiplay-trade-v1.3.0.apk` | ~17 MB | **(lihat halaman rilis v1.3.0 setelah tag dipublikasikan)** |
 | v1.0.0 (sebelumnya) | `mazkiplay-trade-v1.0.0.apk` | 13,5 MB | **[\u2b07\ufe0f Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v1.0.0/mazkiplay-trade-v1.0.0.apk)** |
 
 - Halaman rilis sebelumnya: **[Releases v1.1.0](https://github.com/jambudio336-hue/mazkiplay-trade/releases/tag/v1.1.0)**
@@ -56,11 +56,12 @@ APK juga diunggah sebagai *workflow artifact* pada setiap build
 - **Multi-bahasa ID/EN**, **tema dark/light/system**, pengaturan **kecerahan layar** dan **format waktu & tanggal**.
 
 ### Data Pasar Real-Time
-- Harga live untuk **20 instrumen**: XAUUSD, XAGUSD, WTI, EURUSD, GBPUSD, USDJPY, USDCHF, AUDUSD, USDCAD, NZDUSD, EURJPY, GBPJPY, AUDJPY, EURGBP, GBPAUD, EURAUD, BTCUSD, ETHUSD, US30, NAS100.
+- Katalog live berisi **71 instrumen publik**: forex major/cross, IDX/BEI (IHSG, IDX30, LQ45 dan saham pilihan), saham US/global, crypto populer, gold/silver, komoditas, futures, index global, DXY, VIX, dan US Treasury yield.
 - **Chart candlestick** dengan overlay **EMA 20/50/200, Fibonacci retracement, Fair Value Gap, zona Supply & Demand, Support/Resistance**.
-- Auto-refresh berkala (60 detik saat aplikasi aktif, 30 menit di latar belakang lewat WorkManager).
+- Auto-refresh berkala (TradingView sekitar 10 detik untuk feed live, Yahoo fallback 60 detik saat aktif, dan 30 menit di latar belakang lewat WorkManager).
 - **Kalender ekonomi** dari feed publik (agenda fundamental, impact High/Medium/Low, actual vs forecast).
-- **Berita real-time** dari beberapa feed RSS dengan filter kategori dan penanda **BARU**.
+- **Berita real-time** dari beberapa feed RSS/TradingView dengan filter kategori, penanda **BARU**, dan notifikasi.
+- Notifikasi event ekonomi berdampak tinggi dikirim ketika rilis memasuki jendela 15 menit, dengan deduplikasi agar tidak spam.
 
 ### Analisa Otomatis
 - **Analisa Otomatis** gabungan: mesin teknikal (6 sinyal berbobot) + mesin fundamental (kekuatan mata uang, tekanan kalender, sentimen headline).

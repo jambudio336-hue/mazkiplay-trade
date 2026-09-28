@@ -4,6 +4,17 @@ Semua perubahan penting pada **Mazkiplay Trade** didokumentasikan di file ini.
 Format mengikuti [Keep a Changelog](https://keepachangelog.com/id/1.1.0/)
 dan proyek ini menggunakan [Semantic Versioning](https://semver.org/lang/id/).
 
+## [1.3.0] - 2026-09-28
+
+### Ditambahkan
+- Katalog aset publik diperluas untuk IDX, saham global, forex tambahan, crypto, komoditas, futures, index, DXY, VIX, dan Treasury yield.
+- Timeframe mingguan (`W1`) dan bulanan (`1M`) tersedia pada chart/history.
+- Pemetaan TradingView untuk aset populer dengan fallback Yahoo chart.
+- Notifikasi kalender ekonomi berdampak tinggi dalam jendela 15 menit sebelum rilis, dengan deduplikasi lokal.
+
+### Diubah
+- Versi aplikasi naik menjadi `1.3.0` dan versionCode menjadi 4.
+
 ## [1.2.0] - 2026-09-28
 
 ### Ditambahkan

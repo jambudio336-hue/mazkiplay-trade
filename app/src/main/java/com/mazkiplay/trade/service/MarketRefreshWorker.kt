@@ -62,6 +62,15 @@ class MarketRefreshWorker(
             app.newsRepository.refresh()
             app.copyTradeRepository.refresh()
 
+            // Calendar alerts use the same background refresh and are deduplicated
+            // locally by NotificationHelper, so a 30-minute worker does not spam.
+            if (prefs.newsAlert) {
+                val now = System.currentTimeMillis()
+                app.marketRepository.upcomingHighImpact(10)
+                    .filter { it.dateMillis in now..(now + 15 * 60_000L) }
+                    .forEach(app.notifications::notifyEconomicEvent)
+            }
+
             // Price alert: compare the refreshed quotes against the previous snapshot.
             if (prefs.priceAlert) {
                 app.marketRepository.quotes.value.forEach { (symbol, quote) ->
