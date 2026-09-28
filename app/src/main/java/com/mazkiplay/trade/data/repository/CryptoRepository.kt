@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
-/** Public/free crypto market catalog. It is intentionally capped to avoid API abuse. */
+/** Public/free crypto catalog. Listing refreshes detect newly ranked coins without synthetic data. */
 class CryptoRepository(
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 ) {
@@ -45,9 +45,14 @@ class CryptoRepository(
 
     suspend fun refresh() {
         runCatching {
-            // CoinGecko public/free access is rate-limited; one page of 100 is deliberate.
-            NetworkModule.coinGeckoApi.markets(perPage = 100, page = 1)
-                .mapNotNull { it.toModel() }
+            // Public/free is rate-limited; 250 spot + 250 meme is the safe practical cap.
+            val spot = NetworkModule.coinGeckoApi.markets(
+                perPage = 250, page = 1, sparkline = true
+            ).mapNotNull { it.toModel("Spot") }
+            val meme = NetworkModule.coinGeckoApi.markets(
+                perPage = 250, page = 1, sparkline = true, category = "meme-token"
+            ).mapNotNull { it.toModel("Meme Coin") }
+            (spot + meme).distinctBy { it.id }
         }.onSuccess { result ->
             if (result.isNotEmpty()) {
                 _coins.value = result
@@ -64,7 +69,7 @@ class CryptoRepository(
         }
     }
 
-    private fun CoinGeckoMarketDto.toModel(): CryptoMarketCoin? {
+    private fun CoinGeckoMarketDto.toModel(group: String): CryptoMarketCoin? {
         val safeId = id?.takeIf { it.isNotBlank() } ?: return null
         return CryptoMarketCoin(
             id = safeId,
@@ -78,6 +83,8 @@ class CryptoRepository(
             priceChange24h = priceChange24h,
             priceChangePercentage24h = priceChangePercentage24h,
             circulatingSupply = circulatingSupply,
+            marketGroup = group,
+            sparkline7d = sparklineIn7d?.price.orEmpty(),
             lastUpdated = System.currentTimeMillis()
         )
     }

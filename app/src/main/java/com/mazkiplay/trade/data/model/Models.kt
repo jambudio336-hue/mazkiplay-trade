@@ -164,6 +164,8 @@ data class CryptoMarketCoin(
     val priceChange24h: Double? = null,
     val priceChangePercentage24h: Double? = null,
     val circulatingSupply: Double? = null,
+    val marketGroup: String = "Spot",
+    val sparkline7d: List<Double> = emptyList(),
     val lastUpdated: Long = 0L
 ) {
     val hasPrice: Boolean get() = currentPrice != null

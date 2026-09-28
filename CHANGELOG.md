@@ -4,6 +4,19 @@ Semua perubahan penting pada **Mazkiplay Trade** didokumentasikan di file ini.
 Format mengikuti [Keep a Changelog](https://keepachangelog.com/id/1.1.0/)
 dan proyek ini menggunakan [Semantic Versioning](https://semver.org/lang/id/).
 
+## [1.6.0] - 2026-09-28
+
+### Ditambahkan
+- Katalog Crypto Spot dinamis CoinGecko hingga 250 aset market-cap teratas.
+- Katalog Meme Coin dinamis hingga 250 aset dari kategori `meme-token` CoinGecko.
+- Refresh listing otomatis agar coin yang baru masuk ranking publik dapat muncul pada refresh berikutnya.
+- Filter **Spot**, **Meme Coin**, dan **Semua**.
+- Sparkline chart harga 7 hari pada setiap coin jika dikirim oleh sumber publik.
+
+### Diubah
+- Versi aplikasi naik menjadi `1.6.0` dan versionCode menjadi 7.
+- Batas public/free dan rate-limit ditampilkan transparan; fitur ini bukan feed order book exchange.
+
 ## [1.5.0] - 2026-09-28
 
 ### Ditambahkan

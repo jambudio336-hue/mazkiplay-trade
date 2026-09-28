@@ -24,6 +24,7 @@ interface CoinGeckoApi {
         @Query("per_page") perPage: Int = 100,
         @Query("page") page: Int = 1,
         @Query("sparkline") sparkline: Boolean = false,
-        @Query("price_change_percentage") priceChangePercentage: String = "24h"
+        @Query("price_change_percentage") priceChangePercentage: String = "24h",
+        @Query("category") category: String? = null
     ): List<CoinGeckoMarketDto>
 }

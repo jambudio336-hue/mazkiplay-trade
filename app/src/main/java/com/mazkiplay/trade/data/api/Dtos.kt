@@ -73,7 +73,12 @@ data class CoinGeckoMarketDto(
     @SerializedName("price_change_24h") val priceChange24h: Double?,
     @SerializedName("price_change_percentage_24h") val priceChangePercentage24h: Double?,
     @SerializedName("circulating_supply") val circulatingSupply: Double?,
-    @SerializedName("last_updated") val lastUpdated: String?
+    @SerializedName("last_updated") val lastUpdated: String?,
+    @SerializedName("sparkline_in_7d") val sparklineIn7d: CoinGeckoSparklineDto?
+)
+
+data class CoinGeckoSparklineDto(
+    @SerializedName("price") val price: List<Double>?
 )
 
 /** ------------------------------------------------------------- Copy-trade feed */

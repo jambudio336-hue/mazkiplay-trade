@@ -58,6 +58,7 @@ import com.mazkiplay.trade.ui.components.OfflineBanner
 import com.mazkiplay.trade.ui.components.SectionCard
 import com.mazkiplay.trade.ui.components.SignalBiasChip
 import com.mazkiplay.trade.ui.components.StatTile
+import com.mazkiplay.trade.ui.components.Sparkline
 import com.mazkiplay.trade.ui.components.clockLabel
 import com.mazkiplay.trade.ui.liveViewModel
 import com.mazkiplay.trade.ui.widgets.TradingViewStrip
@@ -186,6 +187,8 @@ private fun CryptoPane(
     status: CryptoFeedStatus,
     lastUpdated: Long
 ) {
+    var group by remember { mutableStateOf("Spot") }
+    val visibleCoins = coins.filter { group == "Semua" || it.marketGroup == group }
     LazyColumn(
         contentPadding = PaddingValues(12.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -193,7 +196,7 @@ private fun CryptoPane(
         item {
             SectionCard(
                 title = "Crypto Market",
-                subtitle = "CoinGecko public API • ${status.label} • Top ${coins.size} berdasarkan market cap"
+                subtitle = "CoinGecko public API • ${status.label} • ${visibleCoins.size} coin tampil"
             ) {
                 Text(
                     text = if (lastUpdated > 0) "Update ${Formatters.time(lastUpdated, "HH:mm:ss")}" else "Menunggu data publik",
@@ -206,12 +209,20 @@ private fun CryptoPane(
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+                Spacer(Modifier.height(8.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    listOf("Spot", "Meme Coin", "Semua").forEach { option ->
+                        TextButton(onClick = { group = option }) {
+                            Text(option, color = if (group == option) MarketColors.Up else MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                    }
+                }
             }
         }
         if (coins.isEmpty()) {
             item { EmptyHint("Belum ada data CoinGecko. Coba muat ulang saat koneksi tersedia.") }
         } else {
-            items(coins, key = { it.id }) { coin ->
+            items(visibleCoins, key = { it.id }) { coin ->
                 CryptoCoinRow(coin)
             }
         }
@@ -235,8 +246,12 @@ private fun CryptoCoinRow(coin: CryptoMarketCoin) {
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Column(Modifier.weight(1f)) {
-            Text(coin.symbol, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelLarge)
+            Text("${coin.symbol} • ${coin.marketGroup}", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelLarge)
             Text(coin.name, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1)
+        }
+        if (coin.sparkline7d.size > 2) {
+            Sparkline(values = coin.sparkline7d, color = if (coin.isUp) MarketColors.Up else MarketColors.Down, modifier = Modifier.width(72.dp).height(28.dp))
+            Spacer(Modifier.width(8.dp))
         }
         Column(horizontalAlignment = Alignment.End) {
             Text(

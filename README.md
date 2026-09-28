@@ -14,7 +14,7 @@ copy trade, dan notifikasi. Ditulis dengan **Kotlin + Jetpack Compose (Material 
 
 | Versi | Berkas | Ukuran | Unduh langsung |
 |-------|--------|--------|----------------|
-| **v1.5.0** | `mazkiplay-trade-v1.5.0.apk` | ~17 MB | **(lihat halaman rilis v1.5.0 setelah tag dipublikasikan)** |
+| **v1.6.0** | `mazkiplay-trade-v1.6.0.apk` | ~17 MB | **(lihat halaman rilis v1.6.0 setelah tag dipublikasikan)** |
 | v1.0.0 (sebelumnya) | `mazkiplay-trade-v1.0.0.apk` | 13,5 MB | **[\u2b07\ufe0f Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v1.0.0/mazkiplay-trade-v1.0.0.apk)** |
 
 - Halaman rilis sebelumnya: **[Releases v1.1.0](https://github.com/jambudio336-hue/mazkiplay-trade/releases/tag/v1.1.0)**
@@ -79,6 +79,7 @@ APK juga diunggah sebagai *workflow artifact* pada setiap build
 - **Copy Trade**: katalog publik/edukasi dengan portofolio dan statistik tersimpan; diberi label **KATALOG / TIDAK_REALTIME**. Open position/SL/TP lintas platform tidak diklaim tersedia tanpa provider resmi.
 - **Journal Trading**: catatan lokal untuk setup, alasan entry, evaluasi, mood, dan waktu; tidak menghapus riwayat posisi lama.
 - **Video News Online**: feed YouTube RSS publik yang berganti otomatis saat video baru tersedia, diputar/stopped di dalam APK melalui embed resmi YouTube.
+- **Crypto Spot & Meme Coin**: hingga 250 coin market-cap dan 250 meme coin dari CoinGecko public API, filter kategori, listing baru saat refresh, dan sparkline chart 7 hari.
 - **Alarm Entry**: alarm pada jam tertentu atau jeda cepat, opsi ulang harian, dijadwalkan lewat `AlarmManager` (exact alarm).
 - **Sesi Trading**: Sydney, Tokyo, London, New York dengan status buka/tutup real-time, progress, dan **skor likuiditas**.
 - **Watchlist** yang dapat dikelola, **notifikasi** berita baru / perubahan harga / alarm entry, dan **auto-refresh latar belakang**.
