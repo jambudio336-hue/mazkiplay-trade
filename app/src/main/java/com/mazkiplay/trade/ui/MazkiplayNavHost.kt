@@ -1,6 +1,9 @@
 package com.mazkiplay.trade.ui
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.Image
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.material.icons.filled.Article
@@ -40,6 +43,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -49,6 +55,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mazkiplay.trade.MazkiplayApp
+import com.mazkiplay.trade.R
 import com.mazkiplay.trade.ui.screens.AlarmScreen
 import com.mazkiplay.trade.ui.screens.AnalysisScreen
 import com.mazkiplay.trade.ui.screens.CalculatorScreen
@@ -225,11 +232,20 @@ fun MazkiplayNavHost(app: MazkiplayApp) {
                 }
             }
         ) { padding ->
-            NavHost(
-                navController = navController,
-                startDestination = Routes.DASHBOARD,
-                modifier = Modifier.padding(padding)
-            ) {
+            val landscape = LocalConfiguration.current.orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE
+            Box(Modifier.fillMaxSize().padding(padding)) {
+                Image(
+                    painter = painterResource(if (landscape) R.drawable.bull_bear_landscape else R.drawable.bull_bear_portrait),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    alpha = 0.12f,
+                    modifier = Modifier.fillMaxSize()
+                )
+                NavHost(
+                    navController = navController,
+                    startDestination = Routes.DASHBOARD,
+                    modifier = Modifier.fillMaxSize()
+                ) {
                 composable(Routes.DASHBOARD) {
                     DashboardScreen(app, prefs) { route ->
                         navController.navigate(route) { launchSingleTop = true }
@@ -250,6 +266,7 @@ fun MazkiplayNavHost(app: MazkiplayApp) {
                 composable(Routes.LIVE_MARKET) { LiveMarketScreen(app, prefs) }
                 composable(Routes.VIDEO_NEWS) { VideoNewsScreen(app, prefs) }
                 composable(Routes.SETTINGS) { SettingsScreen(app, prefs) }
+                }
             }
         }
     }

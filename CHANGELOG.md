@@ -4,6 +4,18 @@ Semua perubahan penting pada **Mazkiplay Trade** didokumentasikan di file ini.
 Format mengikuti [Keep a Changelog](https://keepachangelog.com/id/1.1.0/)
 dan proyek ini menggunakan [Semantic Versioning](https://semver.org/lang/id/).
 
+## [1.7.0] - 2026-09-28
+
+### Ditambahkan
+- Background aplikasi adaptif portrait/landscape dengan ilustrasi bullish bull versus bearish bear, dibuat tanpa teks agar tetap aman di belakang UI.
+- **Sniper Entry** pada layar Analisa: bias BUY/SELL dari analisis live, entry, SL, TP, confidence, lot, nominal risiko, dan R:R.
+- Risk sizing Sniper Entry memakai balance, risk percent, leverage, SL percent, dan TP ratio pengguna melalui `PositionCalculator`.
+- Tombol menyimpan pengingat alarm sniper satu menit agar pengguna memeriksa ulang feed sebelum entry.
+
+### Diubah
+- Versi aplikasi naik menjadi `1.7.0` dan versionCode menjadi 8.
+- Sumber Bloomberg Terminal tidak diklaim sebagai feed publik; integrasi Bloomberg memerlukan lisensi/API resmi dan credential backend. Feed publik yang tersedia tetap diberi label sumber/status.
+
 ## [1.6.0] - 2026-09-28
 
 ### Ditambahkan

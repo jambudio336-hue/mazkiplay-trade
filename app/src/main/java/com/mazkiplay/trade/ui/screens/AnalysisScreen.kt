@@ -32,8 +32,11 @@ import androidx.compose.ui.unit.dp
 import com.mazkiplay.trade.MazkiplayApp
 import com.mazkiplay.trade.data.model.Instruments
 import com.mazkiplay.trade.data.model.Timeframe
+import com.mazkiplay.trade.data.model.TradeDirection
 import com.mazkiplay.trade.data.repository.UserPreferences
+import com.mazkiplay.trade.domain.trade.PositionCalculator
 import com.mazkiplay.trade.ui.analysisViewModel
+import com.mazkiplay.trade.ui.tradeViewModel
 import com.mazkiplay.trade.ui.components.AnalysisPanel
 import com.mazkiplay.trade.ui.components.CurrencyStrengthRow
 import com.mazkiplay.trade.ui.components.EmptyHint
@@ -52,6 +55,7 @@ import com.mazkiplay.trade.util.Formatters
 fun AnalysisScreen(app: MazkiplayApp, prefs: UserPreferences) {
     val s = stringsOf(prefs)
     val vm = analysisViewModel(app)
+    val tradeVm = tradeViewModel(app)
 
     val symbol by vm.symbol.collectAsState()
     val timeframe by vm.timeframe.collectAsState()
@@ -158,6 +162,46 @@ fun AnalysisScreen(app: MazkiplayApp, prefs: UserPreferences) {
                         digits = instrument.digits,
                         labels = PanelLabels(confidence = s.confidence, entry = "Entry", stopLoss = "SL", takeProfit = "TP", reasons = s.reasons)
                     )
+                }
+            }
+        }
+
+        item {
+            val sniper = result
+            SectionCard(title = "Sniper Entry", subtitle = "Setup otomatis dari feed live • risk sizing mengikuti balance") {
+                if (sniper == null || sniper.entry <= 0.0 || sniper.bias == com.mazkiplay.trade.data.model.Bias.NEUTRAL) {
+                    EmptyHint("Jalankan analisa dan tunggu bias BUY/SELL sebelum membuat setup sniper.")
+                } else {
+                    val direction = if (sniper.bias.isBullish) TradeDirection.BUY else TradeDirection.SELL
+                    val sized = PositionCalculator.size(
+                        instrument = instrument,
+                        direction = direction,
+                        entry = sniper.entry,
+                        balance = prefs.balance,
+                        riskPercent = prefs.riskPercent,
+                        tpRatio = prefs.tpRatio,
+                        slPercent = prefs.slPercent,
+                        leverage = prefs.leverage
+                    )
+                    Text("${direction.label} • confidence ${sniper.confidence}% • balance ${Formatters.money(prefs.balance)}", style = MaterialTheme.typography.bodySmall)
+                    Spacer(Modifier.height(8.dp))
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        com.mazkiplay.trade.ui.components.StatTile(label = "Entry", value = Formatters.price(sized.entryPrice, instrument.digits), modifier = Modifier.weight(1f))
+                        com.mazkiplay.trade.ui.components.StatTile(label = "SL", value = Formatters.price(sized.stopLossPrice, instrument.digits), valueColor = Bear, modifier = Modifier.weight(1f))
+                        com.mazkiplay.trade.ui.components.StatTile(label = "TP", value = Formatters.price(sized.takeProfitPrice, instrument.digits), valueColor = Bull, modifier = Modifier.weight(1f))
+                    }
+                    Spacer(Modifier.height(8.dp))
+                    Text("Lot ${Formatters.lot(sized.lot)} • risiko ${Formatters.money(sized.riskAmount)} (${prefs.riskPercent}%) • R:R 1:${prefs.tpRatio}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Spacer(Modifier.height(8.dp))
+                    Button(onClick = {
+                        tradeVm.addAlarm(
+                            label = "Sniper ${direction.label}",
+                            symbol = symbol,
+                            triggerAt = System.currentTimeMillis() + 60_000L,
+                            note = "Setup ${direction.label}: Entry ${sized.entryPrice}, SL ${sized.stopLossPrice}, TP ${sized.takeProfitPrice}, lot ${sized.lot}. Cek ulang feed live sebelum entry.",
+                            repeatDaily = false
+                        )
+                    }, modifier = Modifier.fillMaxWidth()) { Text("Simpan alarm sniper 1 menit") }
                 }
             }
         }

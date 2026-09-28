@@ -14,7 +14,7 @@ copy trade, dan notifikasi. Ditulis dengan **Kotlin + Jetpack Compose (Material 
 
 | Versi | Berkas | Ukuran | Unduh langsung |
 |-------|--------|--------|----------------|
-| **v1.6.0** | `mazkiplay-trade-v1.6.0.apk` | ~17 MB | **(lihat halaman rilis v1.6.0 setelah tag dipublikasikan)** |
+| **v1.7.0** | `mazkiplay-trade-v1.7.0.apk` | ~17 MB | **(lihat halaman rilis v1.7.0 setelah tag dipublikasikan)** |
 | v1.0.0 (sebelumnya) | `mazkiplay-trade-v1.0.0.apk` | 13,5 MB | **[\u2b07\ufe0f Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v1.0.0/mazkiplay-trade-v1.0.0.apk)** |
 
 - Halaman rilis sebelumnya: **[Releases v1.1.0](https://github.com/jambudio336-hue/mazkiplay-trade/releases/tag/v1.1.0)**
@@ -51,6 +51,7 @@ APK juga diunggah sebagai *workflow artifact* pada setiap build
 - **Market Pulse** dari quote live: breadth naik/turun/datar, rata-rata perubahan sesi, top gainer/top loser, dan jumlah ticker yang belum tersedia.
 
 ### Tampilan & Navigasi
+- Background bullish/bearish bull-versus-bear adaptif untuk portrait dan landscape dengan opacity rendah agar data tetap mudah dibaca.
 - **Splash screen** Nusantara Forex dengan ilustrasi, **sapaan acak yang berganti setiap app dibuka**, dan tanda tangan `By.mazkiplayTrade`.
 - **Dashboard** padat fitur: saldo, floating P/L, skor likuiditas, watchlist live, status sesi, agenda ekonomi, aksi cepat, sinyal terakhir, dan headline berita.
 - Navigasi **bottom bar** (Dashboard, Pasar, Berita, Analisa, Order) + **drawer** untuk 9 halaman lainnya.
@@ -70,6 +71,7 @@ APK juga diunggah sebagai *workflow artifact* pada setiap build
 - **Analisa Teknikal**: EMA stack, RSI(14), ATR, MACD, Bollinger, market structure (HH/HL), swing high/low, pivot klasik.
 - **Analisa Fundamental**: kekuatan 12 mata uang, sentimen berita, agenda high-impact, probabilitas.
 - **Analisa Pasar**: **order book** (estimasi likuiditas), **market profile** (POC + value area + bentuk profil), **Fibonacci**, **FVG**, **supply & demand**, **support & resistance**.
+- **Sniper Entry**: bias otomatis live menghasilkan kandidat Entry/SL/TP, confidence, lot, nominal risiko, dan R:R berdasarkan balance/risk/leverage pengguna; hasilnya dapat disimpan menjadi alarm pengingat.
 
 ### Eksekusi & Manajemen Risiko
 - **Buka posisi Buy/Sell** dengan TP & SL otomatis: pilih rasio TP (**1:1, 1:1.5, 1:2, 1:3**) dan jarak SL (%), sistem menghitung **lot, harga TP/SL, nilai pip, margin, dan risk/reward**.
@@ -83,6 +85,11 @@ APK juga diunggah sebagai *workflow artifact* pada setiap build
 - **Alarm Entry**: alarm pada jam tertentu atau jeda cepat, opsi ulang harian, dijadwalkan lewat `AlarmManager` (exact alarm).
 - **Sesi Trading**: Sydney, Tokyo, London, New York dengan status buka/tutup real-time, progress, dan **skor likuiditas**.
 - **Watchlist** yang dapat dikelola, **notifikasi** berita baru / perubahan harga / alarm entry, dan **auto-refresh latar belakang**.
+
+### Sumber Data dan Batas Integrasi
+- TradingView public widgets/scanner menjadi sumber utama live chart/quote yang tersedia di aplikasi; polling numerik dan fallback diberi status koneksi.
+- Bloomberg Terminal bukan sumber publik gratis. Data real-time Bloomberg hanya boleh ditambahkan menggunakan lisensi dan API resmi Bloomberg, dengan credential disimpan di backend/secret dan mengikuti izin redistribusi.
+- Sumber publik seperti CoinGecko, Yahoo fallback, RSS, YouTube, dan kalender publik dapat memiliki rate limit, delay, coverage terbatas, atau perubahan availability; aplikasi mempertahankan snapshot terakhir dan tidak membuat data palsu.
 
 ---
 

@@ -15,6 +15,8 @@ ASSETS="$ROOT/app/src/main/assets"
 LOGO="$ASSETS/nusantara_logo.svg"
 SPLASH="$ASSETS/nusantara_splash.svg"
 SPLASH_PHOTO="$ASSETS/splash_photo.png"
+BACKGROUND_PORTRAIT="$ASSETS/bull_bear_portrait.png"
+BACKGROUND_LANDSCAPE="$ASSETS/bull_bear_landscape.png"
 
 if [ ! -f "$LOGO" ]; then
   echo "Logo vector not found at $LOGO" >&2
@@ -54,6 +56,15 @@ if [ -f "$SPLASH_PHOTO" ]; then
 elif [ -f "$SPLASH" ]; then
   rsvg-convert -w 1080 -h 1920 "$SPLASH" -o "$RES/drawable-nodpi/splash_hero.png"
   echo "generated drawable-nodpi/splash_hero.png"
+fi
+
+if [ -f "$BACKGROUND_PORTRAIT" ]; then
+  cp "$BACKGROUND_PORTRAIT" "$RES/drawable-nodpi/bull_bear_portrait.png"
+  echo "copied bull/bear portrait background"
+fi
+if [ -f "$BACKGROUND_LANDSCAPE" ]; then
+  cp "$BACKGROUND_LANDSCAPE" "$RES/drawable-nodpi/bull_bear_landscape.png"
+  echo "copied bull/bear landscape background"
 fi
 
 echo "Icon generation complete."
