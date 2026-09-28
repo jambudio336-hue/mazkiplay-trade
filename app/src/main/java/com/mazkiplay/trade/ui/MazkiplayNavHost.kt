@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.ShowChart
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material.icons.filled.TrendingUp
+import androidx.compose.material.icons.filled.VideoLibrary
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -64,6 +65,7 @@ import com.mazkiplay.trade.ui.screens.SettingsScreen
 import com.mazkiplay.trade.ui.screens.SplashScreen
 import com.mazkiplay.trade.ui.screens.TradeScreen
 import com.mazkiplay.trade.ui.screens.WatchlistScreen
+import com.mazkiplay.trade.ui.screens.VideoNewsScreen
 import kotlinx.coroutines.launch
 
 /** Every destination in the app. */
@@ -82,6 +84,7 @@ object Routes {
     const val MARKET_ANALYSIS = "marketanalysis"
     const val WATCHLIST = "watchlist"
     const val LIVE_MARKET = "livemarket"
+    const val VIDEO_NEWS = "videonews"
     const val SETTINGS = "settings"
 }
 
@@ -118,7 +121,8 @@ fun MazkiplayNavHost(app: MazkiplayApp) {
     )
 
     val drawerItems = listOf(
-        NavItem(Routes.LIVE_MARKET, "Live Market \u00b7 TradingView", Icons.Filled.ShowChart),
+        NavItem(Routes.LIVE_MARKET, "Live Market · TradingView", Icons.Filled.ShowChart),
+        NavItem(Routes.VIDEO_NEWS, "Video News · YouTube", Icons.Filled.VideoLibrary),
         NavItem(Routes.CALCULATOR, s.calculator, Icons.Filled.Calculate),
         NavItem(Routes.RISK, s.risk, Icons.Filled.Shield),
         NavItem(Routes.HISTORY, s.history, Icons.Filled.History),
@@ -244,6 +248,7 @@ fun MazkiplayNavHost(app: MazkiplayApp) {
                 composable(Routes.MARKET_ANALYSIS) { MarketAnalysisScreen(app, prefs) }
                 composable(Routes.WATCHLIST) { WatchlistScreen(app, prefs) }
                 composable(Routes.LIVE_MARKET) { LiveMarketScreen(app, prefs) }
+                composable(Routes.VIDEO_NEWS) { VideoNewsScreen(app, prefs) }
                 composable(Routes.SETTINGS) { SettingsScreen(app, prefs) }
             }
         }

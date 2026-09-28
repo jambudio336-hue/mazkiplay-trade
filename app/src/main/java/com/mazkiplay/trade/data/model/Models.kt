@@ -132,6 +132,14 @@ data class NewsItem(
     val isFresh: Boolean get() = System.currentTimeMillis() - publishedAt < 3_600_000L
 }
 
+data class VideoNewsItem(
+    val videoId: String,
+    val title: String,
+    val channel: String,
+    val publishedAt: Long,
+    val watchUrl: String = "https://www.youtube.com/watch?v=$videoId"
+)
+
 data class MarketSession(
     val name: String,
     val city: String,

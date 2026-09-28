@@ -27,6 +27,7 @@ class ViewModelFactory private constructor(
         CopyTradeViewModel::class.java -> CopyTradeViewModel(app)
         SettingsViewModel::class.java -> SettingsViewModel(app)
         LiveViewModel::class.java -> LiveViewModel(app)
+        VideoNewsViewModel::class.java -> VideoNewsViewModel(app)
         else -> error("No ViewModel registered for ${target.name}")
     }
 

@@ -15,6 +15,7 @@ import com.mazkiplay.trade.ui.viewmodel.MarketViewModel
 import com.mazkiplay.trade.ui.viewmodel.NewsViewModel
 import com.mazkiplay.trade.ui.viewmodel.SettingsViewModel
 import com.mazkiplay.trade.ui.viewmodel.TradeViewModel
+import com.mazkiplay.trade.ui.viewmodel.VideoNewsViewModel
 import com.mazkiplay.trade.ui.viewmodel.ViewModelFactory
 import com.mazkiplay.trade.util.AppStrings
 import com.mazkiplay.trade.util.LocaleStrings
@@ -62,3 +63,6 @@ fun settingsViewModel(app: MazkiplayApp): SettingsViewModel = appViewModel(app)
 
 @Composable
 fun liveViewModel(app: MazkiplayApp): LiveViewModel = appViewModel(app)
+
+@Composable
+fun videoNewsViewModel(app: MazkiplayApp): VideoNewsViewModel = appViewModel(app)

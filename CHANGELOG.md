@@ -4,6 +4,17 @@ Semua perubahan penting pada **Mazkiplay Trade** didokumentasikan di file ini.
 Format mengikuti [Keep a Changelog](https://keepachangelog.com/id/1.1.0/)
 dan proyek ini menggunakan [Semantic Versioning](https://semver.org/lang/id/).
 
+## [1.5.0] - 2026-09-28
+
+### Ditambahkan
+- Layar **Video News Online** pada drawer aplikasi.
+- Feed YouTube RSS publik dari beberapa kanal news, refresh otomatis, deduplikasi video, dan rotasi otomatis ke video terbaru.
+- Pemutar embed resmi YouTube di dalam APK dengan tombol **Putar**, **Stop**, dan tautan YouTube.
+- Fallback tanpa API key; tidak ada secret YouTube yang ditanam di APK.
+
+### Diubah
+- Versi aplikasi naik menjadi `1.5.0` dan versionCode menjadi 6.
+
 ## [1.4.0] - 2026-09-28
 
 ### Ditambahkan
