@@ -54,6 +54,7 @@ import com.mazkiplay.trade.ui.screens.CalculatorScreen
 import com.mazkiplay.trade.ui.screens.CopyTradeScreen
 import com.mazkiplay.trade.ui.screens.DashboardScreen
 import com.mazkiplay.trade.ui.screens.HistoryScreen
+import com.mazkiplay.trade.ui.screens.LiveMarketScreen
 import com.mazkiplay.trade.ui.screens.MarketAnalysisScreen
 import com.mazkiplay.trade.ui.screens.MarketScreen
 import com.mazkiplay.trade.ui.screens.NewsScreen
@@ -80,6 +81,7 @@ object Routes {
     const val SESSIONS = "sessions"
     const val MARKET_ANALYSIS = "marketanalysis"
     const val WATCHLIST = "watchlist"
+    const val LIVE_MARKET = "livemarket"
     const val SETTINGS = "settings"
 }
 
@@ -116,6 +118,7 @@ fun MazkiplayNavHost(app: MazkiplayApp) {
     )
 
     val drawerItems = listOf(
+        NavItem(Routes.LIVE_MARKET, "Live Market \u00b7 TradingView", Icons.Filled.ShowChart),
         NavItem(Routes.CALCULATOR, s.calculator, Icons.Filled.Calculate),
         NavItem(Routes.RISK, s.risk, Icons.Filled.Shield),
         NavItem(Routes.HISTORY, s.history, Icons.Filled.History),
@@ -143,7 +146,7 @@ fun MazkiplayNavHost(app: MazkiplayApp) {
                     modifier = Modifier.padding(18.dp)
                 )
                 Text(
-                    text = "Nusantara Forex • By.mazkiplayTrade",
+                    text = "Nusantara Forex \u2022 By.mazkiplayTrade",
                     style = androidx.compose.material3.MaterialTheme.typography.bodySmall,
                     color = androidx.compose.material3.MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(horizontal = 18.dp)
@@ -240,6 +243,7 @@ fun MazkiplayNavHost(app: MazkiplayApp) {
                 composable(Routes.SESSIONS) { SessionsScreen(app, prefs) }
                 composable(Routes.MARKET_ANALYSIS) { MarketAnalysisScreen(app, prefs) }
                 composable(Routes.WATCHLIST) { WatchlistScreen(app, prefs) }
+                composable(Routes.LIVE_MARKET) { LiveMarketScreen(app, prefs) }
                 composable(Routes.SETTINGS) { SettingsScreen(app, prefs) }
             }
         }
