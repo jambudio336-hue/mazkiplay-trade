@@ -2,7 +2,7 @@
 
 **Nusantara Forex — Trading cerdas, analisa otomatis**
 
-> **Release v2.4.0** — Responsive UX upgrade, startup soundtrack autoplay, dan seluruh fitur Unified Signal Bot v2.3.0.
+> **Release v2.5.0** — Online-only mode, Bahasa Indonesia, ikon bull/bear premium, responsive UX, soundtrack startup, dan seluruh fitur Unified Signal Bot.
 
 Aplikasi Android native untuk analisa dan eksekusi trading forex: harga real-time,
 kalender ekonomi, analisa otomatis (teknikal + fundamental), manajemen risiko,
@@ -16,6 +16,7 @@ copy trade, dan notifikasi. Ditulis dengan **Kotlin + Jetpack Compose (Material 
 
 | Versi | Berkas | Ukuran | Unduh langsung |
 |-------|--------|--------|----------------|
+| **v2.5.0** | `mazkiplay-trade-v2.5.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.5.0/mazkiplay-trade-v2.5.0.apk)** |
 | **v2.4.0** | `mazkiplay-trade-v2.4.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.4.0/mazkiplay-trade-v2.4.0.apk)** |
 | **v2.3.0** | `mazkiplay-trade-v2.3.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.3.0/mazkiplay-trade-v2.3.0.apk)** |
 | **v2.2.0** | `mazkiplay-trade-v2.2.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.2.0/mazkiplay-trade-v2.2.0.apk)** |
@@ -150,6 +151,16 @@ Token, access token, dan webhook disimpan memakai Android Keystore-backed encryp
 APK sekarang membawa soundtrack project berdurasi sekitar 23,85 detik. Soundtrack otomatis mulai sekali ketika process aplikasi pertama kali dibuka, tidak memiliki kontrol mute/stop/skip/delete di dalam UI, lalu berhenti sendiri ketika audio selesai. MediaPlayer dilepas otomatis pada completion atau error dan tidak dibuat ulang oleh recomposition Compose.
 
 Android tetap dapat menginterupsi audio karena audio focus sistem, panggilan telepon, Bluetooth, atau aplikasi audio lain. Ini adalah perilaku platform yang tidak dapat dikunci secara aman oleh aplikasi. Semua fitur lama—live feed, signal engine, risk guardian, bot, Academy, AI Center, QRIS donation, dan navigasi—dipertahankan.
+
+### Online-only dan Bahasa Indonesia v2.5.0
+
+APK menggunakan gate koneksi tervalidasi. Jika tidak ada internet, aplikasi hanya menampilkan layar **Koneksi Internet Diperlukan** dan tidak memuat dashboard, chart, signal, news, calendar, bot, AI, Academy, atau fitur lain. Saat koneksi tervalidasi kembali, aplikasi membuka otomatis tanpa perlu memulai ulang.
+
+Bahasa release dikunci ke **Bahasa Indonesia** agar seluruh alur utama konsisten. Status provider tetap transparan: LIVE, STALE, atau OFFLINE. Online-only tidak mengubah keterbatasan provider publik; endpoint dapat terkena rate limit atau gangguan dan aplikasi tidak akan menyamarkan kondisi tersebut sebagai data realtime.
+
+### Tombol dan responsiveness
+
+Navigation menggunakan drawer dan bottom bar yang tetap aktif, setiap layar mempertahankan state flow/repository yang sama, tombol refresh/test/configure menjalankan callback atau coroutine yang sesuai, dan loading/error state ditampilkan ketika provider lambat. CI release menjalankan debug sanity check dan release compile sebelum APK dipublish.
 
 #### Data-provider boundaries
 

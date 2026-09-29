@@ -1,7 +1,11 @@
 package com.mazkiplay.trade
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
@@ -12,8 +16,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
@@ -21,6 +29,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mazkiplay.trade.data.repository.UserPreferences
 import com.mazkiplay.trade.service.MarketRefreshWorker
 import com.mazkiplay.trade.ui.MazkiplayNavHost
+import com.mazkiplay.trade.ui.screens.OnlineRequiredScreen
 import com.mazkiplay.trade.ui.theme.MazkiplayTheme
 
 /**
@@ -46,6 +55,18 @@ class MainActivity : ComponentActivity() {
         MarketRefreshWorker.schedule(this)
 
         setContent {
+            var online by remember { mutableStateOf(hasValidatedInternet()) }
+            DisposableEffect(Unit) {
+                val manager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                val callback = object : ConnectivityManager.NetworkCallback() {
+                    override fun onAvailable(network: Network) { online = hasValidatedInternet() }
+                    override fun onLost(network: Network) { online = hasValidatedInternet() }
+                    override fun onCapabilitiesChanged(network: Network, capabilities: NetworkCapabilities) { online = capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED) }
+                }
+                manager.registerDefaultNetworkCallback(callback)
+                onDispose { runCatching { manager.unregisterNetworkCallback(callback) } }
+            }
+            LaunchedEffect(online) { if (online) app.startupAudio.playOnce() }
             val prefs by app.settings.preferences.collectAsStateWithLifecycle(
                 initialValue = UserPreferences()
             )
@@ -61,10 +82,17 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MazkiplayNavHost(app = app)
+                    if (online) MazkiplayNavHost(app = app) else OnlineRequiredScreen()
                 }
             }
         }
+    }
+
+    private fun hasValidatedInternet(): Boolean {
+        val manager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = manager.activeNetwork ?: return false
+        val capabilities = manager.getNetworkCapabilities(network) ?: return false
+        return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
     }
 
     private fun applyBrightness(value: Float) {

@@ -1,10 +1,15 @@
 
 
-STARTUP AUDIO NOTICE
---------------------
-The project-supplied startup soundtrack is packaged as an application asset for
-one automatic playback at process launch and is released automatically at end
-of file. The application UI intentionally exposes no in-app mute, stop, skip,
-or delete control for this brief. Android audio focus, phone calls, Bluetooth,
-and other operating-system audio policies may still interrupt playback; the
-application cannot override those platform controls safely.
+ONLINE-ONLY AND BRANDING NOTICE
+--------------------------------
+The application may require validated internet connectivity before composing its
+main experience. This gate is a product behavior, not a guarantee that every
+third-party provider is continuously available or realtime. Provider outages,
+rate limits, DNS failures, captive portals, and network interruptions remain
+possible and are surfaced through the application's LIVE, STALE, or OFFLINE
+states.
+
+The v2.5.0 interface is Indonesian-first. The bull/bear launcher artwork and
+related visual assets are project branding for Mazkiplay Trade and may not be
+represented as an official logo of any exchange, broker, market-data provider,
+or financial institution.

@@ -66,20 +66,12 @@ fun SettingsScreen(app: MazkiplayApp, prefs: UserPreferences) {
 
         item {
             SectionCard(title = s.language, subtitle = "Bahasa antarmuka") {
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    listOf("in" to "Indonesia", "en" to "English").forEach { (code, label) ->
-                        val selected = current.language == code
-                        Box(
-                            Modifier.weight(1f).clip(RoundedCornerShape(12.dp))
-                                .background(if (selected) Bull else MaterialTheme.colorScheme.surfaceVariant)
-                                .clickable { vm.setLanguage(code) }
-                                .padding(vertical = 11.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(label, style = MaterialTheme.typography.labelLarge, color = if (selected) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.onSurfaceVariant)
-                        }
-                    }
-                }
+                Box(
+                    Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp))
+                        .background(Bull)
+                        .padding(vertical = 11.dp),
+                    contentAlignment = Alignment.Center
+                ) { Text("Indonesia · aktif", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.surface) }
             }
         }
 

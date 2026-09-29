@@ -67,6 +67,17 @@ dan proyek ini menggunakan [Semantic Versioning](https://semver.org/lang/id/).
 - Menata startup audio di Application lifecycle agar tidak dijalankan berulang saat recomposition Compose.
 
 Catatan platform: audio dapat dihentikan sementara atau diinterupsi oleh Android, panggilan telepon, Bluetooth, atau aplikasi audio lain karena aturan audio focus sistem. Aplikasi tidak dapat dan tidak seharusnya mengunci kontrol sistem tersebut.
+
+## [2.5.0] - 2026-09-29
+
+### Online-only and Bahasa Indonesia
+- Menambahkan **Online Required Gate**: navigation, chart, signal, news, calendar, bot, AI, Academy, dan fitur lain tidak dikomposisikan ketika Android belum memiliki koneksi internet tervalidasi.
+- Gate menggunakan `NET_CAPABILITY_INTERNET` + `NET_CAPABILITY_VALIDATED`, memantau perubahan jaringan otomatis, dan membuka aplikasi saat koneksi tervalidasi kembali.
+- Startup soundtrack baru dimulai setelah gate online lolos, sehingga APK tidak mengaktifkan experience penuh dalam mode offline.
+- Mengunci bahasa release ke Bahasa Indonesia sebagai bahasa antarmuka utama dan memigrasikan preferensi bahasa lama ke Indonesia.
+- Mengganti launcher artwork menjadi ikon premium bull/bear split-face dengan tema terminal, emas, bullish green, dan bearish red; seluruh density tetap digenerate dari satu SVG saat CI build.
+
+Catatan: online-only berarti aplikasi menolak mode offline pada level UI. Ketersediaan realtime tiap provider tetap bergantung pada endpoint publik, rate limit, dan kesehatan jaringan/provider; status LIVE/STALE/OFFLINE tetap menjadi sumber kebenaran di aplikasi.
 - Semua angka signal/confidence adalah skor algoritmik internal, bukan probabilitas kemenangan.
 
 ## [2.0.0] - 2026-09-29

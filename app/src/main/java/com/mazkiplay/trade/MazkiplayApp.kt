@@ -55,8 +55,6 @@ class MazkiplayApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        startupAudio.playOnce()
-
         notifications.createChannels()
 
         // Headline alerts are raised from the repository so both the foreground UI

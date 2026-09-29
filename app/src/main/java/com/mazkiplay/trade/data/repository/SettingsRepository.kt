@@ -68,7 +68,7 @@ class SettingsRepository(private val context: Context) {
 
     val preferences: Flow<UserPreferences> = context.dataStore.data.map { prefs ->
         UserPreferences(
-            language = prefs[Keys.language] ?: "in",
+            language = "in",
             theme = prefs[Keys.theme] ?: "dark",
             brightness = prefs[Keys.brightness] ?: 1.0f,
             timeFormat = prefs[Keys.timeFormat] ?: "24h",
@@ -91,7 +91,7 @@ class SettingsRepository(private val context: Context) {
 
     suspend fun current(): UserPreferences = preferences.first()
 
-    suspend fun setLanguage(value: String) = edit { it[Keys.language] = value }
+    suspend fun setLanguage(value: String) = edit { it[Keys.language] = "in" }
     suspend fun setTheme(value: String) = edit { it[Keys.theme] = value }
     suspend fun setBrightness(value: Float) = edit { it[Keys.brightness] = value }
     suspend fun setTimeFormat(value: String) = edit { it[Keys.timeFormat] = value }
