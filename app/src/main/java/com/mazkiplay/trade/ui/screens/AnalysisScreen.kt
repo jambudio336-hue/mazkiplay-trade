@@ -85,6 +85,38 @@ fun AnalysisScreen(app: MazkiplayApp, prefs: UserPreferences) {
         }
 
         item {
+            val cryptoSource = instrument.klass == com.mazkiplay.trade.data.model.InstrumentClass.CRYPTO
+            val pattern = when {
+                snapshot == null -> "MENUNGGU SNAPSHOT"
+                snapshot!!.trend.contains("NAIK", true) && snapshot!!.rsi < 70.0 -> "TREND CONTINUATION"
+                snapshot!!.trend.contains("TURUN", true) && snapshot!!.rsi > 30.0 -> "TREND CONTINUATION"
+                snapshot!!.rsi >= 70.0 -> "OVERBOUGHT REVERSAL WATCH"
+                snapshot!!.rsi <= 30.0 -> "OVERSOLD REVERSAL WATCH"
+                else -> "RANGE / NO CLEAR PATTERN"
+            }
+            SectionCard(
+                title = "AI Trading Lab",
+                subtitle = "Trading Pakai AI · pipeline transparan dari data ke eksekusi",
+                trailing = { Pill(text = "BETA", color = Gold, filled = true) }
+            ) {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    PipelineStage("01", if (cryptoSource) "BINANCE" else "TRADINGVIEW", "Source", if (cryptoSource) Gold else Bull)
+                    PipelineStage("02", "API + WS", "Historis + RealTime", com.mazkiplay.trade.ui.theme.Aqua)
+                    PipelineStage("03", "OHLCV + TRADES", "Data ingestion", com.mazkiplay.trade.ui.theme.Orange)
+                    PipelineStage("04", "DATA MANIPULATION", "Normalisasi nilai numerik", com.mazkiplay.trade.ui.theme.Violet)
+                    PipelineStage("05", pattern, "Pattern matching / string matching", Bull)
+                    PipelineStage("06", "ORDER MANAGER", "Open / Close Position", Gold)
+                    PipelineStage("07", "LIGHTER DEX", "0-fee / 0-gas claim belum diverifikasi", Bear)
+                    Text(
+                        text = "Mode eksekusi saat ini: PAPER / MANUAL. Tidak ada private key atau order DEX yang ditanam di APK.",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+        }
+
+        item {
             SectionCard(title = "Instrumen", subtitle = "Pilih pair lalu jalankan analisa") {
                 Column {
                     Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -265,5 +297,25 @@ fun AnalysisScreen(app: MazkiplayApp, prefs: UserPreferences) {
         item {
             Text(s.signalDisclaimer, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(bottom = 12.dp))
         }
+    }
+}
+
+@Composable
+private fun PipelineStage(index: String, title: String, subtitle: String, color: androidx.compose.ui.graphics.Color) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(color.copy(alpha = 0.10f))
+            .padding(horizontal = 10.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Pill(text = index, color = color, filled = true)
+        Spacer(Modifier.width(9.dp))
+        Column(Modifier.weight(1f)) {
+            Text(title, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface)
+            Text(subtitle, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+        Text("✓", color = color, style = MaterialTheme.typography.titleMedium)
     }
 }

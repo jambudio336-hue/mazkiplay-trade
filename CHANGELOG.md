@@ -4,6 +4,17 @@ Semua perubahan penting pada **Mazkiplay Trade** didokumentasikan di file ini.
 Format mengikuti [Keep a Changelog](https://keepachangelog.com/id/1.1.0/)
 dan proyek ini menggunakan [Semantic Versioning](https://semver.org/lang/id/).
 
+## [2.0.0] - 2026-09-29
+
+### Ditambahkan
+- **AI Trading Lab** mengikuti alur video: source → API/WS → OHLCV & Trades → Data Manipulation → Pattern Matching → Order Manager → Lighter DEX.
+- Pattern matching deterministik berbasis trend, RSI, dan struktur teknikal dari snapshot OHLCV yang sudah tersedia.
+- Status eksekusi **PAPER / MANUAL** dan guard keamanan agar private key/order DEX tidak pernah ditanam di APK.
+- Lighter DEX ditampilkan sebagai connector yang belum terhubung; klaim 0-fee/0-gas tidak dianggap fakta tanpa verifikasi SDK/provider resmi.
+
+### Diubah
+- Layar Analisa mendapatkan pipeline visual premium tanpa menghapus chart, analisa fundamental, Sniper Entry, dan fitur lama.
+
 ## [1.9.0] - 2026-09-29
 
 ### Ditambahkan

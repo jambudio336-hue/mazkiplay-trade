@@ -14,6 +14,7 @@ copy trade, dan notifikasi. Ditulis dengan **Kotlin + Jetpack Compose (Material 
 
 | Versi | Berkas | Ukuran | Unduh langsung |
 |-------|--------|--------|----------------|
+| **v2.0.0** | `mazkiplay-trade-v2.0.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.0.0/mazkiplay-trade-v2.0.0.apk)** |
 | **v1.9.0** | `mazkiplay-trade-v1.9.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v1.9.0/mazkiplay-trade-v1.9.0.apk)** |
 | **v1.8.0** | `mazkiplay-trade-v1.8.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v1.8.0/mazkiplay-trade-v1.8.0.apk)** |
 | **v1.7.0** | `mazkiplay-trade-v1.7.0.apk` | ~17 MB | **(lihat halaman rilis v1.7.0 setelah tag dipublikasikan)** |
@@ -82,6 +83,8 @@ APK juga diunggah sebagai *workflow artifact* pada setiap build
 - **Analisa Fundamental**: kekuatan 12 mata uang, sentimen berita, agenda high-impact, probabilitas.
 - **Analisa Pasar**: **order book** (estimasi likuiditas), **market profile** (POC + value area + bentuk profil), **Fibonacci**, **FVG**, **supply & demand**, **support & resistance**.
 - **Sniper Entry**: bias otomatis live menghasilkan kandidat Entry/SL/TP, confidence, lot, nominal risiko, dan R:R berdasarkan balance/risk/leverage pengguna; hasilnya dapat disimpan menjadi alarm pengingat.
+- **AI Trading Lab**: pipeline visual source → API/WS → OHLCV & Trades → Data Manipulation → Pattern Matching → Order Manager → Lighter DEX. Pattern matching menggunakan trend, RSI, dan struktur teknikal lokal dari data yang tersedia.
+- Mode eksekusi diberi label **PAPER / MANUAL** sampai wallet, SDK, dan otorisasi DEX resmi dikonfigurasi; APK tidak menyimpan private key.
 
 ### Eksekusi & Manajemen Risiko
 - **Buka posisi Buy/Sell** dengan TP & SL otomatis: pilih rasio TP (**1:1, 1:1.5, 1:2, 1:3**) dan jarak SL (%), sistem menghitung **lot, harga TP/SL, nilai pip, margin, dan risk/reward**.
