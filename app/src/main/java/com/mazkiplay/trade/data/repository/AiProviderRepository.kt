@@ -60,12 +60,14 @@ class AiProviderRepository(private val context: Context) {
 
     fun saveCredential(providerId: String, apiKey: String): Result<Unit> = runCatching {
         require(apiKey.trim().isNotEmpty()) { "Kunci API tidak boleh kosong." }
-        val nonce = ByteArray(12).also { java.security.SecureRandom().nextBytes(it) }
         val cipher = Cipher.getInstance("AES/GCM/NoPadding").apply {
-            init(Cipher.ENCRYPT_MODE, key, GCMParameterSpec(128, nonce))
+            // Do not provide an IV here. Some Android Keystore implementations reject
+            // caller-provided IVs with "Caller-provided IV not permitted". Keystore
+            // generates a cryptographically random IV and exposes it through cipher.iv.
+            init(Cipher.ENCRYPT_MODE, key)
         }
         val encrypted = cipher.doFinal(apiKey.trim().toByteArray(StandardCharsets.UTF_8))
-        check(prefs.edit().putString(providerId, Base64.encodeToString(nonce + encrypted, Base64.NO_WRAP)).commit()) {
+        check(prefs.edit().putString(providerId, Base64.encodeToString(cipher.iv + encrypted, Base64.NO_WRAP)).commit()) {
             "Credential gagal ditulis ke penyimpanan aman."
         }
     }

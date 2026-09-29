@@ -151,6 +151,12 @@ Catatan: APK tidak membundel bobot LLM besar ke dalam binary. Mode lokal yang su
 - Memperbaiki import `AiChatResponse` yang tertinggal pada jalur parsing error OpenRouter.
 - Release v2.8.3 dinyatakan gagal dan tidak direkomendasikan; v2.8.4 menjadi target build koreksi.
 
+## [2.8.5] - 2026-09-30
+
+### Android Keystore compatibility
+- Memperbaiki error `Caller-provided IV not permitted` saat menyimpan API key pada sebagian perangkat Android.
+- AES-GCM kini menggunakan IV acak yang dibuat oleh Android Keystore, lalu menyimpan IV tersebut bersama ciphertext untuk proses decrypt.
+
 ## [2.0.0] - 2026-09-29
 
 ### Ditambahkan
