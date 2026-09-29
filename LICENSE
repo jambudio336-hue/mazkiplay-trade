@@ -1,17 +1,10 @@
 
 
-BOT AND MESSAGING INTEGRATION NOTICE
--------------------------------------
-The optional Signal Bot Center is an outbound notification feature. It supports
-user-owned Telegram Bot API credentials, Discord incoming webhook URLs, and the
-official WhatsApp Business Cloud API. It does not automate personal WhatsApp
-accounts, scrape private chats, bypass platform controls, or execute trades.
-
-Bot messages are generated from application data and should be treated as
-informational. The application does not guarantee delivery, ordering, latency,
-rate-limit availability, or retention by Telegram, Discord, Meta, or any other
-provider. Provider terms, message policies, opt-in requirements, templates,
-recipient permissions, and applicable laws remain the user's responsibility.
-Credentials are stored locally using Android Keystore-backed encryption and are
-never intended to be committed to source control. Users should revoke a token
-or webhook immediately if a device is compromised.
+STARTUP AUDIO NOTICE
+--------------------
+The project-supplied startup soundtrack is packaged as an application asset for
+one automatic playback at process launch and is released automatically at end
+of file. The application UI intentionally exposes no in-app mute, stop, skip,
+or delete control for this brief. Android audio focus, phone calls, Bluetooth,
+and other operating-system audio policies may still interrupt playback; the
+application cannot override those platform controls safely.

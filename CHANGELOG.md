@@ -56,6 +56,17 @@ dan proyek ini menggunakan [Semantic Versioning](https://semver.org/lang/id/).
 - WhatsApp yang didukung adalah **WhatsApp Business Cloud API**, bukan otomasi akun WhatsApp personal.
 - Bot hanya outbound notification dan tidak menerima private key atau mengeksekusi order broker/exchange.
 - Pesan sinyal produksi harus berasal dari data aktual dan conflict/risk checks; preview menggunakan status WAIT agar tidak tampak sebagai rekomendasi palsu.
+
+## [2.4.0] - 2026-09-29
+
+### Responsive UX and launch soundtrack
+- Menambahkan startup soundtrack milik project ke APK sebagai `startup_theme.mp3`.
+- Soundtrack autoplay sekali saat process aplikasi pertama kali dibuka dan berhenti otomatis saat mencapai end-of-file; tidak ada tombol mute, stop, skip, atau delete di dalam UI sesuai brief.
+- MediaPlayer dilepas otomatis di completion/error dan meminta audio focus transient agar tidak membebani lifecycle aplikasi.
+- Menjaga fitur lama, navigation graph, data repositories, live feeds, bot integrations, Academy, AI Center, risk controls, dan donation flow tetap berada dalam struktur yang sama.
+- Menata startup audio di Application lifecycle agar tidak dijalankan berulang saat recomposition Compose.
+
+Catatan platform: audio dapat dihentikan sementara atau diinterupsi oleh Android, panggilan telepon, Bluetooth, atau aplikasi audio lain karena aturan audio focus sistem. Aplikasi tidak dapat dan tidak seharusnya mengunci kontrol sistem tersebut.
 - Semua angka signal/confidence adalah skor algoritmik internal, bukan probabilitas kemenangan.
 
 ## [2.0.0] - 2026-09-29

@@ -15,6 +15,7 @@ import com.mazkiplay.trade.data.repository.SettingsRepository
 import com.mazkiplay.trade.data.repository.TradeRepository
 import com.mazkiplay.trade.data.tradingview.TvRepository
 import com.mazkiplay.trade.service.NotificationHelper
+import com.mazkiplay.trade.service.StartupAudioController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -50,9 +51,11 @@ class MazkiplayApp : Application() {
     val tvRepository: TvRepository by lazy { TvRepository() }
 
     val notifications: NotificationHelper by lazy { NotificationHelper(this) }
+    val startupAudio: StartupAudioController by lazy { StartupAudioController(this) }
 
     override fun onCreate() {
         super.onCreate()
+        startupAudio.playOnce()
 
         notifications.createChannels()
 

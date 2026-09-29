@@ -2,7 +2,7 @@
 
 **Nusantara Forex — Trading cerdas, analisa otomatis**
 
-> **Release v2.3.0** — Unified Signal Bot untuk Telegram, WhatsApp Business, dan Discord, ditambah seluruh fitur v2.2.0.
+> **Release v2.4.0** — Responsive UX upgrade, startup soundtrack autoplay, dan seluruh fitur Unified Signal Bot v2.3.0.
 
 Aplikasi Android native untuk analisa dan eksekusi trading forex: harga real-time,
 kalender ekonomi, analisa otomatis (teknikal + fundamental), manajemen risiko,
@@ -16,6 +16,7 @@ copy trade, dan notifikasi. Ditulis dengan **Kotlin + Jetpack Compose (Material 
 
 | Versi | Berkas | Ukuran | Unduh langsung |
 |-------|--------|--------|----------------|
+| **v2.4.0** | `mazkiplay-trade-v2.4.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.4.0/mazkiplay-trade-v2.4.0.apk)** |
 | **v2.3.0** | `mazkiplay-trade-v2.3.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.3.0/mazkiplay-trade-v2.3.0.apk)** |
 | **v2.2.0** | `mazkiplay-trade-v2.2.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.2.0/mazkiplay-trade-v2.2.0.apk)** |
 | **v2.1.0** | `mazkiplay-trade-v2.1.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.1.0/mazkiplay-trade-v2.1.0.apk)** |
@@ -143,6 +144,12 @@ Bot mengirim satu laporan terpadu, bukan indikator terpisah: market status, deci
 Trigger event-driven mencakup setup baru, WAIT, breakout, reversal, TP1/TP2, SL, spread melebar, volatility spike, breaking/high-impact news, countdown 30/10/1 menit, LIVE NOW, actual released, post-news reanalysis, central-bank decision, dan macro regime. Ada deduplication/cooldown dua menit agar tidak spam setiap tick.
 
 Token, access token, dan webhook disimpan memakai Android Keystore-backed encrypted vault. **WhatsApp yang didukung adalah WhatsApp Business Cloud API; aplikasi tidak mengotomasi akun WhatsApp personal.** Bot bersifat outbound notification dan tidak dapat mengeksekusi order atau membaca private API broker/exchange.
+
+### Responsive UX dan soundtrack startup v2.4.0
+
+APK sekarang membawa soundtrack project berdurasi sekitar 23,85 detik. Soundtrack otomatis mulai sekali ketika process aplikasi pertama kali dibuka, tidak memiliki kontrol mute/stop/skip/delete di dalam UI, lalu berhenti sendiri ketika audio selesai. MediaPlayer dilepas otomatis pada completion atau error dan tidak dibuat ulang oleh recomposition Compose.
+
+Android tetap dapat menginterupsi audio karena audio focus sistem, panggilan telepon, Bluetooth, atau aplikasi audio lain. Ini adalah perilaku platform yang tidak dapat dikunci secara aman oleh aplikasi. Semua fitur lama—live feed, signal engine, risk guardian, bot, Academy, AI Center, QRIS donation, dan navigasi—dipertahankan.
 
 #### Data-provider boundaries
 

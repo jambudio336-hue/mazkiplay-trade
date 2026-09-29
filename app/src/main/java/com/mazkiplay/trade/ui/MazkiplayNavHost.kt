@@ -123,7 +123,6 @@ data class NavItem(val route: String, val labelKey: String, val icon: ImageVecto
 fun MazkiplayNavHost(app: MazkiplayApp) {
     var splashDone by remember { mutableStateOf(false) }
     val prefs = rememberPreferences(app)
-
     if (!splashDone) {
         SplashScreen(prefs = prefs, onFinished = { splashDone = true })
         return
