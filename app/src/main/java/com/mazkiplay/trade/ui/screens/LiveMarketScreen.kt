@@ -100,6 +100,7 @@ fun LiveMarketScreen(app: MazkiplayApp, prefs: UserPreferences) {
     val calendar by vm.calendar.collectAsState()
     val news by vm.news.collectAsState()
     val signal by vm.signal.collectAsState()
+    val signals by vm.signals.collectAsState()
     val pulse by vm.pulse.collectAsState()
     val cryptoCoins by vm.cryptoCoins.collectAsState()
     val cryptoStatus by vm.cryptoStatus.collectAsState()
@@ -175,7 +176,7 @@ fun LiveMarketScreen(app: MazkiplayApp, prefs: UserPreferences) {
                 3 -> CalendarPane(calendar = calendar, dark = dark)
                 4 -> NewsPane(news = news, dark = dark)
                 5 -> CryptoPane(coins = cryptoCoins, status = cryptoStatus, lastUpdated = cryptoLastUpdated)
-                else -> SignalPane(vm = vm, signal = signal, digits = instrument.digits)
+                else -> SignalPane(vm = vm, signal = signal, signals = signals, digits = instrument.digits)
             }
         }
     }
@@ -868,6 +869,7 @@ private fun NewsRow(
 private fun SignalPane(
     vm: com.mazkiplay.trade.ui.viewmodel.LiveViewModel,
     signal: com.mazkiplay.trade.data.model.TradingSignal?,
+    signals: Map<String, com.mazkiplay.trade.data.model.TradingSignal>,
     digits: Int
 ) {
     LazyColumn(
@@ -887,7 +889,7 @@ private fun SignalPane(
                             SignalBiasChip(signal.bias)
                             Spacer(Modifier.width(10.dp))
                             Text(
-                                text = "Keyakinan ${signal.confidence}%",
+                                text = "${signal.actionLabel} · ${signal.confidence}%",
                                 style = MaterialTheme.typography.labelLarge,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
@@ -898,6 +900,16 @@ private fun SignalPane(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
+                        Spacer(Modifier.height(7.dp))
+                        Text(
+                            text = when {
+                                !signal.hasLivePrice -> "Data harga belum live. Sinyal dikunci demi keamanan."
+                                signal.isFresh -> "Snapshot live · diperbarui ${Formatters.time(signal.generatedAt, "HH:mm:ss")}"
+                                else -> "Snapshot tertunda · muat ulang untuk konfirmasi terbaru"
+                            },
+                            style = MaterialTheme.typography.labelSmall,
+                            color = if (signal.hasLivePrice && signal.isFresh) MarketColors.Up else MarketColors.Down
+                        )
                         Spacer(Modifier.height(10.dp))
                         MetricBar(
                             fraction = signal.confidence / 100f,
@@ -940,6 +952,58 @@ private fun SignalPane(
                                 value = String.format(Locale.US, "%+.2f", signal.combinedScore),
                                 modifier = Modifier.weight(1f)
                             )
+                        }
+                        TextButton(onClick = vm::analyseNow) {
+                            Icon(Icons.Filled.Refresh, contentDescription = null)
+                            Spacer(Modifier.width(6.dp))
+                            Text("Analisa ulang sekarang")
+                        }
+                    }
+                }
+            }
+            item {
+                val topSignals = signals.values
+                    .filter { it.hasLivePrice }
+                    .sortedWith(
+                        compareByDescending<com.mazkiplay.trade.data.model.TradingSignal> { it.confidence }
+                            .thenByDescending { kotlin.math.abs(it.combinedScore) }
+                    )
+                    .take(6)
+                SectionCard(
+                    title = "Top Signals",
+                    subtitle = "Ranking live · teknikal 65% + fundamental 35%"
+                ) {
+                    if (topSignals.isEmpty()) {
+                        EmptyHint("Menunggu quote live untuk menyusun ranking sinyal.")
+                    } else {
+                        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                            topSignals.forEach { item ->
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .clip(RoundedCornerShape(10.dp))
+                                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                                        .clickable { vm.selectSymbol(item.symbol) }
+                                        .padding(horizontal = 10.dp, vertical = 9.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Column(Modifier.weight(1f)) {
+                                        Text(item.symbol, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelLarge)
+                                        Text(
+                                            "${item.bias.label} · ${item.timeframe}",
+                                            style = MaterialTheme.typography.labelSmall,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                    }
+                                    Text(
+                                        "${item.confidence}%",
+                                        fontWeight = FontWeight.Bold,
+                                        color = if (item.bias.isSell) MarketColors.Down else MarketColors.Up
+                                    )
+                                    Spacer(Modifier.width(8.dp))
+                                    Text("R:R 1:${String.format(Locale.US, "%.1f", item.riskReward)}", style = MaterialTheme.typography.labelSmall)
+                                }
+                            }
                         }
                     }
                 }

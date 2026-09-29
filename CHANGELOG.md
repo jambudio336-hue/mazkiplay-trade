@@ -4,6 +4,17 @@ Semua perubahan penting pada **Mazkiplay Trade** didokumentasikan di file ini.
 Format mengikuti [Keep a Changelog](https://keepachangelog.com/id/1.1.0/)
 dan proyek ini menggunakan [Semantic Versioning](https://semver.org/lang/id/).
 
+## [1.8.0] - 2026-09-29
+
+### Ditambahkan
+- **Top Signals** pada desk Live Market: ranking lintas instrumen berdasarkan confidence dan R:R.
+- Label aksi, timestamp snapshot, dan status freshness pada panel sinyal.
+- Tombol **Analisa ulang sekarang** untuk meminta kalkulasi terbaru.
+
+### Diubah
+- Sinyal otomatis dikunci menjadi **MENUNGGU DATA** ketika quote live belum tersedia; tidak ada BUY/SELL palsu dari snapshot kosong.
+- Semua fitur v1.7.0 tetap dipertahankan: chart TradingView, teknikal + fundamental, alert, kalender, crypto, risiko, journal, dan navigasi lama.
+
 ## [1.7.0] - 2026-09-28
 
 ### Ditambahkan

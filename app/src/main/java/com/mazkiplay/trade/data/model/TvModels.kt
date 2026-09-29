@@ -190,7 +190,18 @@ data class TradingSignal(
     val timeframe: String,
     val reasons: List<String>,
     val generatedAt: Long = System.currentTimeMillis()
-)
+) {
+    /** A signal without a live quote must never look actionable. */
+    val hasLivePrice: Boolean get() = price > 0.0 && entry > 0.0
+    val ageMillis: Long get() = (System.currentTimeMillis() - generatedAt).coerceAtLeast(0L)
+    val isFresh: Boolean get() = ageMillis <= 45_000L
+    val actionLabel: String
+        get() = when {
+            !hasLivePrice -> "MENUNGGU DATA"
+            bias.isBuy || bias.isSell -> "SIAP DIPANTAU"
+            else -> "TUNGGU KONFIRMASI"
+        }
+}
 
 /** A headline from the TradingView news flow. */
 data class TvNewsItem(

@@ -41,8 +41,10 @@ object TvAnalyzer {
         val tech = technical ?: TvTechnical(symbol)
         val price = quote?.close ?: 0.0
         val fundamental = fundamentalScore(symbol, events)
+        val hasLivePrice = price > 0.0
         val combined = (tech.recommendAll * 0.65) + (fundamental * 0.35)
-        val bias = SignalBias.fromScore(combined)
+        // Never expose an actionable BUY/SELL while the quote feed is empty.
+        val bias = if (hasLivePrice) SignalBias.fromScore(combined) else SignalBias.NEUTRAL
 
         // Level math follows the instrument's own pip size so gold, yen crosses and
         // crypto all produce sane distances from the same inputs.
@@ -69,11 +71,14 @@ object TvAnalyzer {
         // same way is worth more than either alone, and disagreement is penalised.
         val agreement = 1.0 - (abs(tech.recommendAll - fundamental) / 2.0)
         val magnitude = abs(combined).coerceIn(0.0, 1.0)
-        val confidence = ((magnitude * 72.0) + (agreement * 28.0)).toInt().coerceIn(0, 100)
+        val confidence = if (hasLivePrice) {
+            ((magnitude * 72.0) + (agreement * 28.0)).toInt().coerceIn(0, 100)
+        } else 0
 
         val reasons = tech.reasons().toMutableList()
         reasons += fundamentalReasons(symbol, events)
         reasons += "Skor gabungan ${fmt(combined)} (teknikal ${fmt(tech.recommendAll)}, fundamental ${fmt(fundamental)})"
+        if (!hasLivePrice) reasons += "Feed harga belum tersedia — tunggu status LIVE sebelum mengambil keputusan"
 
         return TradingSignal(
             symbol = symbol,
