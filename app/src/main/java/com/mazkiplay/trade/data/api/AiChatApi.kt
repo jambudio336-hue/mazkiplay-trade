@@ -4,6 +4,7 @@ import com.google.gson.JsonObject
 import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.Response
 
 interface AiChatApi {
     @POST("chat/completions")
@@ -12,7 +13,7 @@ interface AiChatApi {
         @Header("Authorization") authorization: String,
         @Header("HTTP-Referer") referer: String = "https://github.com/jambudio336-hue/mazkiplay-trade",
         @Header("X-OpenRouter-Title") title: String = "Mazkiplay Trade"
-    ): AiChatResponse
+    ): Response<AiChatResponse>
 }
 
 data class AiChatResponse(

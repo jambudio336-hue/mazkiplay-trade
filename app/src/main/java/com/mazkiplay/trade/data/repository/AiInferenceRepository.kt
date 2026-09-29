@@ -2,6 +2,7 @@ package com.mazkiplay.trade.data.repository
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.google.gson.Gson
 import com.mazkiplay.trade.data.api.AiChatApi
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -13,7 +14,7 @@ class AiInferenceRepository(
     private val client: OkHttpClient
 ) {
     private val defaultModels = mapOf(
-        "openrouter" to "meta-llama/llama-3.3-8b-instruct:free",
+        "openrouter" to "openrouter/free",
         "openai" to "gpt-4o-mini",
         "groq" to "llama-3.1-8b-instant",
         "mistral" to "mistral-small-latest",
@@ -58,7 +59,15 @@ class AiInferenceRepository(
             addProperty("temperature", 0.2)
             addProperty("max_tokens", 300)
         }
-        val result = api.complete(body, "Bearer $key")
+        val response = api.complete(body, "Bearer $key")
+        if (!response.isSuccessful) {
+            val errorBody = response.errorBody()?.string()
+            val providerMessage = runCatching {
+                Gson().fromJson(errorBody, AiChatResponse::class.java)?.error?.message
+            }.getOrNull()
+            error("${provider.name} HTTP ${response.code()}: ${providerMessage ?: "permintaan ditolak"}")
+        }
+        val result = response.body() ?: error("${provider.name} tidak mengembalikan data.")
         result.error?.message?.let { error("${provider.name}: $it") }
         return result.choices?.firstOrNull()?.message?.content?.takeIf { it.isNotBlank() }
             ?: error("${provider.name} tidak mengembalikan jawaban.")

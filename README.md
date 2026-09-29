@@ -16,7 +16,8 @@ copy trade, dan notifikasi. Ditulis dengan **Kotlin + Jetpack Compose (Material 
 
 | Versi | Berkas | Ukuran | Unduh langsung |
 |-------|--------|--------|----------------|
-| **v2.8.1** | `mazkiplay-trade-v2.8.1.apk` | AI inference hotfix | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.8.1/mazkiplay-trade-v2.8.1.apk)** |
+| **v2.8.2** | `mazkiplay-trade-v2.8.2.apk` | OpenRouter diagnosis hotfix | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.8.2/mazkiplay-trade-v2.8.2.apk)** |
+| **v2.8.1** | `mazkiplay-trade-v2.8.1.apk` | AI inference hotfix sebelumnya | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.8.1/mazkiplay-trade-v2.8.1.apk)** |
 | **v2.8.0** | `mazkiplay-trade-v2.8.0.apk` | build gagal, jangan gunakan | **[Logis release](https://github.com/jambudio336-hue/mazkiplay-trade/releases/tag/v2.8.0)** |
 | **v2.7.1** | `mazkiplay-trade-v2.7.1.apk` | hotfix sebelumnya | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.7.1/mazkiplay-trade-v2.7.1.apk)** |
 | **v2.7.0** | `mazkiplay-trade-v2.7.0.apk` | build sebelumnya | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.7.0/mazkiplay-trade-v2.7.0.apk)** |
@@ -196,11 +197,11 @@ OpenRouter, OpenAI, Groq, Mistral, DeepSeek, dan Custom Provider sekarang dapat 
 1. Buka **AI Center**.
 2. Pilih provider.
 3. Masukkan API key dan **ID model**.
-4. Untuk OpenRouter, gunakan model gratis yang tersedia, misalnya `meta-llama/llama-3.3-8b-instruct:free`.
+4. Untuk OpenRouter, gunakan `openrouter/free` agar OpenRouter memilih model gratis yang sedang tersedia, atau masukkan ID model spesifik lengkap dari katalog OpenRouter.
 5. Tekan **Simpan ke Brankas**.
 6. Tunggu pesan **aktif dan berhasil menjawab**.
 
-Label **READY** hanya berarti key tersimpan. Provider baru dianggap aktif setelah **Tes AI** berhasil. Model gratis tetap dapat memiliki antrean, rate limit, atau berubah sesuai katalog provider. APK tidak membundel bobot LLM besar; mode lokal tetap tersedia sebagai analisa deterministik tanpa API key.
+Label **READY** hanya berarti key tersimpan. Provider baru dianggap aktif setelah **Tes AI** berhasil. Model gratis tetap dapat memiliki antrean, rate limit, atau berubah sesuai katalog provider. APK sekarang menampilkan kode HTTP dan pesan provider jika tes gagal. APK tidak membundel bobot LLM besar; mode lokal tetap tersedia sebagai analisa deterministik tanpa API key.
 
 #### Data-provider boundaries
 

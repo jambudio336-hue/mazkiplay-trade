@@ -129,6 +129,13 @@ Catatan: APK tidak membundel bobot LLM besar ke dalam binary. Mode lokal yang su
 ### Build hotfix
 - Memperbaiki return inferensi chat completion yang menyebabkan compile debug v2.8.0 gagal.
 - Release ini hanya dipublikasikan setelah sanity check debug dan release CI berhasil.
+
+## [2.8.2] - 2026-09-30
+
+### OpenRouter diagnosis hotfix
+- Default model OpenRouter diganti ke router resmi `openrouter/free`, yang memilih model gratis yang sedang tersedia.
+- Tes AI sekarang menampilkan kode HTTP dan pesan provider, sehingga perbedaan antara API key invalid (401), kredit/akses (402/403), rate limit (429), dan model/provider bermasalah dapat didiagnosis.
+- Model spesifik tetap dapat dimasukkan manual dengan ID lengkap dari katalog OpenRouter.
 - Semua angka signal/confidence adalah skor algoritmik internal, bukan probabilitas kemenangan.
 
 ## [2.0.0] - 2026-09-29

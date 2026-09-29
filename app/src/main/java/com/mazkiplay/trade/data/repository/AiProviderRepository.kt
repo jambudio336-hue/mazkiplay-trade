@@ -44,7 +44,7 @@ class AiProviderRepository(private val context: Context) {
     )
 
     private val defaultModels = mapOf(
-        "openrouter" to "meta-llama/llama-3.3-8b-instruct:free",
+        "openrouter" to "openrouter/free",
         "openai" to "gpt-4o-mini",
         "groq" to "llama-3.1-8b-instant",
         "mistral" to "mistral-small-latest",
