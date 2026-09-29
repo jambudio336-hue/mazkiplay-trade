@@ -60,7 +60,7 @@ class AiInferenceRepository(
         }
         val result = api.complete(body, "Bearer $key")
         result.error?.message?.let { error("${provider.name}: $it") }
-        result.choices?.firstOrNull()?.message?.content?.takeIf { it.isNotBlank() }
+        return result.choices?.firstOrNull()?.message?.content?.takeIf { it.isNotBlank() }
             ?: error("${provider.name} tidak mengembalikan jawaban.")
     }
 }

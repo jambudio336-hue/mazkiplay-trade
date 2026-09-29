@@ -123,6 +123,12 @@ Catatan keamanan: API key yang pernah ditempelkan di chat dianggap terekspos. Ro
 - Gemini dan Anthropic tetap ditampilkan sebagai provider native yang memerlukan adapter protokol khusus; tidak disamarkan sebagai OpenAI-compatible.
 
 Catatan: APK tidak membundel bobot LLM besar ke dalam binary. Mode lokal yang sudah ada tetap aman untuk analisa deterministik tanpa API key; model LLM gratis tersedia melalui OpenRouter jika model tersebut aktif di katalog provider.
+
+## [2.8.1] - 2026-09-30
+
+### Build hotfix
+- Memperbaiki return inferensi chat completion yang menyebabkan compile debug v2.8.0 gagal.
+- Release ini hanya dipublikasikan setelah sanity check debug dan release CI berhasil.
 - Semua angka signal/confidence adalah skor algoritmik internal, bukan probabilitas kemenangan.
 
 ## [2.0.0] - 2026-09-29

@@ -16,7 +16,8 @@ copy trade, dan notifikasi. Ditulis dengan **Kotlin + Jetpack Compose (Material 
 
 | Versi | Berkas | Ukuran | Unduh langsung |
 |-------|--------|--------|----------------|
-| **v2.8.0** | `mazkiplay-trade-v2.8.0.apk` | AI inference terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.8.0/mazkiplay-trade-v2.8.0.apk)** |
+| **v2.8.1** | `mazkiplay-trade-v2.8.1.apk` | AI inference hotfix | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.8.1/mazkiplay-trade-v2.8.1.apk)** |
+| **v2.8.0** | `mazkiplay-trade-v2.8.0.apk` | build gagal, jangan gunakan | **[Logis release](https://github.com/jambudio336-hue/mazkiplay-trade/releases/tag/v2.8.0)** |
 | **v2.7.1** | `mazkiplay-trade-v2.7.1.apk` | hotfix sebelumnya | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.7.1/mazkiplay-trade-v2.7.1.apk)** |
 | **v2.7.0** | `mazkiplay-trade-v2.7.0.apk` | build sebelumnya | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.7.0/mazkiplay-trade-v2.7.0.apk)** |
 | **v2.6.0** | `mazkiplay-trade-v2.6.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.6.0/mazkiplay-trade-v2.6.0.apk)** |
