@@ -79,6 +79,8 @@ fun DashboardScreen(
     val liquidity by market.liquidity.collectAsState()
     val headlines by news.news.collectAsState()
     val traders by copy.traders.collectAsState()
+    val cryptoStatus by app.cryptoRepository.status.collectAsState()
+    val cryptoLastUpdated by app.cryptoRepository.lastUpdated.collectAsState()
 
     val openPositions = positions.filter { it.isOpen }
     val floating = openPositions.sumOf { trade.floatingPnl(it) }
@@ -104,6 +106,32 @@ fun DashboardScreen(
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+            }
+        }
+
+        item {
+            SectionCard(
+                title = "Realtime Command Center",
+                subtitle = "Kualitas feed transparan · bukan sekadar label LIVE",
+                trailing = { Pill(text = "ELITE", color = Gold, filled = true) }
+            ) {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        DataLane("MARKET", "10s", "TradingView poll", Aqua, Modifier.weight(1f))
+                        DataLane(
+                            "CRYPTO",
+                            cryptoStatus.label,
+                            if (cryptoLastUpdated > 0L) "Binance WebSocket" else "menunggu feed",
+                            if (cryptoStatus.label == "STREAMING") Bull else Gold,
+                            Modifier.weight(1f)
+                        )
+                    }
+                    Text(
+                        text = "Chart mengikuti feed simbol TradingView. Crypto utama menerima tick publik Binance; saham IDX, macro, fundamental, dan news tetap mengikuti latency serta lisensi sumbernya.",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
         }
 
@@ -361,6 +389,26 @@ fun DashboardScreen(
                 modifier = Modifier.padding(bottom = 12.dp)
             )
         }
+    }
+}
+
+@Composable
+private fun DataLane(
+    title: String,
+    value: String,
+    caption: String,
+    color: Color,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .clip(RoundedCornerShape(14.dp))
+            .background(color.copy(alpha = 0.10f))
+            .padding(horizontal = 11.dp, vertical = 10.dp)
+    ) {
+        Text(title, style = MaterialTheme.typography.labelSmall, color = color, fontWeight = FontWeight.Bold)
+        Text(value, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold)
+        Text(caption, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }
 

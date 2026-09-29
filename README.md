@@ -14,6 +14,7 @@ copy trade, dan notifikasi. Ditulis dengan **Kotlin + Jetpack Compose (Material 
 
 | Versi | Berkas | Ukuran | Unduh langsung |
 |-------|--------|--------|----------------|
+| **v1.9.0** | `mazkiplay-trade-v1.9.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v1.9.0/mazkiplay-trade-v1.9.0.apk)** |
 | **v1.8.0** | `mazkiplay-trade-v1.8.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v1.8.0/mazkiplay-trade-v1.8.0.apk)** |
 | **v1.7.0** | `mazkiplay-trade-v1.7.0.apk` | ~17 MB | **(lihat halaman rilis v1.7.0 setelah tag dipublikasikan)** |
 | v1.0.0 (sebelumnya) | `mazkiplay-trade-v1.0.0.apk` | 13,5 MB | **[\u2b07\ufe0f Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v1.0.0/mazkiplay-trade-v1.0.0.apk)** |
@@ -50,6 +51,10 @@ APK juga diunggah sebagai *workflow artifact* pada setiap build
   dari agenda berdampak tinggi pada mata uang pair \u2192 bias, Entry/SL/TP, R:R, confidence, alasan.
 - **Alert harga** otomatis saat harga melewati ambang persentase (default 1%).
 - **Market Pulse** dari quote live: breadth naik/turun/datar, rata-rata perubahan sesi, top gainer/top loser, dan jumlah ticker yang belum tersedia.
+- **Crypto streaming** dari public Binance WebSocket untuk aset utama, dengan reconnect otomatis,
+  status `STREAMING`, source `BINANCE_WS`, dan fallback CoinGecko untuk katalog/ranking.
+- **Realtime Command Center** pada dashboard untuk melihat perbedaan streaming WebSocket,
+  polling TradingView, serta data fundamental/news yang bersifat event-driven.
 - **Top Signals**: ranking lintas instrumen berdasarkan confidence dan R:R, timestamp snapshot,
   status freshness, serta tombol **Analisa ulang sekarang**.
 - **Safety gate**: jika quote live belum tersedia, sinyal menjadi `MENUNGGU DATA` dan tidak menampilkan

@@ -4,6 +4,19 @@ Semua perubahan penting pada **Mazkiplay Trade** didokumentasikan di file ini.
 Format mengikuti [Keep a Changelog](https://keepachangelog.com/id/1.1.0/)
 dan proyek ini menggunakan [Semantic Versioning](https://semver.org/lang/id/).
 
+## [1.9.0] - 2026-09-29
+
+### Ditambahkan
+- Streaming market-data publik **Binance WebSocket** untuk crypto utama: BTC, ETH, BNB, SOL, XRP, DOGE, ADA, AVAX, LINK, DOT, TRX, SHIB, dan PEPE.
+- Reconnect otomatis dengan exponential backoff ketika koneksi WebSocket terputus.
+- Metadata source dan freshness pada model crypto: `BINANCE_WS` atau `COINGECKO`.
+- **Realtime Command Center** pada dashboard untuk membedakan streaming, polling, dan data event-driven.
+
+### Diubah
+- Status crypto baru `STREAMING`, bukan lagi menyamakan streaming dengan refresh periodik.
+- Kartu UI menggunakan outline brand dan elevation lebih premium untuk tampilan yang lebih profesional.
+- Release tetap transparan: saham IDX, data fundamental, macro, news, dan aset berlisensi tidak diklaim tick-by-tick tanpa provider resmi.
+
 ## [1.8.0] - 2026-09-29
 
 ### Ditambahkan

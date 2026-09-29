@@ -166,10 +166,13 @@ data class CryptoMarketCoin(
     val circulatingSupply: Double? = null,
     val marketGroup: String = "Spot",
     val sparkline7d: List<Double> = emptyList(),
-    val lastUpdated: Long = 0L
+    val lastUpdated: Long = 0L,
+    val dataSource: String = "COINGECKO",
+    val isRealtime: Boolean = false
 ) {
     val hasPrice: Boolean get() = currentPrice != null
     val isUp: Boolean get() = (priceChangePercentage24h ?: 0.0) >= 0.0
+    val freshnessMillis: Long get() = (System.currentTimeMillis() - lastUpdated).coerceAtLeast(0L)
 }
 
 data class Zone(val lower: Double, val upper: Double, val strength: Int, val kind: String) {
