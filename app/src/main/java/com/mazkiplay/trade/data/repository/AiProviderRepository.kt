@@ -43,12 +43,16 @@ class AiProviderRepository(private val context: Context) {
         AiProviderConfig("custom", "Custom Provider", "openai-compatible", "", "", false)
     )
 
-    fun saveCredential(providerId: String, apiKey: String) {
-        if (apiKey.isBlank()) return
+    fun saveCredential(providerId: String, apiKey: String): Result<Unit> = runCatching {
+        require(apiKey.trim().isNotEmpty()) { "Kunci API tidak boleh kosong." }
         val nonce = ByteArray(12).also { java.security.SecureRandom().nextBytes(it) }
-        val cipher = Cipher.getInstance("AES/GCM/NoPadding").apply { init(Cipher.ENCRYPT_MODE, key, GCMParameterSpec(128, nonce)) }
-        val encrypted = cipher.doFinal(apiKey.toByteArray(StandardCharsets.UTF_8))
-        prefs.edit().putString(providerId, Base64.encodeToString(nonce + encrypted, Base64.NO_WRAP)).apply()
+        val cipher = Cipher.getInstance("AES/GCM/NoPadding").apply {
+            init(Cipher.ENCRYPT_MODE, key, GCMParameterSpec(128, nonce))
+        }
+        val encrypted = cipher.doFinal(apiKey.trim().toByteArray(StandardCharsets.UTF_8))
+        check(prefs.edit().putString(providerId, Base64.encodeToString(nonce + encrypted, Base64.NO_WRAP)).commit()) {
+            "Credential gagal ditulis ke penyimpanan aman."
+        }
     }
 
     fun hasCredential(providerId: String): Boolean = !prefs.getString(providerId, null).isNullOrBlank()

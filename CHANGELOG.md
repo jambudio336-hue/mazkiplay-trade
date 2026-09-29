@@ -102,6 +102,15 @@ Catatan data: chart TradingView widget menampilkan feed yang tersedia dari provi
 - Menambahkan parsing null/error, mapping interval, mapping simbol, dan status fallback agar feed tidak membuat aplikasi crash.
 
 Catatan keamanan: API key yang pernah ditempelkan di chat dianggap terekspos. Rotasi/revoke key tersebut di dashboard Twelve Data, lalu masukkan key baru melalui **AI Center → Twelve Data → Konfigurasi**. Release ini sengaja tidak membawa key pengguna di dalam binary.
+
+## [2.7.1] - 2026-09-30
+
+### Credential vault hotfix
+- Memperbaiki potensi force close saat menekan **Simpan ke Brankas**.
+- Operasi Android Keystore dan penyimpanan credential sekarang berjalan di background thread dan dibungkus error handling aman.
+- Jika perangkat menolak Keystore, key kosong, atau storage gagal, aplikasi menampilkan pesan error dan tetap terbuka.
+- Setelah menyimpan Twelve Data, aplikasi otomatis menjalankan tes koneksi endpoint harga AAPL dan menampilkan status **terhubung dan merespons** atau alasan kegagalannya.
+- Menambahkan tombol **Tes Koneksi**, indikator proses, dan status provider yang diperbarui tanpa menutup AI Center.
 - Semua angka signal/confidence adalah skor algoritmik internal, bukan probabilitas kemenangan.
 
 ## [2.0.0] - 2026-09-29

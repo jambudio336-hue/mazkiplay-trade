@@ -18,6 +18,15 @@ class TwelveDataRepository(
     private val credentials: AiProviderRepository,
     private val api: TwelveDataApi = NetworkModule.twelveDataApi
 ) {
+    suspend fun testConnection(): Result<Unit> = runCatching {
+        val authorization = credentials.readCredential("twelvedata")?.let { "apikey $it" }
+            ?: error("Credential Twelve Data belum disimpan.")
+        val response = api.price("AAPL", authorization)
+        if (response.price?.toDoubleOrNull() == null) {
+            error(response.message?.take(180) ?: "Provider tidak mengembalikan harga yang valid.")
+        }
+    }
+
     suspend fun quote(instrument: Instrument): Quote? {
         val authorization = credentials.readCredential("twelvedata")?.let { "apikey $it" } ?: return null
         return runCatching {

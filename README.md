@@ -16,7 +16,8 @@ copy trade, dan notifikasi. Ditulis dengan **Kotlin + Jetpack Compose (Material 
 
 | Versi | Berkas | Ukuran | Unduh langsung |
 |-------|--------|--------|----------------|
-| **v2.7.0** | `mazkiplay-trade-v2.7.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.7.0/mazkiplay-trade-v2.7.0.apk)** |
+| **v2.7.1** | `mazkiplay-trade-v2.7.1.apk` | hotfix terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.7.1/mazkiplay-trade-v2.7.1.apk)** |
+| **v2.7.0** | `mazkiplay-trade-v2.7.0.apk` | build sebelumnya | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.7.0/mazkiplay-trade-v2.7.0.apk)** |
 | **v2.6.0** | `mazkiplay-trade-v2.6.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.6.0/mazkiplay-trade-v2.6.0.apk)** |
 | **v2.5.0** | `mazkiplay-trade-v2.5.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.5.0/mazkiplay-trade-v2.5.0.apk)** |
 | **v2.4.0** | `mazkiplay-trade-v2.4.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.4.0/mazkiplay-trade-v2.4.0.apk)** |
@@ -178,10 +179,13 @@ Untuk memakai Twelve Data:
 2. Pilih **Twelve Data**.
 3. Tekan **Konfigurasi** dan masukkan API key baru.
 4. Tekan **Simpan ke Brankas**.
+5. Tunggu status tes koneksi. Jika berhasil akan muncul **Twelve Data terhubung dan merespons**. Jika gagal, key tetap tidak ditampilkan; aplikasi akan menjelaskan apakah masalahnya berasal dari key, paket/rate limit, simbol, atau internet.
 
 Credential disimpan terenkripsi menggunakan Android Keystore dan dibaca hanya saat request. Key tidak ditanam ke source code, README, Git, atau APK. Twelve Data dicoba sebagai provider quote/candle utama ketika sudah dikonfigurasi; Yahoo menjadi fallback jika provider tidak tersedia.
 
 API key yang pernah dibagikan melalui chat harus dianggap terekspos. Revoke/rotasi key tersebut di dashboard Twelve Data sebelum memasukkan key baru ke aplikasi.
+
+Pada v2.7.1, kegagalan Keystore atau koneksi tidak lagi menutup aplikasi. Gunakan tombol **Tes Koneksi** di kartu Twelve Data untuk mengulang pemeriksaan.
 
 #### Data-provider boundaries
 
