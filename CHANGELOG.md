@@ -145,6 +145,12 @@ Catatan: APK tidak membundel bobot LLM besar ke dalam binary. Mode lokal yang su
 - Kolom ID model otomatis mengisi `openrouter/free` saat konfigurasi OpenRouter dibuka.
 - Placeholder dan petunjuk diperjelas agar typo seperti `openrouterfeee` tidak digunakan.
 
+## [2.8.4] - 2026-09-30
+
+### Build correction
+- Memperbaiki import `AiChatResponse` yang tertinggal pada jalur parsing error OpenRouter.
+- Release v2.8.3 dinyatakan gagal dan tidak direkomendasikan; v2.8.4 menjadi target build koreksi.
+
 ## [2.0.0] - 2026-09-29
 
 ### Ditambahkan

@@ -3,6 +3,7 @@ package com.mazkiplay.trade.data.repository
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.Gson
+import com.mazkiplay.trade.data.api.AiChatResponse
 import com.mazkiplay.trade.data.api.AiChatApi
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

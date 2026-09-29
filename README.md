@@ -16,7 +16,8 @@ copy trade, dan notifikasi. Ditulis dengan **Kotlin + Jetpack Compose (Material 
 
 | Versi | Berkas | Ukuran | Unduh langsung |
 |-------|--------|--------|----------------|
-| **v2.8.3** | `mazkiplay-trade-v2.8.3.apk` | OpenRouter input UX hotfix | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.8.3/mazkiplay-trade-v2.8.3.apk)** |
+| **v2.8.4** | `mazkiplay-trade-v2.8.4.apk` | OpenRouter input + build correction | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.8.4/mazkiplay-trade-v2.8.4.apk)** |
+| **v2.8.3** | `mazkiplay-trade-v2.8.3.apk` | gagal build, jangan gunakan | **[Logis release](https://github.com/jambudio336-hue/mazkiplay-trade/releases/tag/v2.8.3)** |
 | **v2.8.2** | `mazkiplay-trade-v2.8.2.apk` | OpenRouter diagnosis hotfix | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.8.2/mazkiplay-trade-v2.8.2.apk)** |
 | **v2.8.1** | `mazkiplay-trade-v2.8.1.apk` | AI inference hotfix sebelumnya | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.8.1/mazkiplay-trade-v2.8.1.apk)** |
 | **v2.8.0** | `mazkiplay-trade-v2.8.0.apk` | build gagal, jangan gunakan | **[Logis release](https://github.com/jambudio336-hue/mazkiplay-trade/releases/tag/v2.8.0)** |
