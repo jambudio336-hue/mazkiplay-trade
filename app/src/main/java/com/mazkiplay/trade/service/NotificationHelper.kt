@@ -137,8 +137,8 @@ class NotificationHelper(private val context: Context) {
         if (prefs.getBoolean(key, false)) return
         val at = SimpleDateFormat("dd MMM HH:mm", Locale.getDefault()).format(Date(event.dateMillis))
         val body = "${event.currency.ifBlank { event.country }} • ${event.title} • $at • " +
-            "Impact: ${event.impact.label}. Forecast: ${event.forecast.ifBlank { "--" }} • " +
-            "Previous: ${event.previous.ifBlank { "--" }} • Actual: ${event.actual.ifBlank { "menunggu" }}"
+            "Dampak: ${event.impact.label}. Perkiraan: ${event.forecast.ifBlank { "--" }} • " +
+            "Sebelumnya: ${event.previous.ifBlank { "--" }} • Aktual: ${event.actual.ifBlank { "menunggu" }}"
         val notificationId = ID_ALARM + event.id.hashCode()
         NotificationManagerCompat.from(context).notify(
             notificationId,

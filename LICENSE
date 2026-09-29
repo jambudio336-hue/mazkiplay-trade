@@ -1,15 +1,13 @@
 
 
-ONLINE-ONLY AND BRANDING NOTICE
---------------------------------
-The application may require validated internet connectivity before composing its
-main experience. This gate is a product behavior, not a guarantee that every
-third-party provider is continuously available or realtime. Provider outages,
-rate limits, DNS failures, captive portals, and network interruptions remain
-possible and are surfaced through the application's LIVE, STALE, or OFFLINE
-states.
+RESPONSIVE CHART AND DATA PROVIDER NOTICE
+-----------------------------------------
+The application includes responsive portrait/landscape chart controls and
+technical-analysis presentation sourced from third-party public/provider feeds.
+TradingView names, widgets, symbols, exchange data, news, and market data remain
+subject to their respective terms and licenses. The project does not represent
+that every provider supplies zero-delay or licensed tick data for every asset.
 
-The v2.5.0 interface is Indonesian-first. The bull/bear launcher artwork and
-related visual assets are project branding for Mazkiplay Trade and may not be
-represented as an official logo of any exchange, broker, market-data provider,
+The premium bull/bear launcher artwork is project branding for Mazkiplay Trade.
+It is not an official logo or endorsement of any broker, exchange, data provider,
 or financial institution.

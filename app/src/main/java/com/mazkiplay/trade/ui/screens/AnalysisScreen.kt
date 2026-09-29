@@ -1,5 +1,7 @@
 package com.mazkiplay.trade.ui.screens
 
+import android.app.Activity
+import android.content.pm.ActivityInfo
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -21,12 +23,15 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.mazkiplay.trade.MazkiplayApp
@@ -180,6 +185,13 @@ fun AnalysisScreen(app: MazkiplayApp, prefs: UserPreferences) {
 
         item {
             SectionCard(title = "Grafik + Indikator", subtitle = "${instrument.displayName}") {
+                val activity = LocalContext.current as? Activity
+                val landscape = LocalConfiguration.current.orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                    TextButton(onClick = { activity?.requestedOrientation = if (landscape) ActivityInfo.SCREEN_ORIENTATION_SENSOR else ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE }) {
+                        Text(if (landscape) "KEMBALI PORTRAIT" else "BUKA LANDSCAPE")
+                    }
+                }
                 PriceChart(candles = candles, snapshot = snapshot, digits = instrument.digits)
             }
         }

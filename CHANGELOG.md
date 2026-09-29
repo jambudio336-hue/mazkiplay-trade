@@ -78,6 +78,19 @@ Catatan platform: audio dapat dihentikan sementara atau diinterupsi oleh Android
 - Mengganti launcher artwork menjadi ikon premium bull/bear split-face dengan tema terminal, emas, bullish green, dan bearish red; seluruh density tetap digenerate dari satu SVG saat CI build.
 
 Catatan: online-only berarti aplikasi menolak mode offline pada level UI. Ketersediaan realtime tiap provider tetap bergantung pada endpoint publik, rate limit, dan kesehatan jaringan/provider; status LIVE/STALE/OFFLINE tetap menjadi sumber kebenaran di aplikasi.
+
+## [2.6.0] - 2026-09-30
+
+### Responsive chart and premium UX
+- Menambahkan tombol **Buka Landscape** pada chart TradingView Live Market dan chart Analisa.
+- Chart memakai orientasi landscape dengan tinggi adaptif dan dapat kembali ke portrait tanpa menutup layar atau kehilangan konteks instrumen/timeframe.
+- Mempertahankan indikator otomatis EMA, RSI, MACD, ATR, Fibonacci, supply-demand, FVG, market structure, technical gauge, serta gabungan fundamental dari feed live.
+- Menormalkan detail notifikasi kalender ke Bahasa Indonesia: Dampak, Perkiraan, Sebelumnya, dan Aktual.
+- Memperbarui launcher vector menjadi ikon bull/bear premium dinamis dan mempertahankan generator semua density pada CI.
+- Settings, drawer, bottom navigation, refresh, analyzer, risk, bot, AI, dan Academy tetap dipertahankan; audit callback tidak menemukan tombol kosong.
+- Layout chart dan kontrol memakai state responsive Android orientation/configChanges agar tidak terpotong saat rotasi.
+
+Catatan data: chart TradingView widget menampilkan feed yang tersedia dari provider; repository technical quote melakukan refresh berkala dan crypto utama memakai WebSocket publik. Tidak ada provider publik yang dapat menjamin zero-delay untuk seluruh saham, forex, crypto, fundamental, dan berita secara bersamaan.
 - Semua angka signal/confidence adalah skor algoritmik internal, bukan probabilitas kemenangan.
 
 ## [2.0.0] - 2026-09-29

@@ -1,5 +1,8 @@
 package com.mazkiplay.trade.ui.screens
 
+import android.app.Activity
+import android.content.pm.ActivityInfo
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -38,6 +41,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.mazkiplay.trade.MazkiplayApp
@@ -381,6 +386,8 @@ private fun ChartPane(
     watchlisted: Boolean
 ) {
     val digits = TvTickers.instrumentOf(symbol).digits
+    val activity = LocalContext.current as? Activity
+    val landscape = LocalConfiguration.current.orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE
 
     LazyColumn(
         contentPadding = PaddingValues(12.dp),
@@ -421,11 +428,16 @@ private fun ChartPane(
                 title = "$symbol \u00b7 ${timeframe.label}",
                 subtitle = "TradingView Advanced Real-Time Chart \u2014 tick live"
             ) {
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                    TextButton(onClick = { activity?.requestedOrientation = if (landscape) ActivityInfo.SCREEN_ORIENTATION_SENSOR else ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE }) {
+                        Text(if (landscape) "KEMBALI PORTRAIT" else "BUKA LANDSCAPE")
+                    }
+                }
                 TradingViewWidget(
                     config = advancedChartConfig(symbol, vm.chartInterval(), dark),
                     cacheKey = "$symbol-${timeframe.label}",
                     darkTheme = dark,
-                    modifier = Modifier.fillMaxWidth().height(380.dp)
+                    modifier = Modifier.fillMaxWidth().height(if (landscape) 520.dp else 380.dp)
                 )
             }
         }

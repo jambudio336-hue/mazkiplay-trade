@@ -2,7 +2,7 @@
 
 **Nusantara Forex — Trading cerdas, analisa otomatis**
 
-> **Release v2.5.0** — Online-only mode, Bahasa Indonesia, ikon bull/bear premium, responsive UX, soundtrack startup, dan seluruh fitur Unified Signal Bot.
+> **Release v2.6.0** — Responsive chart landscape, indikator teknikal otomatis, Bahasa Indonesia, ikon bull/bear premium, online-only mode, soundtrack startup, dan seluruh fitur Unified Signal Bot.
 
 Aplikasi Android native untuk analisa dan eksekusi trading forex: harga real-time,
 kalender ekonomi, analisa otomatis (teknikal + fundamental), manajemen risiko,
@@ -16,6 +16,7 @@ copy trade, dan notifikasi. Ditulis dengan **Kotlin + Jetpack Compose (Material 
 
 | Versi | Berkas | Ukuran | Unduh langsung |
 |-------|--------|--------|----------------|
+| **v2.6.0** | `mazkiplay-trade-v2.6.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.6.0/mazkiplay-trade-v2.6.0.apk)** |
 | **v2.5.0** | `mazkiplay-trade-v2.5.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.5.0/mazkiplay-trade-v2.5.0.apk)** |
 | **v2.4.0** | `mazkiplay-trade-v2.4.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.4.0/mazkiplay-trade-v2.4.0.apk)** |
 | **v2.3.0** | `mazkiplay-trade-v2.3.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.3.0/mazkiplay-trade-v2.3.0.apk)** |
@@ -161,6 +162,12 @@ Bahasa release dikunci ke **Bahasa Indonesia** agar seluruh alur utama konsisten
 ### Tombol dan responsiveness
 
 Navigation menggunakan drawer dan bottom bar yang tetap aktif, setiap layar mempertahankan state flow/repository yang sama, tombol refresh/test/configure menjalankan callback atau coroutine yang sesuai, dan loading/error state ditampilkan ketika provider lambat. CI release menjalankan debug sanity check dan release compile sebelum APK dipublish.
+
+### Chart profesional v2.6.0
+
+Chart TradingView Live Market dan chart Analisa memiliki tombol **Buka Landscape** untuk memperbesar area chart; tombol yang sama mengembalikan perangkat ke portrait. Analisa otomatis tetap mencakup EMA 20/50/200, RSI, MACD, ATR, Fibonacci, supply-demand, FVG, market structure, technical gauge, dan bobot fundamental/news/event yang tersedia.
+
+Crypto utama menerima tick WebSocket publik ketika provider terhubung. Saham, forex, macro, fundamental, kalender, dan berita memakai interval/provider yang tersedia dan menampilkan status LIVE, STALE, atau OFFLINE secara transparan. Istilah “realtime” pada aplikasi berarti data terbaru dari provider yang aktif, bukan jaminan zero-delay atau tick feed berlisensi untuk semua aset.
 
 #### Data-provider boundaries
 
