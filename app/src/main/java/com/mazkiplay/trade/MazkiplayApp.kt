@@ -1,6 +1,7 @@
 package com.mazkiplay.trade
 
 import android.app.Application
+import com.mazkiplay.trade.data.api.MarketDataSource
 import com.mazkiplay.trade.data.local.MazkiplayDatabase
 import com.mazkiplay.trade.data.repository.CopyTradeRepository
 import com.mazkiplay.trade.data.repository.CryptoRepository
@@ -13,6 +14,7 @@ import com.mazkiplay.trade.data.repository.MarketRepository
 import com.mazkiplay.trade.data.repository.NewsRepository
 import com.mazkiplay.trade.data.repository.SettingsRepository
 import com.mazkiplay.trade.data.repository.TradeRepository
+import com.mazkiplay.trade.data.repository.TwelveDataRepository
 import com.mazkiplay.trade.data.tradingview.TvRepository
 import com.mazkiplay.trade.service.NotificationHelper
 import com.mazkiplay.trade.service.StartupAudioController
@@ -33,7 +35,7 @@ class MazkiplayApp : Application() {
 
     val database: MazkiplayDatabase by lazy { MazkiplayDatabase.get(this) }
     val settings: SettingsRepository by lazy { SettingsRepository(this) }
-    val marketRepository: MarketRepository by lazy { MarketRepository() }
+    val marketRepository: MarketRepository by lazy { MarketRepository(MarketDataSource(twelveData = twelveData)) }
     val newsRepository: NewsRepository by lazy { NewsRepository() }
     val tradeRepository: TradeRepository by lazy { TradeRepository(database) }
     val copyTradeRepository: CopyTradeRepository by lazy { CopyTradeRepository() }
@@ -41,6 +43,7 @@ class MazkiplayApp : Application() {
     val indodaxRepository: IndodaxRepository by lazy { IndodaxRepository() }
     val featurePack: FeaturePackRepository by lazy { FeaturePackRepository() }
     val aiProviders: AiProviderRepository by lazy { AiProviderRepository(this) }
+    val twelveData: TwelveDataRepository by lazy { TwelveDataRepository(aiProviders) }
     val botIntegration: BotIntegrationRepository by lazy { BotIntegrationRepository(this) }
     val videoNewsRepository: VideoNewsRepository by lazy { VideoNewsRepository() }
 

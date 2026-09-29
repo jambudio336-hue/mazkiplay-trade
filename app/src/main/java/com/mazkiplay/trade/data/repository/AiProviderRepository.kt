@@ -39,6 +39,7 @@ class AiProviderRepository(private val context: Context) {
         AiProviderConfig("groq", "Groq", "openai-compatible", "https://api.groq.com/openai/v1", "", false),
         AiProviderConfig("mistral", "Mistral", "openai-compatible", "https://api.mistral.ai/v1", "", false),
         AiProviderConfig("deepseek", "DeepSeek", "openai-compatible", "https://api.deepseek.com/v1", "", false),
+        AiProviderConfig("twelvedata", "Twelve Data", "REST market-data", "https://api.twelvedata.com", "market-data", false),
         AiProviderConfig("custom", "Custom Provider", "openai-compatible", "", "", false)
     )
 
@@ -52,6 +53,15 @@ class AiProviderRepository(private val context: Context) {
 
     fun hasCredential(providerId: String): Boolean = !prefs.getString(providerId, null).isNullOrBlank()
     fun deleteCredential(providerId: String) { prefs.edit().remove(providerId).apply() }
+    /** Decrypts only at request time; callers must never log or persist the result. */
+    fun readCredential(providerId: String): String? = runCatching {
+        val packed = prefs.getString(providerId, null) ?: return@runCatching null
+        val bytes = Base64.decode(packed, Base64.NO_WRAP)
+        if (bytes.size <= 12) return@runCatching null
+        Cipher.getInstance("AES/GCM/NoPadding").apply {
+            init(Cipher.DECRYPT_MODE, key, GCMParameterSpec(128, bytes.copyOfRange(0, 12)))
+        }.doFinal(bytes.copyOfRange(12, bytes.size)).toString(StandardCharsets.UTF_8)
+    }.getOrNull()
     fun statuses(): List<AiProviderStatus> = providers.map { config ->
         val ready = config.id == "local" && hasCredential("local_model") || hasCredential(config.id)
         AiProviderStatus(config.copy(configured = ready), if (ready) "READY" else "NOT CONFIGURED", detail = if (ready) "Credential reference stored in Keystore vault" else "Add credential/model")

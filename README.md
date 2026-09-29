@@ -2,7 +2,7 @@
 
 **Nusantara Forex — Trading cerdas, analisa otomatis**
 
-> **Release v2.6.0** — Responsive chart landscape, indikator teknikal otomatis, Bahasa Indonesia, ikon bull/bear premium, online-only mode, soundtrack startup, dan seluruh fitur Unified Signal Bot.
+> **Release v2.7.0** — Integrasi Twelve Data aman, responsive chart landscape, indikator teknikal otomatis, Bahasa Indonesia, ikon bull/bear premium, online-only mode, soundtrack startup, dan seluruh fitur Unified Signal Bot.
 
 Aplikasi Android native untuk analisa dan eksekusi trading forex: harga real-time,
 kalender ekonomi, analisa otomatis (teknikal + fundamental), manajemen risiko,
@@ -16,6 +16,7 @@ copy trade, dan notifikasi. Ditulis dengan **Kotlin + Jetpack Compose (Material 
 
 | Versi | Berkas | Ukuran | Unduh langsung |
 |-------|--------|--------|----------------|
+| **v2.7.0** | `mazkiplay-trade-v2.7.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.7.0/mazkiplay-trade-v2.7.0.apk)** |
 | **v2.6.0** | `mazkiplay-trade-v2.6.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.6.0/mazkiplay-trade-v2.6.0.apk)** |
 | **v2.5.0** | `mazkiplay-trade-v2.5.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.5.0/mazkiplay-trade-v2.5.0.apk)** |
 | **v2.4.0** | `mazkiplay-trade-v2.4.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.4.0/mazkiplay-trade-v2.4.0.apk)** |
@@ -168,6 +169,19 @@ Navigation menggunakan drawer dan bottom bar yang tetap aktif, setiap layar memp
 Chart TradingView Live Market dan chart Analisa memiliki tombol **Buka Landscape** untuk memperbesar area chart; tombol yang sama mengembalikan perangkat ke portrait. Analisa otomatis tetap mencakup EMA 20/50/200, RSI, MACD, ATR, Fibonacci, supply-demand, FVG, market structure, technical gauge, dan bobot fundamental/news/event yang tersedia.
 
 Crypto utama menerima tick WebSocket publik ketika provider terhubung. Saham, forex, macro, fundamental, kalender, dan berita memakai interval/provider yang tersedia dan menampilkan status LIVE, STALE, atau OFFLINE secara transparan. Istilah “realtime” pada aplikasi berarti data terbaru dari provider yang aktif, bukan jaminan zero-delay atau tick feed berlisensi untuk semua aset.
+
+### Twelve Data v2.7.0
+
+Untuk memakai Twelve Data:
+
+1. Buka **AI Center**.
+2. Pilih **Twelve Data**.
+3. Tekan **Konfigurasi** dan masukkan API key baru.
+4. Tekan **Simpan ke Brankas**.
+
+Credential disimpan terenkripsi menggunakan Android Keystore dan dibaca hanya saat request. Key tidak ditanam ke source code, README, Git, atau APK. Twelve Data dicoba sebagai provider quote/candle utama ketika sudah dikonfigurasi; Yahoo menjadi fallback jika provider tidak tersedia.
+
+API key yang pernah dibagikan melalui chat harus dianggap terekspos. Revoke/rotasi key tersebut di dashboard Twelve Data sebelum memasukkan key baru ke aplikasi.
 
 #### Data-provider boundaries
 

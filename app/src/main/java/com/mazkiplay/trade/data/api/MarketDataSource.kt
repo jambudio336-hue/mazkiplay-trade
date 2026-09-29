@@ -7,6 +7,7 @@ import com.mazkiplay.trade.data.model.Instrument
 import com.mazkiplay.trade.data.model.Instruments
 import com.mazkiplay.trade.data.model.NewsItem
 import com.mazkiplay.trade.data.model.Quote
+import com.mazkiplay.trade.data.repository.TwelveDataRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -25,13 +26,15 @@ import java.util.Locale
  */
 class MarketDataSource(
     private val api: MarketApi = NetworkModule.marketApi,
-    private val client: okhttp3.OkHttpClient = NetworkModule.client
+    private val client: okhttp3.OkHttpClient = NetworkModule.client,
+    private val twelveData: TwelveDataRepository? = null
 ) {
 
     // ------------------------------------------------------------------ candles
 
     suspend fun candles(instrument: Instrument, interval: String, range: String): List<Candle> =
         withContext(Dispatchers.IO) {
+            twelveData?.candles(instrument, interval, 200)?.takeIf { it.isNotEmpty() }?.let { return@withContext it }
             runCatching {
                 val response = api.chart(instrument.yahooSymbol, interval, range)
                 val result = response.chart?.result?.firstOrNull() ?: return@runCatching emptyList()
@@ -64,6 +67,7 @@ class MarketDataSource(
     // -------------------------------------------------------------------- quote
 
     suspend fun quote(instrument: Instrument): Quote = withContext(Dispatchers.IO) {
+        twelveData?.quote(instrument)?.takeIf { it.price > 0.0 }?.let { return@withContext it }
         runCatching {
             val response = api.chart(instrument.yahooSymbol, "5m", "5d")
             val result = response.chart?.result?.firstOrNull() ?: return@runCatching Quote(instrument.symbol)

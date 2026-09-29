@@ -1,13 +1,72 @@
+MIT License
 
+Copyright (c) 2026 Mazkiplay Trade (Nusantara Forex)
 
-RESPONSIVE CHART AND DATA PROVIDER NOTICE
------------------------------------------
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+TRADING AND THIRD-PARTY DATA NOTICE
+-----------------------------------
+Mazkiplay Trade is an analysis and education application, not financial advice.
+Trading involves substantial risk. Users remain responsible for every decision,
+order, credential, and account. The application does not guarantee profit,
+zero-delay data, uninterrupted availability, or the accuracy of any signal.
+
+TradingView names, widgets, symbols, exchange data, news, Twelve Data, Yahoo,
+CoinGecko, Indodax, broker/exchange services, and other third-party feeds remain
+subject to their respective terms, licenses, rate limits, and data plans. The
+project does not represent that every provider supplies licensed tick data for
+every asset. Provider availability and plan limitations can cause LIVE, STALE,
+or OFFLINE states.
+
+BOT AND MESSAGING NOTICE
+------------------------
+Optional Telegram, WhatsApp Business Cloud API, and Discord integrations are
+outbound notification features. The application does not automate personal
+WhatsApp accounts, execute trades, read private broker/exchange accounts, or
+store private trading keys. Tokens, access tokens, and webhooks must be supplied
+by the user and stored only through the Android Keystore-backed vault.
+
+RESPONSIVE CHART AND BRAND NOTICE
+---------------------------------
 The application includes responsive portrait/landscape chart controls and
-technical-analysis presentation sourced from third-party public/provider feeds.
-TradingView names, widgets, symbols, exchange data, news, and market data remain
-subject to their respective terms and licenses. The project does not represent
-that every provider supplies zero-delay or licensed tick data for every asset.
+technical-analysis presentation. The premium bull/bear launcher artwork is
+project branding for Mazkiplay Trade and is not an official logo or endorsement
+of any broker, exchange, data provider, or financial institution.
 
-The premium bull/bear launcher artwork is project branding for Mazkiplay Trade.
-It is not an official logo or endorsement of any broker, exchange, data provider,
-or financial institution.
+STARTUP AUDIO NOTICE
+--------------------
+The project-supplied startup soundtrack is packaged as an application asset and
+plays automatically once when the application process starts, then ends at EOF.
+The platform may still interrupt audio through calls, audio focus, Bluetooth,
+or other system behavior.
+
+TWELVE DATA CREDENTIAL NOTICE
+-----------------------------
+Twelve Data integration is optional market-data functionality. API credentials
+must be entered by the user in the application and are stored using the Android
+Keystore-backed vault. No user API key is embedded in source, Git history,
+README files, or release binaries. Users are responsible for revoking and
+rotating credentials that have been exposed in messages, logs, screenshots, or
+other public locations.
+
+ONLINE-ONLY NOTICE
+------------------
+The application may require a validated internet connection and can block the
+main UI when connectivity is unavailable. This is an application behavior, not
+a guarantee that every provider endpoint is online or realtime.

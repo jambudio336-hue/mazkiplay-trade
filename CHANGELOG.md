@@ -91,6 +91,17 @@ Catatan: online-only berarti aplikasi menolak mode offline pada level UI. Keters
 - Layout chart dan kontrol memakai state responsive Android orientation/configChanges agar tidak terpotong saat rotasi.
 
 Catatan data: chart TradingView widget menampilkan feed yang tersedia dari provider; repository technical quote melakukan refresh berkala dan crypto utama memakai WebSocket publik. Tidak ada provider publik yang dapat menjamin zero-delay untuk seluruh saham, forex, crypto, fundamental, dan berita secara bersamaan.
+
+## [2.7.0] - 2026-09-30
+
+### Twelve Data market-data integration
+- Menambahkan Twelve Data sebagai provider REST market-data opsional untuk quote dan candle saham, forex, crypto, serta instrumen yang didukung provider.
+- Jika credential Twelve Data tersedia, jalur ini dicoba lebih dulu; Yahoo tetap menjadi fallback defensif ketika provider gagal, rate limit, atau simbol tidak tersedia.
+- Kunci API tidak di-hardcode, tidak ditulis ke log, tidak masuk Git, dan tidak dikemas ke APK; pengguna memasukkannya dari AI Center lalu disimpan terenkripsi melalui Android Keystore.
+- Menambahkan tombol konfigurasi Twelve Data pada daftar provider AI Center dengan label Bahasa Indonesia.
+- Menambahkan parsing null/error, mapping interval, mapping simbol, dan status fallback agar feed tidak membuat aplikasi crash.
+
+Catatan keamanan: API key yang pernah ditempelkan di chat dianggap terekspos. Rotasi/revoke key tersebut di dashboard Twelve Data, lalu masukkan key baru melalui **AI Center → Twelve Data → Konfigurasi**. Release ini sengaja tidak membawa key pengguna di dalam binary.
 - Semua angka signal/confidence adalah skor algoritmik internal, bukan probabilitas kemenangan.
 
 ## [2.0.0] - 2026-09-29

@@ -24,6 +24,7 @@ object NetworkModule {
     const val YAHOO_BASE = "https://query1.finance.yahoo.com/"
     const val COINGECKO_BASE = "https://api.coingecko.com/"
     const val CALENDAR_URL = "https://nfs.faireconomy.media/ff_calendar_thisweek.json"
+    const val TWELVE_DATA_BASE = "https://api.twelvedata.com/"
 
     val client: OkHttpClient by lazy {
         val logging = HttpLoggingInterceptor { message -> Log.d(TAG, message) }.apply {
@@ -69,6 +70,16 @@ object NetworkModule {
     }
 
     val coinGeckoApi: CoinGeckoApi by lazy { coinGeckoRetrofit.create(CoinGeckoApi::class.java) }
+
+    private val twelveDataRetrofit: Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(TWELVE_DATA_BASE)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+    }
+
+    val twelveDataApi: TwelveDataApi by lazy { twelveDataRetrofit.create(TwelveDataApi::class.java) }
 
     private val gsonPlain = com.google.gson.Gson()
 
