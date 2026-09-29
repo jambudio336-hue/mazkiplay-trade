@@ -20,23 +20,35 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-APPLICATION AND THIRD-PARTY DATA NOTICE
-----------------------------------------
-Mazkiplay Trade is an analysis, market-data, journaling, and paper/manual
-trade-planning application. It is not financial advice and does not guarantee
-profit, execution, liquidity, price accuracy, or availability of any provider.
-Users remain responsible for every trading decision and must independently
-verify prices, spreads, fees, contract specifications, and broker rules.
+APPLICATION, EDUCATION, AI, AND THIRD-PARTY DATA NOTICE
+--------------------------------------------------------
+Mazkiplay Trade is an analysis, market-data, journaling, education, paper/manual
+trade-planning, and explanation application. It is not financial advice and does
+not guarantee profit, execution, liquidity, price accuracy, model output, or
+availability of any provider. Users remain responsible for every trading
+decision and must independently verify prices, spreads, fees, contract
+specifications, and broker rules.
+
+Academy content is original educational material for Mazkiplay Trade. It is not
+an investment recommendation, solicitation to buy or sell assets, or guarantee
+of profit. Trading involves the risk of losing capital.
+
+AI features are optional explanation tools. Deterministic market, technical,
+fundamental, news, and risk engines remain the source of critical numbers. AI
+must not receive private broker/exchange keys or execute orders directly.
+User credentials are stored locally through Android Keystore-backed encryption;
+no developer API keys are included in the source or APK configuration.
 
 Market data, news, chart content, QRIS/payment imagery, video, and calendar
 content may be provided by third-party services, including TradingView,
-Indodax, Tokocrypto-compatible public endpoints, CoinGecko, Yahoo Finance,
-RSS publishers, YouTube, and public calendar providers. Each provider retains
-its own terms, copyrights, rate limits, and redistribution restrictions.
+Indodax, CoinGecko, Yahoo Finance, RSS publishers, YouTube, and official
+central-bank sources. Each provider retains its own terms, copyrights, rate
+limits, embedding rules, and redistribution restrictions. Official live-event
+links are opened externally when embedding is not authorized.
+
 Only public read-only market endpoints are used by the default application;
-private account APIs, wallet keys, broker execution, and DEX execution are
-not granted by this license and require separate authorization and secure
-server-side integration.
+private account APIs, wallet keys, broker execution, and DEX execution require
+separate authorization and secure server-side integration.
 
 The QRIS asset is supplied by the project owner for the donation screen and
 must not be repurposed as a payment credential outside the owner's intended

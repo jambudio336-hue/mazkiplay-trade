@@ -81,6 +81,8 @@ fun DashboardScreen(
     val traders by copy.traders.collectAsState()
     val cryptoStatus by app.cryptoRepository.status.collectAsState()
     val cryptoLastUpdated by app.cryptoRepository.lastUpdated.collectAsState()
+    val featureHealth by app.featurePack.health.collectAsState()
+    val emergencyLock by app.featurePack.emergencyLock.collectAsState()
 
     val openPositions = positions.filter { it.isOpen }
     val floating = openPositions.sumOf { trade.floatingPnl(it) }
@@ -131,6 +133,21 @@ fun DashboardScreen(
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
+                }
+            }
+        }
+
+        item {
+            SectionCard(
+                title = "Market Command Center",
+                subtitle = "Brief personal, live events, risk, dan scanner",
+                trailing = { Pill(text = if (emergencyLock) "RISK LOCK" else "READY", color = if (emergencyLock) Bear else Bull, filled = true) }
+            ) {
+                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Text("USD STRONG  ·  EUR NEUTRAL  ·  GOLD HIGH VOLATILITY  ·  BTC TRENDING", fontWeight = FontWeight.Bold)
+                    Text("2 HIGH IMPACT EVENTS  ·  1 LIVE EVENT  ·  ${watchlist.size} WATCHLIST SIGNALS", style = MaterialTheme.typography.labelSmall, color = Gold)
+                    Text("Market: ${featureHealth.market} · News: ${featureHealth.news} · Calendar: ${featureHealth.calendar} · Provider: ${featureHealth.activeProvider}", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(if (featureHealth.signalPaused) "SIGNAL PAUSED · data stale" else "Signal engine active · conflict and risk checks enabled", style = MaterialTheme.typography.labelSmall, color = if (featureHealth.signalPaused) Bear else Bull, modifier = Modifier.clickable { onNavigate(Routes.COMMAND_CENTER) })
                 }
             }
         }

@@ -22,6 +22,10 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.material.icons.filled.VideoLibrary
+import androidx.compose.material.icons.filled.LiveTv
+import androidx.compose.material.icons.filled.School
+import androidx.compose.material.icons.filled.SmartToy
+import androidx.compose.material.icons.filled.DashboardCustomize
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -73,6 +77,10 @@ import com.mazkiplay.trade.ui.screens.SplashScreen
 import com.mazkiplay.trade.ui.screens.TradeScreen
 import com.mazkiplay.trade.ui.screens.WatchlistScreen
 import com.mazkiplay.trade.ui.screens.VideoNewsScreen
+import com.mazkiplay.trade.ui.screens.LiveEventsScreen
+import com.mazkiplay.trade.ui.screens.AcademyScreen
+import com.mazkiplay.trade.ui.screens.AiCenterScreen
+import com.mazkiplay.trade.ui.screens.CommandCenterScreen
 import kotlinx.coroutines.launch
 
 /** Every destination in the app. */
@@ -93,6 +101,10 @@ object Routes {
     const val LIVE_MARKET = "livemarket"
     const val VIDEO_NEWS = "videonews"
     const val SETTINGS = "settings"
+    const val COMMAND_CENTER = "commandcenter"
+    const val LIVE_EVENTS = "liveevents"
+    const val ACADEMY = "academy"
+    const val AI_CENTER = "aicenter"
 }
 
 data class NavItem(val route: String, val labelKey: String, val icon: ImageVector)
@@ -129,6 +141,10 @@ fun MazkiplayNavHost(app: MazkiplayApp) {
 
     val drawerItems = listOf(
         NavItem(Routes.LIVE_MARKET, "Live Market · TradingView", Icons.Filled.ShowChart),
+        NavItem(Routes.COMMAND_CENTER, "Market Command Center", Icons.Filled.DashboardCustomize),
+        NavItem(Routes.LIVE_EVENTS, "Mazkiplay Live Events", Icons.Filled.LiveTv),
+        NavItem(Routes.AI_CENTER, "Mazkiplay AI", Icons.Filled.SmartToy),
+        NavItem(Routes.ACADEMY, "Mazkiplay Academy", Icons.Filled.School),
         NavItem(Routes.VIDEO_NEWS, "Video News · YouTube", Icons.Filled.VideoLibrary),
         NavItem(Routes.CALCULATOR, s.calculator, Icons.Filled.Calculate),
         NavItem(Routes.RISK, s.risk, Icons.Filled.Shield),
@@ -264,6 +280,10 @@ fun MazkiplayNavHost(app: MazkiplayApp) {
                 composable(Routes.MARKET_ANALYSIS) { MarketAnalysisScreen(app, prefs) }
                 composable(Routes.WATCHLIST) { WatchlistScreen(app, prefs) }
                 composable(Routes.LIVE_MARKET) { LiveMarketScreen(app, prefs) }
+                composable(Routes.COMMAND_CENTER) { CommandCenterScreen(app) }
+                composable(Routes.LIVE_EVENTS) { LiveEventsScreen(app) }
+                composable(Routes.ACADEMY) { AcademyScreen(app) }
+                composable(Routes.AI_CENTER) { AiCenterScreen(app) }
                 composable(Routes.VIDEO_NEWS) { VideoNewsScreen(app, prefs) }
                 composable(Routes.SETTINGS) { SettingsScreen(app, prefs) }
                 }

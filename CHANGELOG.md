@@ -18,6 +18,28 @@ dan proyek ini menggunakan [Semantic Versioning](https://semver.org/lang/id/).
 
 ### Batas konektor
 - Tokocrypto/iTick/BiQuote, broker, MT4/MT5, Lighter DEX, private account, dan AI/API berbayar tidak diaktifkan sebagai order execution tanpa credential, lisensi, dan backend aman.
+
+## [2.2.0] - 2026-09-29
+
+### Market Command Center
+- Menambahkan Personal Market Brief: currency strength, gold volatility, crypto regime, active signals, high-impact event count, dan signal pause saat data stale.
+- Menambahkan Data Health Center, provider path, failover status, conflict/risk messaging, Opportunity Scanner taxonomy, dan Emergency Risk Lock.
+- Menambahkan Personal Trading Profile: Conservative, Balanced, Aggressive, Custom dengan hard limits untuk risk, minimum R:R, dan jumlah posisi.
+- Menambahkan What-If Simulator untuk balance, risk, SL distance, R:R, risk amount, lot estimate, dan potential reward tanpa mengirim order.
+
+### Mazkiplay Live
+- Menambahkan Live Event Center untuk Federal Reserve/FOMC, ECB, dan BOE dengan state `UPCOMING → LIVE → ENDED`.
+- Official source links dibuka langsung; aplikasi tidak meng-embed atau mengambil stream yang tidak mengizinkan embedding.
+- Menambahkan NEWS MODE, market reaction context, transcript/watchwords placeholder, dan pengetatan risk/signal messaging saat high-impact event.
+
+### Mazkiplay Academy
+- Menambahkan sepuluh modul original: Professional Trader, Money Management, Candlestick, Technical, Fundamental, Macro, News, Psychology, Backtesting, Journal, dan Checklist.
+- Reader offline di dalam aplikasi dengan versioning, disclaimer edukasi, serta branding M4zk1pLayNusantara.
+
+### Mazkiplay AI
+- Menambahkan AI Provider abstraction: local Qwen/Gemma/llama.cpp reference, OpenRouter, OpenAI, Gemini, Anthropic, Groq, Mistral, DeepSeek, dan custom OpenAI-compatible.
+- Menambahkan AI Router local-first, Model Manager, provider status, konfigurasi credential, delete credential, dan Android Keystore encrypted vault.
+- AI hanya menjelaskan context yang dihitung engine; tidak mengakses private key, tidak menjadi sumber angka kritis, dan tidak mengeksekusi order.
 - Semua angka signal/confidence adalah skor algoritmik internal, bukan probabilitas kemenangan.
 
 ## [2.0.0] - 2026-09-29

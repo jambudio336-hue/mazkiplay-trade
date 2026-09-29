@@ -2,7 +2,7 @@
 
 **Nusantara Forex — Trading cerdas, analisa otomatis**
 
-> **Release v2.1.0** — Live Chart expansion, Market Radar Indodax, risk-first signal pipeline, QRIS donation, dan launcher identity bullish/bearish.
+> **Release v2.2.0** — Market Command Center, Mazkiplay Live, Academy, AI Provider Center, risk controls, dan seluruh upgrade v2.1.0.
 
 Aplikasi Android native untuk analisa dan eksekusi trading forex: harga real-time,
 kalender ekonomi, analisa otomatis (teknikal + fundamental), manajemen risiko,
@@ -16,6 +16,7 @@ copy trade, dan notifikasi. Ditulis dengan **Kotlin + Jetpack Compose (Material 
 
 | Versi | Berkas | Ukuran | Unduh langsung |
 |-------|--------|--------|----------------|
+| **v2.2.0** | `mazkiplay-trade-v2.2.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.2.0/mazkiplay-trade-v2.2.0.apk)** |
 | **v2.1.0** | `mazkiplay-trade-v2.1.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.1.0/mazkiplay-trade-v2.1.0.apk)** |
 | **v2.0.0** | `mazkiplay-trade-v2.0.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.0.0/mazkiplay-trade-v2.0.0.apk)** |
 | **v1.9.0** | `mazkiplay-trade-v1.9.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v1.9.0/mazkiplay-trade-v1.9.0.apk)** |
@@ -112,6 +113,19 @@ APK juga diunggah sebagai *workflow artifact* pada setiap build
 | Signal + Risk | Technical/fundamental/news context, conflict-aware analysis, confidence internal, Entry/SL/TP, R:R, lot sizing, risk guardian, paper/manual confirmation, dan alarm. |
 | Provider layer | TradingView/Yahoo/CoinGecko/Binance WebSocket yang sudah ada, ditambah Indodax public REST: ticker, pairs, depth, trades, dan history. |
 | UX premium | Dark terminal cards, status LIVE/STALE/OFFLINE, Realtime Command Center, ikon bear bullish/bull bearish, dan QRIS donation screen. |
+
+### Feature pack v2.2.0
+
+- **Market Command Center**: Personal Market Brief, market status, top setups, event counter, Data Health Center, provider/failover path, signal pause, dan Opportunity Scanner.
+- **Risk Guardian**: Emergency Risk Lock untuk blokir new orders/copy-trade flow tanpa menutup posisi terbuka secara diam-diam; profile Conservative/Balanced/Aggressive/Custom dengan hard limits.
+- **What-If Simulator**: balance, risk, SL pips, R:R, risk amount, lot estimate, dan potential TP tanpa menyentuh akun broker.
+- **Mazkiplay Live**: central-bank event state `UPCOMING → LIVE → ENDED`, official source links, news mode, market-reaction context, dan watchwords. Hak siar dijaga dengan hanya membuka source resmi ketika embed tidak diizinkan.
+- **Mazkiplay Academy**: reader offline sepuluh modul original dengan versioning, disclaimer edukasi, dan checklist trading.
+- **Mazkiplay AI**: local-first provider router, model manager reference untuk GGUF/llama.cpp, OpenRouter/OpenAI/Gemini/Anthropic/Groq/Mistral/DeepSeek/custom abstraction, provider status, dan encrypted Android Keystore vault.
+
+#### AI safety model
+
+AI bukan sumber data utama, bukan kalkulator risk, dan bukan eksekutor order. Market/technical/fundamental/news/risk engine menghitung context terlebih dahulu; AI hanya menjadi explanation layer. API key pengguna disimpan sebagai credential terenkripsi di perangkat, tidak di source code/GitHub, dan tidak diberikan ke private broker/exchange API.
 
 #### Data-provider boundaries
 
