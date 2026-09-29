@@ -92,7 +92,11 @@ fun AiCenterScreen(app: MazkiplayApp) {
                         Text("Credential tersimpan. Tekan tes koneksi untuk memastikan provider merespons.", style = MaterialTheme.typography.bodySmall)
                     }
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Button(onClick = { selected = status; credential = ""; model = status.config.model }) { Text(if (status.state == "READY") "PERBARUI" else "KONFIGURASI") }
+                        Button(onClick = {
+                            selected = status
+                            credential = ""
+                            model = status.config.model.ifBlank { app.aiInference.defaultModel(status.config.id) }
+                        }) { Text(if (status.state == "READY") "PERBARUI" else "KONFIGURASI") }
                         if (status.state == "READY") {
                             TextButton(onClick = {
                                 if (status.config.id == "twelvedata") {
@@ -145,11 +149,15 @@ fun AiCenterScreen(app: MazkiplayApp) {
                             value = model,
                             onValueChange = { model = it },
                             label = { Text("ID model") },
-                            placeholder = { Text("Contoh: meta-llama/llama-3.3-8b-instruct:free") },
+                            placeholder = { Text(if (status.config.id == "openrouter") "openrouter/free" else "Masukkan ID model provider") },
                             singleLine = true,
                             enabled = !saving
                         )
-                        Text("Untuk OpenRouter, gunakan model berakhiran :free jika tersedia. Model gratis tetap mengikuti rate limit provider.", style = MaterialTheme.typography.labelSmall)
+                        Text(
+                            if (status.config.id == "openrouter") "ID yang disarankan: openrouter/free — ketik persis, termasuk garis miring. Model gratis tetap memiliki batas rate limit."
+                            else "Masukkan ID model resmi dari provider ini.",
+                            style = MaterialTheme.typography.labelSmall
+                        )
                     }
                     Text("Kunci hanya disimpan lokal di Android Keystore dan tidak ditampilkan ulang.", style = MaterialTheme.typography.labelSmall)
                 }

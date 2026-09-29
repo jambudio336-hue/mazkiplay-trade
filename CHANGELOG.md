@@ -136,7 +136,14 @@ Catatan: APK tidak membundel bobot LLM besar ke dalam binary. Mode lokal yang su
 - Default model OpenRouter diganti ke router resmi `openrouter/free`, yang memilih model gratis yang sedang tersedia.
 - Tes AI sekarang menampilkan kode HTTP dan pesan provider, sehingga perbedaan antara API key invalid (401), kredit/akses (402/403), rate limit (429), dan model/provider bermasalah dapat didiagnosis.
 - Model spesifik tetap dapat dimasukkan manual dengan ID lengkap dari katalog OpenRouter.
+- Layar konfigurasi OpenRouter kini otomatis mengisi `openrouter/free` dan tidak lagi menampilkan contoh ID lama yang membingungkan.
 - Semua angka signal/confidence adalah skor algoritmik internal, bukan probabilitas kemenangan.
+
+## [2.8.3] - 2026-09-30
+
+### OpenRouter input UX
+- Kolom ID model otomatis mengisi `openrouter/free` saat konfigurasi OpenRouter dibuka.
+- Placeholder dan petunjuk diperjelas agar typo seperti `openrouterfeee` tidak digunakan.
 
 ## [2.0.0] - 2026-09-29
 

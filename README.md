@@ -16,6 +16,7 @@ copy trade, dan notifikasi. Ditulis dengan **Kotlin + Jetpack Compose (Material 
 
 | Versi | Berkas | Ukuran | Unduh langsung |
 |-------|--------|--------|----------------|
+| **v2.8.3** | `mazkiplay-trade-v2.8.3.apk` | OpenRouter input UX hotfix | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.8.3/mazkiplay-trade-v2.8.3.apk)** |
 | **v2.8.2** | `mazkiplay-trade-v2.8.2.apk` | OpenRouter diagnosis hotfix | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.8.2/mazkiplay-trade-v2.8.2.apk)** |
 | **v2.8.1** | `mazkiplay-trade-v2.8.1.apk` | AI inference hotfix sebelumnya | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.8.1/mazkiplay-trade-v2.8.1.apk)** |
 | **v2.8.0** | `mazkiplay-trade-v2.8.0.apk` | build gagal, jangan gunakan | **[Logis release](https://github.com/jambudio336-hue/mazkiplay-trade/releases/tag/v2.8.0)** |
@@ -197,7 +198,7 @@ OpenRouter, OpenAI, Groq, Mistral, DeepSeek, dan Custom Provider sekarang dapat 
 1. Buka **AI Center**.
 2. Pilih provider.
 3. Masukkan API key dan **ID model**.
-4. Untuk OpenRouter, gunakan `openrouter/free` agar OpenRouter memilih model gratis yang sedang tersedia, atau masukkan ID model spesifik lengkap dari katalog OpenRouter.
+4. Untuk OpenRouter, gunakan `openrouter/free` agar OpenRouter memilih model gratis yang sedang tersedia, atau masukkan ID model spesifik lengkap dari katalog OpenRouter. ID harus diketik persis dengan tanda `/`; `openrouterfeee`, `openrouter/freee`, atau variasi typo tidak valid.
 5. Tekan **Simpan ke Brankas**.
 6. Tunggu pesan **aktif dan berhasil menjawab**.
 
