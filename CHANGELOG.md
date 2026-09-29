@@ -40,6 +40,22 @@ dan proyek ini menggunakan [Semantic Versioning](https://semver.org/lang/id/).
 - Menambahkan AI Provider abstraction: local Qwen/Gemma/llama.cpp reference, OpenRouter, OpenAI, Gemini, Anthropic, Groq, Mistral, DeepSeek, dan custom OpenAI-compatible.
 - Menambahkan AI Router local-first, Model Manager, provider status, konfigurasi credential, delete credential, dan Android Keystore encrypted vault.
 - AI hanya menjelaskan context yang dihitung engine; tidak mengakses private key, tidak menjadi sumber angka kritis, dan tidak mengeksekusi order.
+
+## [2.3.0] - 2026-09-29
+
+### Unified Signal Bot
+- Menambahkan **Signal Bot Center** dengan satu laporan keputusan terpadu dari market data, technical, fundamental, macro, news, live event, signal, risk, money management, dan AI explanation.
+- Channel outbound resmi yang tersedia: **Telegram Bot API**, **Discord Incoming Webhook**, dan **WhatsApp Business Cloud API**.
+- Menambahkan format pesan bilingual-friendly dengan decision, entry, SL, TP1/TP2, risk, R:R, lot, confluence, Risk Guardian, dan explanation.
+- Menambahkan event-driven trigger taxonomy: new setup, WAIT, breakout, reversal, TP1/TP2, SL, spread, volatility, breaking/high-impact news, countdown, LIVE NOW, release, post-news reanalysis, central-bank decision, dan macro regime.
+- Menambahkan anti-spam: deduplication key per symbol/decision/trigger dan cooldown dua menit; pesan tidak dikirim setiap tick.
+- Menambahkan konfigurasi dan preview/test message dari drawer **Signal Bot · Telegram/WA/Discord**.
+- Token/API key/webhook disimpan terenkripsi memakai Android Keystore; tidak ada credential developer di source code atau GitHub.
+
+### Safety and provider boundaries
+- WhatsApp yang didukung adalah **WhatsApp Business Cloud API**, bukan otomasi akun WhatsApp personal.
+- Bot hanya outbound notification dan tidak menerima private key atau mengeksekusi order broker/exchange.
+- Pesan sinyal produksi harus berasal dari data aktual dan conflict/risk checks; preview menggunakan status WAIT agar tidak tampak sebagai rekomendasi palsu.
 - Semua angka signal/confidence adalah skor algoritmik internal, bukan probabilitas kemenangan.
 
 ## [2.0.0] - 2026-09-29

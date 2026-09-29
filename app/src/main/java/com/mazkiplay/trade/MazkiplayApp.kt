@@ -7,6 +7,7 @@ import com.mazkiplay.trade.data.repository.CryptoRepository
 import com.mazkiplay.trade.data.repository.IndodaxRepository
 import com.mazkiplay.trade.data.repository.FeaturePackRepository
 import com.mazkiplay.trade.data.repository.AiProviderRepository
+import com.mazkiplay.trade.data.repository.BotIntegrationRepository
 import com.mazkiplay.trade.data.repository.VideoNewsRepository
 import com.mazkiplay.trade.data.repository.MarketRepository
 import com.mazkiplay.trade.data.repository.NewsRepository
@@ -39,6 +40,7 @@ class MazkiplayApp : Application() {
     val indodaxRepository: IndodaxRepository by lazy { IndodaxRepository() }
     val featurePack: FeaturePackRepository by lazy { FeaturePackRepository() }
     val aiProviders: AiProviderRepository by lazy { AiProviderRepository(this) }
+    val botIntegration: BotIntegrationRepository by lazy { BotIntegrationRepository(this) }
     val videoNewsRepository: VideoNewsRepository by lazy { VideoNewsRepository() }
 
     /**

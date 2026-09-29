@@ -26,6 +26,7 @@ import androidx.compose.material.icons.filled.LiveTv
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.SmartToy
 import androidx.compose.material.icons.filled.DashboardCustomize
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -81,6 +82,7 @@ import com.mazkiplay.trade.ui.screens.LiveEventsScreen
 import com.mazkiplay.trade.ui.screens.AcademyScreen
 import com.mazkiplay.trade.ui.screens.AiCenterScreen
 import com.mazkiplay.trade.ui.screens.CommandCenterScreen
+import com.mazkiplay.trade.ui.screens.BotCenterScreen
 import kotlinx.coroutines.launch
 
 /** Every destination in the app. */
@@ -105,6 +107,7 @@ object Routes {
     const val LIVE_EVENTS = "liveevents"
     const val ACADEMY = "academy"
     const val AI_CENTER = "aicenter"
+    const val BOT_CENTER = "botcenter"
 }
 
 data class NavItem(val route: String, val labelKey: String, val icon: ImageVector)
@@ -145,6 +148,7 @@ fun MazkiplayNavHost(app: MazkiplayApp) {
         NavItem(Routes.LIVE_EVENTS, "Mazkiplay Live Events", Icons.Filled.LiveTv),
         NavItem(Routes.AI_CENTER, "Mazkiplay AI", Icons.Filled.SmartToy),
         NavItem(Routes.ACADEMY, "Mazkiplay Academy", Icons.Filled.School),
+        NavItem(Routes.BOT_CENTER, "Signal Bot · Telegram/WA/Discord", Icons.Filled.Send),
         NavItem(Routes.VIDEO_NEWS, "Video News · YouTube", Icons.Filled.VideoLibrary),
         NavItem(Routes.CALCULATOR, s.calculator, Icons.Filled.Calculate),
         NavItem(Routes.RISK, s.risk, Icons.Filled.Shield),
@@ -284,6 +288,7 @@ fun MazkiplayNavHost(app: MazkiplayApp) {
                 composable(Routes.LIVE_EVENTS) { LiveEventsScreen(app) }
                 composable(Routes.ACADEMY) { AcademyScreen(app) }
                 composable(Routes.AI_CENTER) { AiCenterScreen(app) }
+                composable(Routes.BOT_CENTER) { BotCenterScreen(app) }
                 composable(Routes.VIDEO_NEWS) { VideoNewsScreen(app, prefs) }
                 composable(Routes.SETTINGS) { SettingsScreen(app, prefs) }
                 }
