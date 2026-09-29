@@ -8,6 +8,7 @@ import com.mazkiplay.trade.data.repository.CryptoRepository
 import com.mazkiplay.trade.data.repository.IndodaxRepository
 import com.mazkiplay.trade.data.repository.FeaturePackRepository
 import com.mazkiplay.trade.data.repository.AiProviderRepository
+import com.mazkiplay.trade.data.repository.AiInferenceRepository
 import com.mazkiplay.trade.data.repository.BotIntegrationRepository
 import com.mazkiplay.trade.data.repository.VideoNewsRepository
 import com.mazkiplay.trade.data.repository.MarketRepository
@@ -16,6 +17,7 @@ import com.mazkiplay.trade.data.repository.SettingsRepository
 import com.mazkiplay.trade.data.repository.TradeRepository
 import com.mazkiplay.trade.data.repository.TwelveDataRepository
 import com.mazkiplay.trade.data.tradingview.TvRepository
+import com.mazkiplay.trade.data.api.NetworkModule
 import com.mazkiplay.trade.service.NotificationHelper
 import com.mazkiplay.trade.service.StartupAudioController
 import kotlinx.coroutines.CoroutineScope
@@ -43,6 +45,7 @@ class MazkiplayApp : Application() {
     val indodaxRepository: IndodaxRepository by lazy { IndodaxRepository() }
     val featurePack: FeaturePackRepository by lazy { FeaturePackRepository() }
     val aiProviders: AiProviderRepository by lazy { AiProviderRepository(this) }
+    val aiInference: AiInferenceRepository by lazy { AiInferenceRepository(aiProviders, NetworkModule.client) }
     val twelveData: TwelveDataRepository by lazy { TwelveDataRepository(aiProviders) }
     val botIntegration: BotIntegrationRepository by lazy { BotIntegrationRepository(this) }
     val videoNewsRepository: VideoNewsRepository by lazy { VideoNewsRepository() }

@@ -13,8 +13,8 @@ android {
         applicationId = "com.mazkiplay.trade"
         minSdk = 24
         targetSdk = 35
-        versionCode = 19
-        versionName = "2.7.1"
+        versionCode = 20
+        versionName = "2.8.0"
 
         vectorDrawables { useSupportLibrary = true }
         resourceConfigurations += listOf("in", "en")

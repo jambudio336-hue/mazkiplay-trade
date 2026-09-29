@@ -41,6 +41,7 @@ import kotlinx.coroutines.withContext
 fun AiCenterScreen(app: MazkiplayApp) {
     var selected by remember { mutableStateOf<AiProviderStatus?>(null) }
     var credential by remember { mutableStateOf("") }
+    var model by remember { mutableStateOf("") }
     var notice by remember { mutableStateOf<String?>(null) }
     var saving by remember { mutableStateOf(false) }
     var providerRefresh by remember { mutableStateOf(0) }
@@ -91,7 +92,7 @@ fun AiCenterScreen(app: MazkiplayApp) {
                         Text("Credential tersimpan. Tekan tes koneksi untuk memastikan provider merespons.", style = MaterialTheme.typography.bodySmall)
                     }
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Button(onClick = { selected = status; credential = "" }) { Text(if (status.state == "READY") "PERBARUI" else "KONFIGURASI") }
+                        Button(onClick = { selected = status; credential = ""; model = status.config.model }) { Text(if (status.state == "READY") "PERBARUI" else "KONFIGURASI") }
                         if (status.state == "READY") {
                             TextButton(onClick = {
                                 if (status.config.id == "twelvedata") {
@@ -100,8 +101,15 @@ fun AiCenterScreen(app: MazkiplayApp) {
                                         val result = withContext(Dispatchers.IO) { app.twelveData.testConnection() }
                                         notice = result.fold({ "Twelve Data terhubung dan merespons." }, { "Twelve Data gagal: ${it.message ?: "kesalahan tidak diketahui"}" })
                                     }
+                                } else if (status.config.id in setOf("openrouter", "openai", "groq", "mistral", "deepseek", "custom")) {
+                                    scope.launch {
+                                        notice = "Menguji inferensi ${status.config.name}…"
+                                        val provider = status.config.copy(model = status.config.model.ifBlank { app.aiInference.defaultModel(status.config.id) })
+                                        val result = withContext(Dispatchers.IO) { app.aiInference.test(provider) }
+                                        notice = result.fold({ "${status.config.name} aktif dan berhasil menjawab." }, { "${status.config.name} gagal: ${it.message ?: "periksa key/model/internet"}" })
+                                    }
                                 }
-                            }) { Text(if (status.config.id == "twelvedata") "TES KONEKSI" else "PERIKSA") }
+                            }) { Text(if (status.config.id == "twelvedata") "TES KONEKSI" else if (status.config.id in setOf("openrouter", "openai", "groq", "mistral", "deepseek", "custom")) "TES AI" else "PERIKSA") }
                             TextButton(onClick = { app.aiProviders.deleteCredential(status.config.id); providerRefresh++ }) { Text("HAPUS") }
                         }
                     }
@@ -132,6 +140,17 @@ fun AiCenterScreen(app: MazkiplayApp) {
                         singleLine = true,
                         enabled = !saving
                     )
+                    if (status.config.id in setOf("openrouter", "openai", "groq", "mistral", "deepseek", "custom")) {
+                        OutlinedTextField(
+                            value = model,
+                            onValueChange = { model = it },
+                            label = { Text("ID model") },
+                            placeholder = { Text("Contoh: meta-llama/llama-3.3-8b-instruct:free") },
+                            singleLine = true,
+                            enabled = !saving
+                        )
+                        Text("Untuk OpenRouter, gunakan model berakhiran :free jika tersedia. Model gratis tetap mengikuti rate limit provider.", style = MaterialTheme.typography.labelSmall)
+                    }
                     Text("Kunci hanya disimpan lokal di Android Keystore dan tidak ditampilkan ulang.", style = MaterialTheme.typography.labelSmall)
                 }
             },
@@ -145,12 +164,20 @@ fun AiCenterScreen(app: MazkiplayApp) {
                         saving = false
                         result.fold(
                             onSuccess = {
+                                if (status.config.id in setOf("openrouter", "openai", "groq", "mistral", "deepseek", "custom")) {
+                                    app.aiProviders.saveModel(status.config.id, model)
+                                }
                                 selected = null
                                 providerRefresh++
                                 if (status.config.id == "twelvedata") {
                                     notice = "Kunci tersimpan. Menguji koneksi Twelve Data…"
                                     val connection = withContext(Dispatchers.IO) { app.twelveData.testConnection() }
                                     notice = connection.fold({ "Twelve Data terhubung dan merespons." }, { "Kunci tersimpan, tetapi koneksi gagal: ${it.message ?: "periksa key, paket, atau internet"}" })
+                                } else if (status.config.id in setOf("openrouter", "openai", "groq", "mistral", "deepseek", "custom")) {
+                                    val provider = status.config.copy(model = model.ifBlank { app.aiInference.defaultModel(status.config.id) })
+                                    notice = "Kunci tersimpan. Menguji inferensi ${status.config.name}…"
+                                    val response = withContext(Dispatchers.IO) { app.aiInference.test(provider) }
+                                    notice = response.fold({ "${status.config.name} aktif dan berhasil menjawab." }, { "Kunci tersimpan, tetapi tes AI gagal: ${it.message ?: "periksa key/model/internet"}" })
                                 } else {
                                     notice = "Credential ${status.config.name} berhasil disimpan dengan aman."
                                 }

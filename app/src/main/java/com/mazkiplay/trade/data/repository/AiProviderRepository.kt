@@ -43,6 +43,21 @@ class AiProviderRepository(private val context: Context) {
         AiProviderConfig("custom", "Custom Provider", "openai-compatible", "", "", false)
     )
 
+    private val defaultModels = mapOf(
+        "openrouter" to "meta-llama/llama-3.3-8b-instruct:free",
+        "openai" to "gpt-4o-mini",
+        "groq" to "llama-3.1-8b-instant",
+        "mistral" to "mistral-small-latest",
+        "deepseek" to "deepseek-chat"
+    )
+
+    fun modelFor(providerId: String): String = prefs.getString("model_$providerId", null)
+        ?: defaultModels[providerId].orEmpty()
+
+    fun saveModel(providerId: String, model: String) {
+        prefs.edit().putString("model_$providerId", model.trim()).apply()
+    }
+
     fun saveCredential(providerId: String, apiKey: String): Result<Unit> = runCatching {
         require(apiKey.trim().isNotEmpty()) { "Kunci API tidak boleh kosong." }
         val nonce = ByteArray(12).also { java.security.SecureRandom().nextBytes(it) }
@@ -68,6 +83,6 @@ class AiProviderRepository(private val context: Context) {
     }.getOrNull()
     fun statuses(): List<AiProviderStatus> = providers.map { config ->
         val ready = config.id == "local" && hasCredential("local_model") || hasCredential(config.id)
-        AiProviderStatus(config.copy(configured = ready), if (ready) "READY" else "NOT CONFIGURED", detail = if (ready) "Credential reference stored in Keystore vault" else "Add credential/model")
+        AiProviderStatus(config.copy(configured = ready, model = modelFor(config.id)), if (ready) "READY" else "NOT CONFIGURED", detail = if (ready) "Credential reference stored in Keystore vault" else "Add credential/model")
     }
 }

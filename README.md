@@ -16,7 +16,8 @@ copy trade, dan notifikasi. Ditulis dengan **Kotlin + Jetpack Compose (Material 
 
 | Versi | Berkas | Ukuran | Unduh langsung |
 |-------|--------|--------|----------------|
-| **v2.7.1** | `mazkiplay-trade-v2.7.1.apk` | hotfix terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.7.1/mazkiplay-trade-v2.7.1.apk)** |
+| **v2.8.0** | `mazkiplay-trade-v2.8.0.apk` | AI inference terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.8.0/mazkiplay-trade-v2.8.0.apk)** |
+| **v2.7.1** | `mazkiplay-trade-v2.7.1.apk` | hotfix sebelumnya | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.7.1/mazkiplay-trade-v2.7.1.apk)** |
 | **v2.7.0** | `mazkiplay-trade-v2.7.0.apk` | build sebelumnya | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.7.0/mazkiplay-trade-v2.7.0.apk)** |
 | **v2.6.0** | `mazkiplay-trade-v2.6.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.6.0/mazkiplay-trade-v2.6.0.apk)** |
 | **v2.5.0** | `mazkiplay-trade-v2.5.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.5.0/mazkiplay-trade-v2.5.0.apk)** |
@@ -186,6 +187,19 @@ Credential disimpan terenkripsi menggunakan Android Keystore dan dibaca hanya sa
 API key yang pernah dibagikan melalui chat harus dianggap terekspos. Revoke/rotasi key tersebut di dashboard Twelve Data sebelum memasukkan key baru ke aplikasi.
 
 Pada v2.7.1, kegagalan Keystore atau koneksi tidak lagi menutup aplikasi. Gunakan tombol **Tes Koneksi** di kartu Twelve Data untuk mengulang pemeriksaan.
+
+### AI inference v2.8.0
+
+OpenRouter, OpenAI, Groq, Mistral, DeepSeek, dan Custom Provider sekarang dapat mengirim chat completion nyata melalui protokol OpenAI-compatible:
+
+1. Buka **AI Center**.
+2. Pilih provider.
+3. Masukkan API key dan **ID model**.
+4. Untuk OpenRouter, gunakan model gratis yang tersedia, misalnya `meta-llama/llama-3.3-8b-instruct:free`.
+5. Tekan **Simpan ke Brankas**.
+6. Tunggu pesan **aktif dan berhasil menjawab**.
+
+Label **READY** hanya berarti key tersimpan. Provider baru dianggap aktif setelah **Tes AI** berhasil. Model gratis tetap dapat memiliki antrean, rate limit, atau berubah sesuai katalog provider. APK tidak membundel bobot LLM besar; mode lokal tetap tersedia sebagai analisa deterministik tanpa API key.
 
 #### Data-provider boundaries
 

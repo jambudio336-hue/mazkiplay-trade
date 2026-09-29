@@ -111,6 +111,18 @@ Catatan keamanan: API key yang pernah ditempelkan di chat dianggap terekspos. Ro
 - Jika perangkat menolak Keystore, key kosong, atau storage gagal, aplikasi menampilkan pesan error dan tetap terbuka.
 - Setelah menyimpan Twelve Data, aplikasi otomatis menjalankan tes koneksi endpoint harga AAPL dan menampilkan status **terhubung dan merespons** atau alasan kegagalannya.
 - Menambahkan tombol **Tes Koneksi**, indikator proses, dan status provider yang diperbarui tanpa menutup AI Center.
+
+## [2.8.0] - 2026-09-30
+
+### AI inference activation
+- Provider cloud sekarang tidak hanya menyimpan key: OpenRouter, OpenAI, Groq, Mistral, DeepSeek, dan Custom OpenAI-compatible dapat menjalankan chat completion nyata.
+- Menambahkan ID model per provider dan tes inferensi setelah key disimpan.
+- OpenRouter memiliki default model gratis `meta-llama/llama-3.3-8b-instruct:free`; model gratis bergantung pada ketersediaan, rate limit, dan kebijakan OpenRouter.
+- Status **READY** berarti credential tersimpan; status **aktif dan berhasil menjawab** hanya diberikan setelah tes inferensi berhasil.
+- Key tetap tersimpan di Android Keystore dan tidak pernah masuk source, log, README, atau APK.
+- Gemini dan Anthropic tetap ditampilkan sebagai provider native yang memerlukan adapter protokol khusus; tidak disamarkan sebagai OpenAI-compatible.
+
+Catatan: APK tidak membundel bobot LLM besar ke dalam binary. Mode lokal yang sudah ada tetap aman untuk analisa deterministik tanpa API key; model LLM gratis tersedia melalui OpenRouter jika model tersebut aktif di katalog provider.
 - Semua angka signal/confidence adalah skor algoritmik internal, bukan probabilitas kemenangan.
 
 ## [2.0.0] - 2026-09-29
