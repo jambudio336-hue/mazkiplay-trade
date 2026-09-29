@@ -33,8 +33,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.text.AnnotatedString
 import com.mazkiplay.trade.R
 import com.mazkiplay.trade.MazkiplayApp
 import com.mazkiplay.trade.data.repository.UserPreferences
@@ -55,7 +53,6 @@ fun SettingsScreen(app: MazkiplayApp, prefs: UserPreferences) {
     val vm = settingsViewModel(app)
     val current by vm.preferences.collectAsState()
     var showDonation by remember { mutableStateOf(false) }
-    val clipboard = LocalClipboardManager.current
 
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
@@ -267,7 +264,7 @@ fun SettingsScreen(app: MazkiplayApp, prefs: UserPreferences) {
                     Spacer(Modifier.height(1.dp))
                     Column(Modifier.padding(start = 12.dp).weight(1f)) {
                         Text("Bantu Mazkiplay Trade tetap aktif", fontWeight = FontWeight.Bold)
-                        Text("Ketuk untuk melihat cara donasi dan kontak developer.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text("Ketuk untuk melihat QRIS donasi resmi.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
             }
@@ -307,20 +304,20 @@ fun SettingsScreen(app: MazkiplayApp, prefs: UserPreferences) {
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text("Dukungan Anda membantu biaya server, pemeliharaan koneksi data pasar real-time, keamanan, dan pengembangan fitur baru Mazkiplay Trade.")
+                    Image(
+                        painter = painterResource(R.drawable.donation_qris),
+                        contentDescription = "QRIS donasi",
+                        modifier = Modifier.fillMaxWidth().height(240.dp).clip(RoundedCornerShape(16.dp))
+                    )
                     Text("Cara donasi", fontWeight = FontWeight.Bold)
-                    Text("1. Buka aplikasi DANA.\n2. Pilih Kirim.\n3. Masukkan nomor DANA di bawah.\n4. Periksa nama penerima sebelum mengonfirmasi transaksi.")
-                    Text("Nomor DANA", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    Text(AppConstants.DONATION_DANA, style = MaterialTheme.typography.headlineSmall, color = Gold, fontWeight = FontWeight.Bold)
+                    Text("1. Buka aplikasi pembayaran yang mendukung QRIS.\n2. Scan QRIS di atas.\n3. Periksa nama penerima dan nominal sebelum mengonfirmasi.")
+                    Text("QRIS resmi • nominal sesuai kebutuhan", style = MaterialTheme.typography.labelMedium, color = Gold, fontWeight = FontWeight.Bold)
                     Text("Developer: ${AppConstants.DEVELOPER_NAME}", style = MaterialTheme.typography.bodySmall)
                     Text("Email: ${AppConstants.DEVELOPER_EMAIL}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Text("Pastikan nama penerima dan nominal sudah benar. Donasi bersifat sukarela dan tidak memengaruhi akses fitur aplikasi.", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             },
-            confirmButton = {
-                Button(onClick = { clipboard.setText(AnnotatedString(AppConstants.DONATION_DANA)) }) {
-                    Text("Salin nomor")
-                }
-            },
+            confirmButton = { Button(onClick = { showDonation = false }) { Text("Selesai") } },
             dismissButton = {
                 TextButton(onClick = { showDonation = false }) { Text("Tutup") }
             }

@@ -4,6 +4,22 @@ Semua perubahan penting pada **Mazkiplay Trade** didokumentasikan di file ini.
 Format mengikuti [Keep a Changelog](https://keepachangelog.com/id/1.1.0/)
 dan proyek ini menggunakan [Semantic Versioning](https://semver.org/lang/id/).
 
+## [2.1.0] - 2026-09-29
+
+### Fitur terintegrasi dari spesifikasi pengguna
+- **Live Chart expansion**: timeframe M1, M3, M5, M15, M30, H1, H2, H4, H6, H8, H12, D1, W1, dan 1M; interval yang tidak tersedia langsung diagregasi lokal.
+- **Market Radar** read-only untuk ticker publik Indodax, status health LIVE/STALE/OFFLINE, ranking volume, range position, bid/ask, serta failover ke snapshot terakhir.
+- Adapter public REST Indodax untuk server time, pairs, ticker all/single, depth, trades, dan TradingView-style history.
+- **Data pipeline** provider → normalizer → technical/fundamental/news context → signal/risk UI tetap deterministic dan dapat diaudit.
+- **AI Trading Lab** diperluas dengan pipeline OHLCV/Trades, pattern matching, Order Manager, dan mode PAPER/MANUAL yang aman.
+- **Risk-first workflow** dipertahankan: signal tidak mengeksekusi order, risk/reward dan position sizing menjadi trade-plan untuk konfirmasi pengguna.
+- **Donasi QRIS** memakai gambar QRIS resmi yang dikirim pemilik aplikasi; nomor telepon lama dihapus dari source, UI, dan dokumentasi.
+- **Launcher identity** baru: ikon beruang bullish dan banteng bearish premium; varian bearish disimpan sebagai asset brand.
+
+### Batas konektor
+- Tokocrypto/iTick/BiQuote, broker, MT4/MT5, Lighter DEX, private account, dan AI/API berbayar tidak diaktifkan sebagai order execution tanpa credential, lisensi, dan backend aman.
+- Semua angka signal/confidence adalah skor algoritmik internal, bukan probabilitas kemenangan.
+
 ## [2.0.0] - 2026-09-29
 
 ### Ditambahkan
@@ -107,7 +123,7 @@ dan proyek ini menggunakan [Semantic Versioning](https://semver.org/lang/id/).
 ### Ditambahkan
 - Foto portrait yang diberikan pemilik proyek digunakan sebagai tampilan splash awal aplikasi.
 - Kartu **Donasi untuk Pengembangan APK** di menu Settings.
-- Dialog donasi rinci dengan logo DANA, nomor DANA `085262965282`, petunjuk transfer,
+- Dialog donasi rinci dengan QRIS, petunjuk scan, dan verifikasi nama penerima,
   tombol salin nomor, nama developer `by.M4zk1pl4y Nusantara`, dan kontak email developer.
 - Asset splash photo dan logo DANA disertakan dalam source agar build lokal/CI konsisten.
 

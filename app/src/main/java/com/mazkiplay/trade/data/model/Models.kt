@@ -45,16 +45,22 @@ enum class Timeframe(
     val aggregate: Int
 ) {
     M1("M1", "1m", "5d", 1),
+    M3("M3", "1m", "5d", 3),
     M5("M5", "5m", "1mo", 1),
     M15("M15", "15m", "1mo", 1),
+    M30("M30", "15m", "3mo", 2),
     H1("H1", "1h", "3mo", 1),
+    H2("H2", "1h", "6mo", 2),
     H4("H4", "1h", "6mo", 4),
+    H6("H6", "1h", "1y", 6),
+    H8("H8", "1h", "1y", 8),
+    H12("H12", "1h", "2y", 12),
     D1("D1", "1d", "1y", 1),
     W1("W1", "1wk", "5y", 1),
     MN1("1M", "1mo", "10y", 1);
 
     companion object {
-        val defaults: List<Timeframe> = listOf(M1, M5, M15, H1, H4, D1, W1, MN1)
+        val defaults: List<Timeframe> = entries.toList()
 
         /** Resolves a stored label (the DataStore preference) back to a timeframe. */
         fun fromLabel(label: String): Timeframe =

@@ -20,11 +20,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-Third-party data notice
------------------------
-Market data, news, video, and chart content displayed by the application may be
-provided by third-party services (including TradingView, CoinGecko, Yahoo Finance,
-RSS publishers, and YouTube). Those services retain their own terms, copyrights,
-rate limits, and redistribution restrictions. Bloomberg Terminal data is not
-included by this license and requires a separate valid Bloomberg license/API
-agreement before any integration or redistribution.
+APPLICATION AND THIRD-PARTY DATA NOTICE
+----------------------------------------
+Mazkiplay Trade is an analysis, market-data, journaling, and paper/manual
+trade-planning application. It is not financial advice and does not guarantee
+profit, execution, liquidity, price accuracy, or availability of any provider.
+Users remain responsible for every trading decision and must independently
+verify prices, spreads, fees, contract specifications, and broker rules.
+
+Market data, news, chart content, QRIS/payment imagery, video, and calendar
+content may be provided by third-party services, including TradingView,
+Indodax, Tokocrypto-compatible public endpoints, CoinGecko, Yahoo Finance,
+RSS publishers, YouTube, and public calendar providers. Each provider retains
+its own terms, copyrights, rate limits, and redistribution restrictions.
+Only public read-only market endpoints are used by the default application;
+private account APIs, wallet keys, broker execution, and DEX execution are
+not granted by this license and require separate authorization and secure
+server-side integration.
+
+The QRIS asset is supplied by the project owner for the donation screen and
+must not be repurposed as a payment credential outside the owner's intended
+use.

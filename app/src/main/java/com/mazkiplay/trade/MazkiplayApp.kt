@@ -4,6 +4,7 @@ import android.app.Application
 import com.mazkiplay.trade.data.local.MazkiplayDatabase
 import com.mazkiplay.trade.data.repository.CopyTradeRepository
 import com.mazkiplay.trade.data.repository.CryptoRepository
+import com.mazkiplay.trade.data.repository.IndodaxRepository
 import com.mazkiplay.trade.data.repository.VideoNewsRepository
 import com.mazkiplay.trade.data.repository.MarketRepository
 import com.mazkiplay.trade.data.repository.NewsRepository
@@ -33,6 +34,7 @@ class MazkiplayApp : Application() {
     val tradeRepository: TradeRepository by lazy { TradeRepository(database) }
     val copyTradeRepository: CopyTradeRepository by lazy { CopyTradeRepository() }
     val cryptoRepository: CryptoRepository by lazy { CryptoRepository() }
+    val indodaxRepository: IndodaxRepository by lazy { IndodaxRepository() }
     val videoNewsRepository: VideoNewsRepository by lazy { VideoNewsRepository() }
 
     /**
@@ -72,6 +74,7 @@ class MazkiplayApp : Application() {
         newsRepository.startAutoRefresh(intervalMillis = 300_000L)
         copyTradeRepository.startAutoRefresh(intervalMillis = 120_000L)
         cryptoRepository.startAutoRefresh(intervalMillis = 300_000L)
+        indodaxRepository.startAutoRefresh(intervalMillis = 30_000L)
         videoNewsRepository.startAutoRefresh(intervalMillis = 300_000L)
 
         // TradingView runs the fast lane: prices and technicals every 10s, calendar

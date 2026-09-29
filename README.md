@@ -1,6 +1,8 @@
 # Mazkiplay Trade
 
-**Nusantara Forex \u2014 Trading cerdas, analisa otomatis**
+**Nusantara Forex — Trading cerdas, analisa otomatis**
+
+> **Release v2.1.0** — Live Chart expansion, Market Radar Indodax, risk-first signal pipeline, QRIS donation, dan launcher identity bullish/bearish.
 
 Aplikasi Android native untuk analisa dan eksekusi trading forex: harga real-time,
 kalender ekonomi, analisa otomatis (teknikal + fundamental), manajemen risiko,
@@ -14,6 +16,7 @@ copy trade, dan notifikasi. Ditulis dengan **Kotlin + Jetpack Compose (Material 
 
 | Versi | Berkas | Ukuran | Unduh langsung |
 |-------|--------|--------|----------------|
+| **v2.1.0** | `mazkiplay-trade-v2.1.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.1.0/mazkiplay-trade-v2.1.0.apk)** |
 | **v2.0.0** | `mazkiplay-trade-v2.0.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v2.0.0/mazkiplay-trade-v2.0.0.apk)** |
 | **v1.9.0** | `mazkiplay-trade-v1.9.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v1.9.0/mazkiplay-trade-v1.9.0.apk)** |
 | **v1.8.0** | `mazkiplay-trade-v1.8.0.apk` | build terbaru | **[Unduh APK](https://github.com/jambudio336-hue/mazkiplay-trade/releases/download/v1.8.0/mazkiplay-trade-v1.8.0.apk)** |
@@ -98,6 +101,30 @@ APK juga diunggah sebagai *workflow artifact* pada setiap build
 - **Alarm Entry**: alarm pada jam tertentu atau jeda cepat, opsi ulang harian, dijadwalkan lewat `AlarmManager` (exact alarm).
 - **Sesi Trading**: Sydney, Tokyo, London, New York dengan status buka/tutup real-time, progress, dan **skor likuiditas**.
 - **Watchlist** yang dapat dikelola, **notifikasi** berita baru / perubahan harga / alarm entry, dan **auto-refresh latar belakang**.
+
+### Cakupan spesifikasi v2.1.0
+
+| Area | Implementasi |
+|---|---|
+| Live Chart | Semua instrumen katalog, timeframe M1/M3/M5/M15/M30/H1/H2/H4/H6/H8/H12/D1/W1/1M, candle, overlay indikator, signal, dan chart yang responsif terhadap portrait/landscape. |
+| Indicator/MTF | EMA, RSI, MACD, Bollinger, ATR, support/resistance, Fibonacci, FVG, market structure, multi-timeframe selector, dan pattern matching explainable. |
+| Market Radar | Ranking ticker lintas market yang sudah tersedia serta radar publik Indodax dengan bid/ask, range position, volume, status health, dan cached failover. |
+| Signal + Risk | Technical/fundamental/news context, conflict-aware analysis, confidence internal, Entry/SL/TP, R:R, lot sizing, risk guardian, paper/manual confirmation, dan alarm. |
+| Provider layer | TradingView/Yahoo/CoinGecko/Binance WebSocket yang sudah ada, ditambah Indodax public REST: ticker, pairs, depth, trades, dan history. |
+| UX premium | Dark terminal cards, status LIVE/STALE/OFFLINE, Realtime Command Center, ikon bear bullish/bull bearish, dan QRIS donation screen. |
+
+#### Data-provider boundaries
+
+Provider publik dapat delayed, rate-limited, atau berubah. Tokocrypto/iTick/BiQuote,
+broker/MT4/MT5, Lighter DEX, private account API, wallet, dan order execution tidak
+diaktifkan diam-diam. Integrasi tersebut memerlukan credential, lisensi, serta backend
+aman. **Aplikasi tidak menyimpan private key dan tidak mengirim order otomatis.**
+
+#### Donasi
+
+Gunakan menu **Settings → Donasi untuk Pengembangan APK** untuk menampilkan QRIS resmi
+yang disediakan pemilik aplikasi. Nomor telepon lama telah dihapus dari source,
+interface, dan dokumentasi.
 
 ### Sumber Data dan Batas Integrasi
 - TradingView public widgets/scanner menjadi sumber utama live chart/quote yang tersedia di aplikasi; polling numerik dan fallback diberi status koneksi.

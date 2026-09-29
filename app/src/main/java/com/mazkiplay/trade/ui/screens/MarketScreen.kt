@@ -67,6 +67,9 @@ fun MarketScreen(app: MazkiplayApp, prefs: UserPreferences) {
     val loading by vm.loading.collectAsState()
     val lastUpdated by vm.lastUpdated.collectAsState()
     val watchlist by vm.watchlist.collectAsState()
+    val indodaxMarkets by app.indodaxRepository.markets.collectAsState()
+    val indodaxStatus by app.indodaxRepository.status.collectAsState()
+    val indodaxUpdated by app.indodaxRepository.lastUpdated.collectAsState()
 
     val instrument = Instruments.bySymbol(symbol)
     val quote = quotes[symbol] ?: com.mazkiplay.trade.data.model.Quote(symbol)
@@ -114,6 +117,40 @@ fun MarketScreen(app: MazkiplayApp, prefs: UserPreferences) {
                     color = if (quote.change >= 0) Bull else Bear,
                     modifier = Modifier.width(92.dp).height(40.dp)
                 )
+            }
+        }
+
+        item {
+            SectionCard(
+                title = "Market Radar · INDODAX",
+                subtitle = "Ticker publik + cached failover",
+                trailing = { Pill(text = indodaxStatus.label, color = if (indodaxStatus.label == "LIVE") Bull else Gold, filled = true) }
+            ) {
+                Column(verticalArrangement = Arrangement.spacedBy(7.dp)) {
+                    if (indodaxMarkets.isEmpty()) {
+                        EmptyHint("Menunggu ticker publik Indodax...")
+                    } else {
+                        indodaxMarkets.take(6).forEach { market ->
+                            val move = market.rangePosition - 50.0
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(market.pair, style = MaterialTheme.typography.labelLarge, modifier = Modifier.weight(1f))
+                                Text("${market.rangePosition.toInt()}% range", style = MaterialTheme.typography.labelSmall, color = if (move >= 0) Bull else Bear)
+                                Spacer(Modifier.width(8.dp))
+                                Text("${market.buy} / ${market.sell}", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            }
+                        }
+                        Text(
+                            "Health ${indodaxStatus.label} · ${if (indodaxUpdated > 0) Formatters.time(indodaxUpdated, prefs.timePattern) else "--:--"} · public REST",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    Text(
+                        "Read-only: tidak mengirim order. Spread dan imbalance depth dipakai sebagai konteks risiko ketika endpoint depth dipanggil.",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
         }
 

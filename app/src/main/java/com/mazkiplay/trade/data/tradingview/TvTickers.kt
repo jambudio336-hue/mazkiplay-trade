@@ -97,18 +97,23 @@ object TvTickers {
      * scanner fields (`|1` 1m, `|5` 5m, `|60` 1h, `|240` 4h).
      */
     fun interval(tf: Timeframe): String = when (tf) {
-        Timeframe.M1 -> "1"
+        Timeframe.M1, Timeframe.M3 -> "1"
         Timeframe.M5 -> "5"
         Timeframe.M15 -> "15"
+        Timeframe.M30 -> "30"
         Timeframe.H1 -> "60"
+        Timeframe.H2 -> "120"
         Timeframe.H4 -> "240"
+        Timeframe.H6 -> "360"
+        Timeframe.H8 -> "480"
+        Timeframe.H12 -> "720"
         Timeframe.D1 -> "D"
         Timeframe.W1 -> "W"
         Timeframe.MN1 -> "M"
     }
 
     /** Timeframes the embedded widget is told to offer, in display order. */
-    val widgetIntervals: String = "1,5,15,30,60,240,D,W"
+    val widgetIntervals: String = "1,5,15,30,60,120,240,360,480,720,D,W"
 
     /**
      * Pairs the currency-strength meter is computed from, as
